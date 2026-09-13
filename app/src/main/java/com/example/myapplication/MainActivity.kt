@@ -14,8 +14,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.myapplication.ui.AgriSyncHomeScreen
+import com.example.myapplication.ui.AiRecommendationScreen
 import com.example.myapplication.ui.AnalyticsDetailScreen
 import com.example.myapplication.ui.DigitalTwinScreen
+import com.example.myapplication.ui.OnboardingScreen
+import com.example.myapplication.ui.SplashScreen
+import com.example.myapplication.ui.WelcomeScreen
+import com.example.myapplication.ui.AgriBgColor
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,19 +28,37 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplicationTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    var currentScreen by remember { mutableIntStateOf(0) }
+            MyApplicationTheme(darkTheme = false, dynamicColor = false) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = AgriBgColor
+                ) {
+                    var currentScreen by remember { mutableIntStateOf(10) }
 
                     when (currentScreen) {
+                        10 -> SplashScreen(
+                            onSplashFinished = { currentScreen = 11 }
+                        )
+                        11 -> OnboardingScreen(
+                            onOnboardingFinished = { currentScreen = 12 },
+                            onSkip = { currentScreen = 12 }
+                        )
+                        12 -> WelcomeScreen(
+                            onGetStarted = { currentScreen = 0 },
+                            onLogin = { currentScreen = 0 }
+                        )
                         0 -> AgriSyncHomeScreen(
                             onNavigateToAnalytics = { currentScreen = 1 },
-                            onNavigateToDigitalTwin = { currentScreen = 2 }
+                            onNavigateToDigitalTwin = { currentScreen = 2 },
+                            onNavigateToRecommendation = { currentScreen = 3 }
                         )
                         1 -> AnalyticsDetailScreen(
                             onBackClick = { currentScreen = 0 }
                         )
                         2 -> DigitalTwinScreen(
+                            onBackClick = { currentScreen = 0 }
+                        )
+                        3 -> AiRecommendationScreen(
                             onBackClick = { currentScreen = 0 }
                         )
                     }

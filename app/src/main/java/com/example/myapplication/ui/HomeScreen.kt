@@ -77,6 +77,7 @@ val AgriBorderLight = Color(0xFFEAEFEA)
 fun AgriSyncHomeScreen(
     onNavigateToAnalytics: () -> Unit = {},
     onNavigateToDigitalTwin: () -> Unit = {},
+    onNavigateToRecommendation: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -130,7 +131,7 @@ fun AgriSyncHomeScreen(
 
             // 7. Rekomendasi AI Card
             item {
-                AiRecommendationCard()
+                AiRecommendationCard(onNavigateToRecommendation = onNavigateToRecommendation)
             }
 
             // 8. Aktivitas Timeline Section
@@ -830,9 +831,13 @@ fun PlantSubMetric(
 // 7. REKOMENDASI AI CARD
 // ---------------------------------------------------------------------------
 @Composable
-fun AiRecommendationCard() {
+fun AiRecommendationCard(
+    onNavigateToRecommendation: () -> Unit = {}
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onNavigateToRecommendation() },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = AgriGreenMintCard)
     ) {
@@ -880,7 +885,7 @@ fun AiRecommendationCard() {
             }
 
             Button(
-                onClick = { },
+                onClick = onNavigateToRecommendation,
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
