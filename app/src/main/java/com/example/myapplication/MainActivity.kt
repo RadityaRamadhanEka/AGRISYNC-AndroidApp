@@ -17,6 +17,7 @@ import com.example.myapplication.ui.AgriBgColor
 import com.example.myapplication.ui.AgriSyncHomeScreen
 import com.example.myapplication.ui.AiRecommendationScreen
 import com.example.myapplication.ui.AnalyticsDetailScreen
+import com.example.myapplication.ui.BreakEvenSimulatorScreen
 import com.example.myapplication.ui.DigitalTwinScreen
 import com.example.myapplication.ui.FeasibilityAnalysisScreen
 import com.example.myapplication.ui.LoginScreen
@@ -81,9 +82,16 @@ class MainActivity : ComponentActivity() {
                             onNavigateToAnalytics = { currentScreen = 1 },
                             onNavigateToDigitalTwin = { currentScreen = 2 },
                             onNavigateToRecommendation = { currentScreen = 3 },
-                            onNavigateToFeasibility = { currentScreen = 5 }
+                            onNavigateToFeasibility = { currentScreen = 5 },
+                            onNavigateToBEPSimulator = { currentScreen = 6 }
                         )
                         5 -> FeasibilityAnalysisScreen(
+                            onBackClick = { currentScreen = 4 },
+                            onNavigateToHome = { currentScreen = 0 },
+                            onNavigateToProductionManagement = { currentScreen = 4 },
+                            onNavigateToAnalytics = { currentScreen = 1 }
+                        )
+                        6 -> BreakEvenSimulatorScreen(
                             onBackClick = { currentScreen = 4 },
                             onNavigateToHome = { currentScreen = 0 },
                             onNavigateToProductionManagement = { currentScreen = 4 },

@@ -72,7 +72,8 @@ fun ProductionManagementScreen(
     onNavigateToAnalytics: () -> Unit = {},
     onNavigateToDigitalTwin: () -> Unit = {},
     onNavigateToRecommendation: () -> Unit = {},
-    onNavigateToFeasibility: () -> Unit = {}
+    onNavigateToFeasibility: () -> Unit = {},
+    onNavigateToBEPSimulator: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableIntStateOf(1) } // 1 for "Tanam"
 
@@ -115,7 +116,7 @@ fun ProductionManagementScreen(
             item {
                 BusinessPlanningSection(
                     onCheckFeasibilityClick = onNavigateToFeasibility,
-                    onBEPSimulatorClick = onNavigateToFeasibility
+                    onBEPSimulatorClick = onNavigateToBEPSimulator
                 )
             }
 
