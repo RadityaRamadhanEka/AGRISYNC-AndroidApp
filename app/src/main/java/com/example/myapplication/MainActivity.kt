@@ -20,6 +20,7 @@ import com.example.myapplication.ui.AnalyticsDetailScreen
 import com.example.myapplication.ui.DigitalTwinScreen
 import com.example.myapplication.ui.LoginScreen
 import com.example.myapplication.ui.OnboardingScreen
+import com.example.myapplication.ui.ProductionManagementScreen
 import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SplashScreen
 import com.example.myapplication.ui.WelcomeScreen
@@ -62,7 +63,8 @@ class MainActivity : ComponentActivity() {
                         0 -> AgriSyncHomeScreen(
                             onNavigateToAnalytics = { currentScreen = 1 },
                             onNavigateToDigitalTwin = { currentScreen = 2 },
-                            onNavigateToRecommendation = { currentScreen = 3 }
+                            onNavigateToRecommendation = { currentScreen = 3 },
+                            onNavigateToProductionManagement = { currentScreen = 4 }
                         )
                         1 -> AnalyticsDetailScreen(
                             onBackClick = { currentScreen = 0 }
@@ -72,6 +74,12 @@ class MainActivity : ComponentActivity() {
                         )
                         3 -> AiRecommendationScreen(
                             onBackClick = { currentScreen = 0 }
+                        )
+                        4 -> ProductionManagementScreen(
+                            onNavigateToHome = { currentScreen = 0 },
+                            onNavigateToAnalytics = { currentScreen = 1 },
+                            onNavigateToDigitalTwin = { currentScreen = 2 },
+                            onNavigateToRecommendation = { currentScreen = 3 }
                         )
                     }
                 }

@@ -29,7 +29,7 @@ import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Thermostat
-import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material.icons.outlined.Eco
@@ -78,6 +78,7 @@ fun AgriSyncHomeScreen(
     onNavigateToAnalytics: () -> Unit = {},
     onNavigateToDigitalTwin: () -> Unit = {},
     onNavigateToRecommendation: () -> Unit = {},
+    onNavigateToProductionManagement: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -88,7 +89,13 @@ fun AgriSyncHomeScreen(
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it }
+                onTabSelected = { tab ->
+                    selectedTab = tab
+                    when (tab) {
+                        1 -> onNavigateToProductionManagement()
+                        2 -> onNavigateToAnalytics()
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -116,7 +123,7 @@ fun AgriSyncHomeScreen(
 
             // 4. Manajemen Produksi Feature Card
             item {
-                ProductionManagementCard()
+                ProductionManagementCard(onClick = onNavigateToProductionManagement)
             }
 
             // 5. 3 Metrics Grid Row (Suhu Udara, Kelembapan, pH Tanah)
@@ -441,9 +448,13 @@ fun DigitalTwinCard(onNavigateToDigitalTwin: () -> Unit = {}) {
 // 4. MANAJEMEN PRODUKSI CARD
 // ---------------------------------------------------------------------------
 @Composable
-fun ProductionManagementCard() {
+fun ProductionManagementCard(
+    onClick: () -> Unit = {}
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
@@ -496,7 +507,7 @@ fun ProductionManagementCard() {
                     .size(32.dp)
                     .clip(CircleShape)
                     .background(AgriBgColor)
-                    .clickable { },
+                    .clickable { onClick() },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -1043,18 +1054,18 @@ fun AgriSyncBottomBar(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Item 1: Home
+                // Item 1: Beranda
                 BottomNavItem(
-                    label = "Home",
+                    label = "Beranda",
                     icon = Icons.Default.GridView,
                     isSelected = selectedTab == 0,
                     onClick = { onTabSelected(0) }
                 )
 
-                // Item 2: Controls
+                // Item 2: Tanam
                 BottomNavItem(
-                    label = "Controls",
-                    icon = Icons.Default.Tune,
+                    label = "Tanam",
+                    icon = Icons.Outlined.LocalFlorist,
                     isSelected = selectedTab == 1,
                     onClick = { onTabSelected(1) }
                 )
@@ -1062,10 +1073,10 @@ fun AgriSyncBottomBar(
                 // Item 3: Center FAB Placeholder Spacer
                 Spacer(modifier = Modifier.width(52.dp))
 
-                // Item 4: Tanam
+                // Item 4: Analitik
                 BottomNavItem(
-                    label = "Tanam",
-                    icon = Icons.Outlined.LocalFlorist,
+                    label = "Analitik",
+                    icon = Icons.Default.BarChart,
                     isSelected = selectedTab == 2,
                     onClick = { onTabSelected(2) }
                 )
