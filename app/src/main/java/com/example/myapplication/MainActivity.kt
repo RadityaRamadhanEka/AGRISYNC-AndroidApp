@@ -13,14 +13,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication.ui.AgriBgColor
 import com.example.myapplication.ui.AgriSyncHomeScreen
 import com.example.myapplication.ui.AiRecommendationScreen
 import com.example.myapplication.ui.AnalyticsDetailScreen
 import com.example.myapplication.ui.DigitalTwinScreen
+import com.example.myapplication.ui.LoginScreen
 import com.example.myapplication.ui.OnboardingScreen
+import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SplashScreen
 import com.example.myapplication.ui.WelcomeScreen
-import com.example.myapplication.ui.AgriBgColor
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,8 +46,18 @@ class MainActivity : ComponentActivity() {
                             onSkip = { currentScreen = 12 }
                         )
                         12 -> WelcomeScreen(
-                            onGetStarted = { currentScreen = 0 },
-                            onLogin = { currentScreen = 0 }
+                            onGetStarted = { currentScreen = 14 },
+                            onLogin = { currentScreen = 13 }
+                        )
+                        13 -> LoginScreen(
+                            onAuthSuccess = { currentScreen = 0 },
+                            onNavigateToRegister = { currentScreen = 14 },
+                            onBackClick = { currentScreen = 12 }
+                        )
+                        14 -> RegisterScreen(
+                            onAuthSuccess = { currentScreen = 0 },
+                            onNavigateToLogin = { currentScreen = 13 },
+                            onBackClick = { currentScreen = 12 }
                         )
                         0 -> AgriSyncHomeScreen(
                             onNavigateToAnalytics = { currentScreen = 1 },
