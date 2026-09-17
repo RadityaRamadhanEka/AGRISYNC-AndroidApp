@@ -67,6 +67,7 @@ val AgriTextDark = Color(0xFF141916)
 val AgriTextMuted = Color(0xFF67736C)
 val AgriGreenPrimary = Color(0xFF1DAA55)
 val AgriGreenDark = Color(0xFF158340)
+val AgriDarkGreenHeader = Color(0xFF0F5A2C)
 val AgriGreenMintCard = Color(0xFFE5F5EC)
 val AgriGreenLight = Color(0xFFEEF8F2)
 val AgriBlueWater = Color(0xFF2196F3)
@@ -79,6 +80,7 @@ fun AgriSyncHomeScreen(
     onNavigateToDigitalTwin: () -> Unit = {},
     onNavigateToRecommendation: () -> Unit = {},
     onNavigateToProductionManagement: () -> Unit = {},
+    onNavigateToActivityLog: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -143,7 +145,7 @@ fun AgriSyncHomeScreen(
 
             // 8. Aktivitas Timeline Section
             item {
-                RecentActivitiesSection()
+                RecentActivitiesSection(onSeeAllClick = onNavigateToActivityLog)
             }
 
             // Bottom Spacing for floating navigation bar
@@ -918,7 +920,9 @@ fun AiRecommendationCard(
 // 8. RECENT ACTIVITIES TIMELINE SECTION
 // ---------------------------------------------------------------------------
 @Composable
-fun RecentActivitiesSection() {
+fun RecentActivitiesSection(
+    onSeeAllClick: () -> Unit = {}
+) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -936,7 +940,7 @@ fun RecentActivitiesSection() {
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = AgriGreenDark,
-                modifier = Modifier.clickable { }
+                modifier = Modifier.clickable { onSeeAllClick() }
             )
         }
 

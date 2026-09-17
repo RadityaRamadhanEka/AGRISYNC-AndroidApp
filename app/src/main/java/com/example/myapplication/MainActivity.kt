@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.myapplication.ui.ActivityLogScreen
 import com.example.myapplication.ui.AgriBgColor
 import com.example.myapplication.ui.AgriSyncHomeScreen
 import com.example.myapplication.ui.AiRecommendationScreen
@@ -66,10 +67,13 @@ class MainActivity : ComponentActivity() {
                             onNavigateToAnalytics = { currentScreen = 1 },
                             onNavigateToDigitalTwin = { currentScreen = 2 },
                             onNavigateToRecommendation = { currentScreen = 3 },
-                            onNavigateToProductionManagement = { currentScreen = 4 }
+                            onNavigateToProductionManagement = { currentScreen = 4 },
+                            onNavigateToActivityLog = { currentScreen = 7 }
                         )
                         1 -> AnalyticsDetailScreen(
-                            onBackClick = { currentScreen = 0 }
+                            onBackClick = { currentScreen = 0 },
+                            onNavigateToHome = { currentScreen = 0 },
+                            onNavigateToProductionManagement = { currentScreen = 4 }
                         )
                         2 -> DigitalTwinScreen(
                             onBackClick = { currentScreen = 0 }
@@ -96,6 +100,13 @@ class MainActivity : ComponentActivity() {
                             onNavigateToHome = { currentScreen = 0 },
                             onNavigateToProductionManagement = { currentScreen = 4 },
                             onNavigateToAnalytics = { currentScreen = 1 }
+                        )
+                        7 -> ActivityLogScreen(
+                            onBackClick = { currentScreen = 0 },
+                            onNavigateToHome = { currentScreen = 0 },
+                            onNavigateToAnalytics = { currentScreen = 1 },
+                            onNavigateToDigitalTwin = { currentScreen = 2 },
+                            onNavigateToProductionManagement = { currentScreen = 4 }
                         )
                     }
                 }
