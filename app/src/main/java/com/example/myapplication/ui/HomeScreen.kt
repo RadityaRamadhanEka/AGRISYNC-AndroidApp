@@ -81,6 +81,7 @@ fun AgriSyncHomeScreen(
     onNavigateToRecommendation: () -> Unit = {},
     onNavigateToProductionManagement: () -> Unit = {},
     onNavigateToActivityLog: () -> Unit = {},
+    onNavigateToControl: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -94,7 +95,7 @@ fun AgriSyncHomeScreen(
                 onTabSelected = { tab ->
                     selectedTab = tab
                     when (tab) {
-                        1 -> onNavigateToProductionManagement()
+                        1 -> onNavigateToControl()
                         2 -> onNavigateToAnalytics()
                     }
                 }
@@ -1066,10 +1067,10 @@ fun AgriSyncBottomBar(
                     onClick = { onTabSelected(0) }
                 )
 
-                // Item 2: Tanam
+                // Item 2: Kontrol (IoT Control Center) — replaces the old "Tanam" tab
                 BottomNavItem(
-                    label = "Tanam",
-                    icon = Icons.Outlined.LocalFlorist,
+                    label = "Kontrol",
+                    icon = Icons.Default.Settings,
                     isSelected = selectedTab == 1,
                     onClick = { onTabSelected(1) }
                 )
