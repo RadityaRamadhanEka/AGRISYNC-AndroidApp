@@ -1,0 +1,910 @@
+package com.example.myapplication.ui
+
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.TrendingDown
+import androidx.compose.material.icons.filled.BatteryChargingFull
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.Power
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.PathMeasure
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.MyApplicationTheme
+import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
+
+// ---------------------------------------------------------------------------
+// ENERGY OVERVIEW PALETTE (from Figma "Laporan Energi")
+// ---------------------------------------------------------------------------
+private val EnergyGreen = Color(0xFF4ADE80)
+private val EnergyGreenText = Color(0xFF16A34A)
+private val EnergyAmber = Color(0xFFF59E0B)
+private val EnergyAmberText = Color(0xFFB45309)
+private val EnergyOrange = Color(0xFFF97316)
+private val EnergyTextDark = Color(0xFF111827)
+private val EnergyTextMid = Color(0xFF1F2937)
+private val EnergyTextSecondary = Color(0xFF4B5563)
+private val EnergyTextMuted = Color(0xFF6B7280)
+private val EnergyTextFaint = Color(0xFF9CA3AF)
+private val EnergyBorder = Color(0xFFF3F4F6)
+private val EnergyGridLine = Color(0xFFE5E7EB)
+private val EnergyGridBase = Color(0xFFD1D5DB)
+private val EnergyBg = Color(0xFFF9FAFB)
+private val EnergyTrack = Color(0xFFF3F4F6)
+private val EnergyBlue = Color(0xFF3B82F6)
+private val EnergyBlueBg = Color(0xFFEFF6FF)
+private val EnergyPurple = Color(0xFF8B5CF6)
+private val EnergyPurpleBg = Color(0xFFFAF5FF)
+private val EnergySlate = Color(0xFF64748B)
+private val EnergySlateBg = Color(0xFFF1F5F9)
+
+// ---------------------------------------------------------------------------
+// CHART DATA (24h, kWh)
+// ---------------------------------------------------------------------------
+private val ConsumptionProfile = floatArrayOf(
+    0.6f, 0.5f, 0.4f, 0.4f, 0.5f, 0.8f, 1.3f, 1.8f, 2.2f, 2.6f, 3.0f, 3.3f,
+    3.5f, 3.7f, 3.9f, 4.2f, 4.6f, 5.1f, 5.6f, 5.9f, 5.2f, 4.3f, 3.0f, 1.8f
+)
+private val SolarProfile = floatArrayOf(
+    0f, 0f, 0f, 0f, 0.1f, 0.5f, 1.2f, 2.0f, 2.9f, 3.6f, 4.2f, 4.6f,
+    4.8f, 4.7f, 4.3f, 3.8f, 3.0f, 2.1f, 1.2f, 0.5f, 0.15f, 0.05f, 0f, 0f
+)
+private const val ChartMaxY = 6f
+private const val SolarPeakFraction = 12f / 23f
+
+private data class EnergyBreakdownItem(
+    val icon: ImageVector,
+    val iconBg: Color,
+    val iconTint: Color,
+    val title: String,
+    val subtitle: String,
+    val usage: Float,
+    val status: String,
+    val statusColor: Color,
+    val pulse: Boolean = false
+)
+
+private val energyBreakdownItems = listOf(
+    EnergyBreakdownItem(
+        icon = Icons.Default.WaterDrop,
+        iconBg = EnergyBlueBg,
+        iconTint = EnergyBlue,
+        title = "Irrigation Systems",
+        subtitle = "Automatic • 4h 30m",
+        usage = 12.4f,
+        status = "Optimal",
+        statusColor = EnergyGreenText
+    ),
+    EnergyBreakdownItem(
+        icon = Icons.Default.Lightbulb,
+        iconBg = EnergyPurpleBg,
+        iconTint = EnergyPurple,
+        title = "Grow Lights",
+        subtitle = "LED Spectrum • 12h",
+        usage = 18.2f,
+        status = "High Usage",
+        statusColor = EnergyOrange,
+        pulse = true
+    )
+)
+
+// ---------------------------------------------------------------------------
+// MAIN SCREEN
+// ---------------------------------------------------------------------------
+@Composable
+fun EnergyOverviewScreen(
+    onBackClick: () -> Unit = {},
+    onNavigateHome: () -> Unit = {},
+    onNavigateAnalitik: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = EnergyBg,
+        bottomBar = {
+            AgriSyncBottomBar(
+                selectedTab = 1, // "Kontrol" tab — Energy Overview lives under Kontrol
+                onTabSelected = { tab ->
+                    when (tab) {
+                        0 -> onNavigateHome()
+                        2 -> onNavigateAnalitik()
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            EnergyTopBar(onBackClick = onBackClick)
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                item { ChartSection(modifier = Modifier.staggeredAppear(0)) }
+                item { KeyMetricsSection(modifier = Modifier.staggeredAppear(1)) }
+                item { BreakdownSection(modifier = Modifier.staggeredAppear(3)) }
+                item { Spacer(modifier = Modifier.height(20.dp)) }
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// TOP APP BAR
+// ---------------------------------------------------------------------------
+@Composable
+private fun EnergyTopBar(onBackClick: () -> Unit) {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(EnergyBg.copy(alpha = 0.96f))
+                .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 13.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CircleIconButton(
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                onClick = onBackClick
+            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Laporan Energi",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = EnergyTextDark
+                )
+                Spacer(Modifier.height(2.dp))
+                Text(
+                    text = "Today, 24 Oct",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = EnergyTextMuted
+                )
+            }
+            CircleIconButton(
+                icon = Icons.Default.DateRange,
+                contentDescription = "Filter date",
+                onClick = { }
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(EnergyBorder)
+        )
+    }
+}
+
+@Composable
+private fun CircleIconButton(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(40.dp)
+            .clip(CircleShape)
+            .background(Color.White)
+            .border(1.dp, EnergyGridLine, CircleShape)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = contentDescription,
+            tint = EnergyTextDark,
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+// ---------------------------------------------------------------------------
+// CHART SECTION
+// ---------------------------------------------------------------------------
+@Composable
+private fun ChartSection(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Energy Overview",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = EnergyTextDark
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                LegendItem(color = EnergyGreen, label = "Consumption")
+                LegendItem(color = EnergyAmber, label = "Solar Gen")
+            }
+        }
+
+        EnergyChartCard()
+    }
+}
+
+@Composable
+private fun LegendItem(color: Color, label: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .size(10.dp)
+                .clip(CircleShape)
+                .background(color)
+        )
+        Spacer(Modifier.width(6.dp))
+        Text(
+            text = label,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = EnergyTextSecondary
+        )
+    }
+}
+
+@Composable
+private fun EnergyChartCard(modifier: Modifier = Modifier) {
+    val chartProgress = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        delay(450)
+        chartProgress.animateTo(1f, tween(1700, easing = FastOutSlowInEasing))
+    }
+    val showTooltip by remember { derivedStateOf { chartProgress.value > 0.85f } }
+
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, EnergyBorder),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Header stats
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Column {
+                    Text(
+                        text = "Total Consumption",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = EnergyTextMuted
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        val consumption = rememberCountUp(32f, delayMillis = 500)
+                        Text(
+                            text = "${formatKwh(consumption.value)} kWh",
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = EnergyTextDark,
+                            letterSpacing = (-0.75).sp
+                        )
+                        ConsumptionDeltaBadge()
+                    }
+                }
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = "Solar Production",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = EnergyTextMuted
+                    )
+                    val production = rememberCountUp(45f, delayMillis = 650)
+                    Text(
+                        text = "${formatKwh(production.value)} kWh",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = EnergyAmberText,
+                        letterSpacing = (-0.5).sp
+                    )
+                }
+            }
+
+            // Animated chart with tooltip
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) {
+                EnergyChart(progress = chartProgress.value, modifier = Modifier.fillMaxSize())
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = showTooltip,
+                    enter = scaleIn(
+                        initialScale = 0.5f,
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                            stiffness = Spring.StiffnessMedium
+                        )
+                    ) + fadeIn(tween(200)),
+                    exit = fadeOut(tween(120)),
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .offset(x = maxWidth * SolarPeakFraction - 74.dp, y = 2.dp)
+                ) {
+                    TooltipPill()
+                }
+            }
+
+            // X axis labels
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                listOf("00:00", "06:00", "12:00", "18:00", "23:59").forEachIndexed { index, label ->
+                    Text(
+                        text = label,
+                        fontSize = 12.sp,
+                        fontWeight = if (index == 2) FontWeight.Bold else FontWeight.Medium,
+                        color = if (index == 2) EnergyTextMid else EnergyTextFaint
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ConsumptionDeltaBadge() {
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(50))
+            .background(EnergyGreen.copy(alpha = 0.14f))
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.TrendingDown,
+            contentDescription = null,
+            tint = EnergyGreenText,
+            modifier = Modifier.size(13.dp)
+        )
+        Text(
+            text = "-12%",
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Bold,
+            color = EnergyGreenText
+        )
+    }
+}
+
+@Composable
+private fun TooltipPill() {
+    Box(
+        modifier = Modifier
+            .shadow(6.dp, RoundedCornerShape(8.dp), clip = false)
+            .clip(RoundedCornerShape(8.dp))
+            .background(EnergyTextDark)
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+    ) {
+        Text(
+            text = "12:00 PM • Peak Solar",
+            fontSize = 10.sp,
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+private fun EnergyChart(progress: Float, modifier: Modifier = Modifier) {
+    Canvas(modifier = modifier) {
+        val w = size.width
+        val h = size.height
+        val topPad = 14.dp.toPx()
+        val bottomPad = 2.dp.toPx()
+        val chartH = h - topPad - bottomPad
+        val stepX = w / (ConsumptionProfile.size - 1)
+
+        fun mapY(value: Float): Float = topPad + (1f - value / ChartMaxY) * chartH
+
+        fun headPoint(values: FloatArray, fraction: Float): Offset {
+            val dist = fraction * (values.size - 1)
+            val index = dist.toInt().coerceIn(0, values.size - 2)
+            val t = dist - index
+            val x = stepX * (index + t)
+            val y = mapY(values[index]) + (mapY(values[index + 1]) - mapY(values[index])) * t
+            return Offset(x, y)
+        }
+
+        // Grid lines: dashed + solid baseline
+        val dash = PathEffect.dashPathEffect(floatArrayOf(10f, 12f))
+        repeat(5) { i ->
+            val y = topPad + chartH * i / 4f
+            val isBase = i == 4
+            drawLine(
+                color = if (isBase) EnergyGridBase else EnergyGridLine,
+                start = Offset(0f, y),
+                end = Offset(w, y),
+                strokeWidth = 1.dp.toPx(),
+                pathEffect = if (isBase) null else dash
+            )
+        }
+
+        listOf(
+            ConsumptionProfile to EnergyGreen,
+            SolarProfile to EnergyAmber
+        ).forEach { (values, color) ->
+            val linePath = Path().apply {
+                moveTo(0f, mapY(values[0]))
+                for (i in 1 until values.size) {
+                    val prevX = stepX * (i - 1)
+                    val x = stepX * i
+                    val midX = (prevX + x) / 2f
+                    cubicTo(midX, mapY(values[i - 1]), midX, mapY(values[i]), x, mapY(values[i]))
+                }
+            }
+            val measure = PathMeasure().apply { setPath(linePath, false) }
+
+            // Gradient fill, revealed with a clip synced to the line
+            val fillPath = Path().apply {
+                addPath(linePath)
+                lineTo(w, h - bottomPad)
+                lineTo(0f, h - bottomPad)
+                close()
+            }
+            clipRect(right = w * progress) {
+                drawPath(
+                    fillPath,
+                    brush = Brush.verticalGradient(
+                        colors = listOf(color.copy(alpha = 0.20f), Color.Transparent),
+                        startY = topPad,
+                        endY = h - bottomPad
+                    )
+                )
+            }
+
+            // Line reveal via PathMeasure
+            if (progress > 0f) {
+                val partial = Path()
+                measure.getSegment(0f, measure.length * progress, partial, true)
+                drawPath(
+                    partial,
+                    color = color,
+                    style = Stroke(width = 2.5.dp.toPx(), cap = StrokeCap.Round)
+                )
+            }
+
+            // Traveling head dot while the line is drawing
+            if (progress > 0.01f && progress < 1f) {
+                val head = headPoint(values, progress)
+                drawCircle(color.copy(alpha = 0.30f), radius = 8.dp.toPx(), center = head)
+                drawCircle(Color.White, radius = 4.5.dp.toPx(), center = head)
+                drawCircle(color, radius = 3.5.dp.toPx(), center = head)
+            }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// KEY METRICS
+// ---------------------------------------------------------------------------
+@Composable
+private fun KeyMetricsSection(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            text = "Key Metrics",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = EnergyTextDark
+        )
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            EnergyMetricCard(
+                icon = Icons.Default.BatteryChargingFull,
+                iconBg = EnergyGreen.copy(alpha = 0.15f),
+                iconTint = EnergyGreenText,
+                label = "Battery Level",
+                value = 85f,
+                valueColor = EnergyGreenText,
+                ringColor = EnergyGreen,
+                delayMillis = 250
+            )
+            EnergyMetricCard(
+                icon = Icons.Default.Power,
+                iconBg = EnergySlateBg,
+                iconTint = EnergySlate,
+                label = "Grid Used",
+                value = 10f,
+                valueColor = EnergyTextMid,
+                ringColor = EnergySlate,
+                delayMillis = 400
+            )
+            EnergyMetricCard(
+                icon = Icons.Default.WbSunny,
+                iconBg = EnergyAmber.copy(alpha = 0.15f),
+                iconTint = EnergyAmberText,
+                label = "Solar Used",
+                value = 90f,
+                valueColor = EnergyAmberText,
+                ringColor = EnergyAmber,
+                delayMillis = 550
+            )
+        }
+    }
+}
+
+@Composable
+private fun EnergyMetricCard(
+    icon: ImageVector,
+    iconBg: Color,
+    iconTint: Color,
+    label: String,
+    value: Float,
+    valueColor: Color,
+    ringColor: Color,
+    modifier: Modifier = Modifier,
+    delayMillis: Int = 0
+) {
+    val count = rememberCountUp(value, delayMillis = delayMillis + 250)
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, EnergyBorder),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(17.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(42.dp)
+                        .clip(CircleShape)
+                        .background(iconBg),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = label,
+                        tint = iconTint,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                Spacer(Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = label,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = EnergyTextSecondary
+                    )
+                    Text(
+                        text = "${count.value.roundToInt()}%",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = valueColor
+                    )
+                }
+            }
+            MiniRadialProgress(
+                progress = value / 100f,
+                color = ringColor,
+                delayMillis = delayMillis + 350
+            )
+        }
+    }
+}
+
+@Composable
+private fun MiniRadialProgress(
+    progress: Float,
+    color: Color,
+    modifier: Modifier = Modifier,
+    delayMillis: Int = 0
+) {
+    val sweep = remember { Animatable(0f) }
+    LaunchedEffect(progress) {
+        delay(delayMillis.toLong())
+        sweep.animateTo(progress, tween(1400, easing = FastOutSlowInEasing))
+    }
+    Canvas(modifier = modifier.size(44.dp)) {
+        val stroke = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
+        // Inset by half the stroke width so the round caps stay inside bounds
+        val strokePad = stroke.width / 2f + 1.dp.toPx()
+        val arcSize = Size(size.width - strokePad * 2f, size.height - strokePad * 2f)
+        val arcTopLeft = Offset(strokePad, strokePad)
+        drawArc(
+            color = EnergyTrack,
+            startAngle = -90f,
+            sweepAngle = 360f,
+            useCenter = false,
+            topLeft = arcTopLeft,
+            size = arcSize,
+            style = stroke
+        )
+        drawArc(
+            color = color,
+            startAngle = -90f,
+            sweepAngle = 360f * sweep.value,
+            useCenter = false,
+            topLeft = arcTopLeft,
+            size = arcSize,
+            style = stroke
+        )
+    }
+}
+
+// ---------------------------------------------------------------------------
+// BREAKDOWN
+// ---------------------------------------------------------------------------
+@Composable
+private fun BreakdownSection(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Breakdown",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = EnergyTextDark
+            )
+            Text(
+                text = "View Full Report",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = EnergyGreenText,
+                modifier = Modifier.clickable { }
+            )
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            energyBreakdownItems.forEachIndexed { index, item ->
+                EnergyBreakdownCard(
+                    item = item,
+                    modifier = Modifier.staggeredAppear(4 + index),
+                    delayMillis = index * 150
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EnergyBreakdownCard(
+    item: EnergyBreakdownItem,
+    modifier: Modifier = Modifier,
+    delayMillis: Int = 0
+) {
+    val count = rememberCountUp(item.usage, delayMillis = delayMillis + 300)
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, EnergyBorder),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(17.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(item.iconBg),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.title,
+                        tint = item.iconTint,
+                        modifier = Modifier.size(19.dp)
+                    )
+                }
+                Column {
+                    Text(
+                        text = item.title,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = EnergyTextDark
+                    )
+                    Text(
+                        text = item.subtitle,
+                        fontSize = 12.sp,
+                        color = EnergyTextMuted
+                    )
+                }
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    text = "${formatKwh(count.value, decimals = 1)} kWh",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = EnergyTextDark
+                )
+                Spacer(Modifier.height(2.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    if (item.pulse) PulseDot(color = item.statusColor)
+                    Text(
+                        text = item.status,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = item.statusColor
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PulseDot(color: Color) {
+    val infinite = rememberInfiniteTransition(label = "pulseDot")
+    val glow by infinite.animateFloat(
+        initialValue = 0.35f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(900, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulseDotAlpha"
+    )
+    Box(
+        modifier = Modifier
+            .size(6.dp)
+            .graphicsLayer { alpha = glow }
+            .clip(CircleShape)
+            .background(color)
+    )
+}
+
+// ---------------------------------------------------------------------------
+// HELPERS
+// ---------------------------------------------------------------------------
+@Composable
+private fun rememberCountUp(
+    target: Float,
+    delayMillis: Int = 0,
+    durationMillis: Int = 1300
+) = remember(target) { Animatable(0f) }.also { animatable ->
+    LaunchedEffect(target) {
+        delay(delayMillis.toLong())
+        animatable.animateTo(target, tween(durationMillis, easing = FastOutSlowInEasing))
+    }
+}
+
+private fun formatKwh(value: Float, decimals: Int = 0): String =
+    if (decimals == 0) value.roundToInt().toString()
+    else String.format(java.util.Locale.US, "%.${decimals}f", value)
+
+@Composable
+private fun Modifier.staggeredAppear(index: Int): Modifier {
+    var appeared by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { appeared = true }
+
+    val alpha by animateFloatAsState(
+        targetValue = if (appeared) 1f else 0f,
+        animationSpec = tween(420, index * 80, FastOutSlowInEasing),
+        label = "energyStaggerAlpha"
+    )
+    val translationY by animateFloatAsState(
+        targetValue = if (appeared) 0f else 34f,
+        animationSpec = tween(420, index * 80, FastOutSlowInEasing),
+        label = "energyStaggerY"
+    )
+
+    return this.graphicsLayer(alpha = alpha, translationY = translationY)
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun EnergyOverviewScreenPreview() {
+    MyApplicationTheme {
+        EnergyOverviewScreen()
+    }
+}

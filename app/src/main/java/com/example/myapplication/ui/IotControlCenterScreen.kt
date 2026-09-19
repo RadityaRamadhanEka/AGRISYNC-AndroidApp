@@ -43,9 +43,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BatteryChargingFull
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.NotificationsNone
@@ -75,6 +77,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -205,6 +209,7 @@ private val sampleIotAlerts = listOf(
 fun IotControlCenterScreen(
     onNavigateHome: () -> Unit = {},
     onNavigateAnalitik: () -> Unit = {},
+    onNavigateEnergy: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var isAutoMode by remember { mutableStateOf(false) }
@@ -254,19 +259,23 @@ fun IotControlCenterScreen(
                     label = "iotFilterContent"
                 ) { selected ->
                     when (selected) {
-                        IotFilter.ALL -> DevicesContent(devices) { name ->
-                            devices = devices.map { device ->
-                                if (device.name == name) {
-                                    val nowActive = !device.isActive
-                                    device.copy(isActive = nowActive, statusLabel = if (nowActive) "Active" else "Off")
-                                } else {
-                                    device
+                        IotFilter.ALL -> DevicesContent(
+                            devices = devices,
+                            onToggle = { name ->
+                                devices = devices.map { device ->
+                                    if (device.name == name) {
+                                        val nowActive = !device.isActive
+                                        device.copy(isActive = nowActive, statusLabel = if (nowActive) "Active" else "Off")
+                                    } else {
+                                        device
+                                    }
                                 }
-                            }
-                        }
+                            },
+                            onOpenEnergyMonitor = onNavigateEnergy
+                        )
 
                         IotFilter.ALERTS -> AlertsContent()
-                        IotFilter.SYSTEM -> SystemContent()
+                        IotFilter.SYSTEM -> SystemContent(onOpenEnergyMonitor = onNavigateEnergy)
                     }
                 }
             }
@@ -592,7 +601,11 @@ private fun FilterTabItem(
 // TAB CONTENT: ALL DEVICES
 // ---------------------------------------------------------------------------
 @Composable
-private fun DevicesContent(devices: List<IotDevice>, onToggle: (String) -> Unit) {
+private fun DevicesContent(
+    devices: List<IotDevice>,
+    onToggle: (String) -> Unit,
+    onOpenEnergyMonitor: () -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -632,7 +645,7 @@ private fun DevicesContent(devices: List<IotDevice>, onToggle: (String) -> Unit)
             }
         }
 
-        SolarArrayStatusCard()
+        SolarArrayStatusCard(onOpenEnergyMonitor = onOpenEnergyMonitor)
     }
 }
 
@@ -772,7 +785,10 @@ private fun IoTDeviceCard(
 // SOLAR / ENERGY MONITOR CARD
 // ---------------------------------------------------------------------------
 @Composable
-private fun SolarArrayStatusCard(modifier: Modifier = Modifier) {
+private fun SolarArrayStatusCard(
+    onOpenEnergyMonitor: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
@@ -832,7 +848,75 @@ private fun SolarArrayStatusCard(modifier: Modifier = Modifier) {
                         ring = true
                     )
                 }
+
+                Spacer(Modifier.height(16.dp))
+
+                EnergyMonitorButton(onClick = onOpenEnergyMonitor)
             }
+        }
+    }
+}
+
+@Composable
+private fun EnergyMonitorButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (pressed) 0.97f else 1f,
+        animationSpec = spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessMedium),
+        label = "energyMonitorScale"
+    )
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .graphicsLayer { scaleX = scale; scaleY = scale }
+            .clip(RoundedCornerShape(14.dp))
+            .background(Color.White)
+            .border(1.dp, IotAmberBorder, RoundedCornerShape(14.dp))
+            .clickable(interactionSource = interaction, indication = null) { onClick() }
+            .padding(horizontal = 14.dp, vertical = 12.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(IotAmber.copy(alpha = 0.16f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Bolt,
+                    contentDescription = null,
+                    tint = IotAmberDark,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Energy Monitor",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = IotAmberBrown
+                )
+                Text(
+                    text = "Consumption, generation & breakdown",
+                    fontSize = 10.sp,
+                    color = IotTextGray,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = "Open Energy Monitor",
+                tint = IotAmberDark,
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 }
@@ -928,11 +1012,17 @@ private fun ChargingRing(modifier: Modifier = Modifier) {
     )
     Canvas(modifier = modifier) {
         val stroke = 2.5.dp.toPx()
+        // Inset by half the stroke width so the round caps never get clipped
+        val strokePad = stroke / 2f + 1.dp.toPx()
+        val arcSize = Size(size.width - strokePad * 2f, size.height - strokePad * 2f)
+        val arcTopLeft = Offset(strokePad, strokePad)
         drawArc(
             color = IotAmber.copy(alpha = 0.22f),
             startAngle = -90f,
             sweepAngle = 360f,
             useCenter = false,
+            topLeft = arcTopLeft,
+            size = arcSize,
             style = Stroke(width = stroke, cap = StrokeCap.Round)
         )
         drawArc(
@@ -940,6 +1030,8 @@ private fun ChargingRing(modifier: Modifier = Modifier) {
             startAngle = -90f,
             sweepAngle = sweep,
             useCenter = false,
+            topLeft = arcTopLeft,
+            size = arcSize,
             style = Stroke(width = stroke, cap = StrokeCap.Round)
         )
     }
@@ -1189,14 +1281,14 @@ private fun CriticalPulseDot(color: Color) {
 // TAB CONTENT: SYSTEM
 // ---------------------------------------------------------------------------
 @Composable
-private fun SystemContent() {
+private fun SystemContent(onOpenEnergyMonitor: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         SystemStatusBanner()
 
-        SolarArrayStatusCard()
+        SolarArrayStatusCard(onOpenEnergyMonitor = onOpenEnergyMonitor)
 
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
             Row(

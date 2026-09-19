@@ -20,6 +20,7 @@ import com.example.myapplication.ui.AiRecommendationScreen
 import com.example.myapplication.ui.AnalyticsDetailScreen
 import com.example.myapplication.ui.BreakEvenSimulatorScreen
 import com.example.myapplication.ui.DigitalTwinScreen
+import com.example.myapplication.ui.EnergyOverviewScreen
 import com.example.myapplication.ui.FeasibilityAnalysisScreen
 import com.example.myapplication.ui.IotControlCenterScreen
 import com.example.myapplication.ui.LoginScreen
@@ -111,6 +112,12 @@ class MainActivity : ComponentActivity() {
                             onNavigateToControl = { currentScreen = 8 }
                         )
                         8 -> IotControlCenterScreen(
+                            onNavigateHome = { currentScreen = 0 },
+                            onNavigateAnalitik = { currentScreen = 1 },
+                            onNavigateEnergy = { currentScreen = 9 }
+                        )
+                        9 -> EnergyOverviewScreen(
+                            onBackClick = { currentScreen = 8 },
                             onNavigateHome = { currentScreen = 0 },
                             onNavigateAnalitik = { currentScreen = 1 }
                         )
