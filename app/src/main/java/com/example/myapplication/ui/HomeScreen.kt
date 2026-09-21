@@ -59,6 +59,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 // Design System Colors from Figma Design
@@ -1050,50 +1051,50 @@ fun AgriSyncBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 12.dp
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(68.dp)
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 4.dp),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // Item 1: Beranda
                 BottomNavItem(
-                    label = "Beranda",
+                    label = "Home",
                     icon = Icons.Default.GridView,
                     isSelected = selectedTab == 0,
                     onClick = { onTabSelected(0) }
                 )
 
-                // Item 2: Kontrol (IoT Control Center) — replaces the old "Tanam" tab
+                // Item 2: Controls
                 BottomNavItem(
-                    label = "Kontrol",
+                    label = "Controls",
                     icon = Icons.Default.Settings,
                     isSelected = selectedTab == 1,
                     onClick = { onTabSelected(1) }
                 )
 
-                // Item 3: Center FAB Placeholder Spacer
-                Spacer(modifier = Modifier.width(52.dp))
+                // Item 3: Center FAB Placeholder
+                Spacer(modifier = Modifier.width(48.dp))
 
-                // Item 4: Analitik
+                // Item 4: Analytics
                 BottomNavItem(
-                    label = "Analitik",
+                    label = "Analytics",
                     icon = Icons.Default.BarChart,
                     isSelected = selectedTab == 2,
                     onClick = { onTabSelected(2) }
                 )
 
-                // Item 5: Petani
+                // Item 5: Settings
                 BottomNavItem(
-                    label = "Petani",
+                    label = "Settings",
                     icon = Icons.Default.Person,
-                    isSelected = selectedTab == 3,
-                    onClick = { onTabSelected(3) }
+                    isSelected = selectedTab == 4,
+                    onClick = { onTabSelected(4) }
                 )
             }
         }
@@ -1105,7 +1106,7 @@ fun AgriSyncBottomBar(
                 .offset(y = (-20).dp)
                 .size(56.dp),
             shape = CircleShape,
-            containerColor = AgriGreenDark,
+            containerColor = Color(0xFF2F7F33),
             contentColor = Color.White,
             elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
         ) {
@@ -1128,14 +1129,14 @@ fun BottomNavItem(
     Column(
         modifier = Modifier
             .clickable { onClick() }
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .padding(horizontal = 6.dp, vertical = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Icon(
             imageVector = icon,
             contentDescription = label,
-            tint = if (isSelected) AgriGreenDark else AgriTextMuted,
+            tint = if (isSelected) Color(0xFF2F7F33) else AgriTheme.colors.textMuted,
             modifier = Modifier.size(22.dp)
         )
         Spacer(modifier = Modifier.height(2.dp))
@@ -1143,7 +1144,7 @@ fun BottomNavItem(
             text = label,
             fontSize = 10.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-            color = if (isSelected) AgriGreenDark else AgriTextMuted
+            color = if (isSelected) Color(0xFF2F7F33) else AgriTheme.colors.textMuted
         )
     }
 }
