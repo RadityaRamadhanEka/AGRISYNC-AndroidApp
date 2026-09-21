@@ -70,14 +70,13 @@ fun NotificationPreferencesScreen(
         containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
-                selectedTab = 4,
+                selectedTab = -1,
                 onTabSelected = { tab ->
                     when (tab) {
                         0 -> onNavigateHome()
                         1 -> onNavigateControl()
                         2 -> onNavigateAnalytics()
                         3 -> onNavigatePetani()
-                        4 -> {}
                     }
                 }
             )

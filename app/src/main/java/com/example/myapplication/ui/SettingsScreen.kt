@@ -89,14 +89,13 @@ fun SettingsScreen(
         containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
-                selectedTab = 4, // Settings Tab
+                selectedTab = -1, // Settings is opened from dashboard header
                 onTabSelected = { tab ->
                     when (tab) {
                         0 -> onNavigateHome()
                         1 -> onNavigateControl()
                         2 -> onNavigateAnalytics()
                         3 -> onNavigatePetani()
-                        4 -> {} // Already on settings
                     }
                 }
             )

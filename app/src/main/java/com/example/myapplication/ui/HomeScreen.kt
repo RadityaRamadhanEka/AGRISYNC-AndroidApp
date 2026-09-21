@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.filled.WbSunny
@@ -84,6 +85,7 @@ fun AgriSyncHomeScreen(
     onNavigateToActivityLog: () -> Unit = {},
     onNavigateToControl: () -> Unit = {},
     onNavigateToPetani: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -114,7 +116,7 @@ fun AgriSyncHomeScreen(
         ) {
             // 1. Top Header Profile & Weather
             item {
-                TopHeaderSection()
+                TopHeaderSection(onNavigateToSettings = onNavigateToSettings)
             }
 
             // 2. Dampak ECO Banner Card (Green Gradient)
@@ -164,14 +166,19 @@ fun AgriSyncHomeScreen(
 // 1. TOP HEADER SECTION
 // ---------------------------------------------------------------------------
 @Composable
-fun TopHeaderSection() {
+fun TopHeaderSection(
+    onNavigateToSettings: () -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         // User Avatar & Name
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.clickable { onNavigateToSettings() }
+        ) {
             Box {
                 Box(
                     modifier = Modifier
@@ -267,7 +274,7 @@ fun TopHeaderSection() {
                 tint = AgriTextMuted,
                 modifier = Modifier
                     .size(22.dp)
-                    .clickable { }
+                    .clickable { onNavigateToSettings() }
             )
         }
     }
@@ -1073,7 +1080,7 @@ fun AgriSyncBottomBar(
                 // Item 2: Controls
                 BottomNavItem(
                     label = "Controls",
-                    icon = Icons.Default.Settings,
+                    icon = Icons.Default.Tune,
                     isSelected = selectedTab == 1,
                     onClick = { onTabSelected(1) }
                 )
@@ -1089,12 +1096,12 @@ fun AgriSyncBottomBar(
                     onClick = { onTabSelected(2) }
                 )
 
-                // Item 5: Settings
+                // Item 5: Petani
                 BottomNavItem(
-                    label = "Settings",
+                    label = "Petani",
                     icon = Icons.Default.Person,
-                    isSelected = selectedTab == 4,
-                    onClick = { onTabSelected(4) }
+                    isSelected = selectedTab == 3,
+                    onClick = { onTabSelected(3) }
                 )
             }
         }

@@ -80,28 +80,29 @@ class MainActivity : ComponentActivity() {
                             onNavigateToProductionManagement = { currentScreen = 4 },
                             onNavigateToActivityLog = { currentScreen = 7 },
                             onNavigateToControl = { currentScreen = 8 },
-                            onNavigateToPetani = { currentScreen = 16 } // Go to Settings
+                            onNavigateToPetani = { currentScreen = 15 },
+                            onNavigateToSettings = { currentScreen = 16 }
                         )
                         1 -> AnalyticsDetailScreen(
                             onBackClick = { currentScreen = 0 },
                             onNavigateToHome = { currentScreen = 0 },
                             onNavigateToProductionManagement = { currentScreen = 4 },
                             onNavigateToControl = { currentScreen = 8 },
-                            onNavigateToPetani = { currentScreen = 16 }
+                            onNavigateToPetani = { currentScreen = 15 }
                         )
                         2 -> DigitalTwinScreen(
                             onBackClick = { currentScreen = 0 },
                             onNavigateHome = { currentScreen = 0 },
                             onNavigateControl = { currentScreen = 8 },
                             onNavigateAnalytics = { currentScreen = 1 },
-                            onNavigatePetani = { currentScreen = 16 }
+                            onNavigatePetani = { currentScreen = 15 }
                         )
                         3 -> AiRecommendationScreen(
                             onBackClick = { currentScreen = 0 },
                             onNavigateHome = { currentScreen = 0 },
                             onNavigateControl = { currentScreen = 8 },
                             onNavigateAnalytics = { currentScreen = 1 },
-                            onNavigatePetani = { currentScreen = 16 }
+                            onNavigatePetani = { currentScreen = 15 }
                         )
                         4 -> ProductionManagementScreen(
                             onNavigateToHome = { currentScreen = 0 },
@@ -109,7 +110,7 @@ class MainActivity : ComponentActivity() {
                             onNavigateToDigitalTwin = { currentScreen = 2 },
                             onNavigateToRecommendation = { currentScreen = 3 },
                             onNavigateToControl = { currentScreen = 8 },
-                            onNavigateToPetani = { currentScreen = 16 },
+                            onNavigateToPetani = { currentScreen = 15 },
                             onNavigateToFeasibility = { currentScreen = 5 },
                             onNavigateToBEPSimulator = { currentScreen = 6 }
                         )
@@ -119,7 +120,7 @@ class MainActivity : ComponentActivity() {
                             onNavigateToControl = { currentScreen = 8 },
                             onNavigateToProductionManagement = { currentScreen = 4 },
                             onNavigateToAnalytics = { currentScreen = 1 },
-                            onNavigateToPetani = { currentScreen = 16 }
+                            onNavigateToPetani = { currentScreen = 15 }
                         )
                         6 -> BreakEvenSimulatorScreen(
                             onBackClick = { currentScreen = 4 },
@@ -127,7 +128,7 @@ class MainActivity : ComponentActivity() {
                             onNavigateToControl = { currentScreen = 8 },
                             onNavigateToProductionManagement = { currentScreen = 4 },
                             onNavigateToAnalytics = { currentScreen = 1 },
-                            onNavigateToPetani = { currentScreen = 16 }
+                            onNavigateToPetani = { currentScreen = 15 }
                         )
                         7 -> ActivityLogScreen(
                             onBackClick = { currentScreen = 0 },
@@ -135,19 +136,19 @@ class MainActivity : ComponentActivity() {
                             onNavigateToAnalytics = { currentScreen = 1 },
                             onNavigateToDigitalTwin = { currentScreen = 2 },
                             onNavigateToControl = { currentScreen = 8 },
-                            onNavigateToPetani = { currentScreen = 16 }
+                            onNavigateToPetani = { currentScreen = 15 }
                         )
                         8 -> IotControlCenterScreen(
                             onNavigateHome = { currentScreen = 0 },
                             onNavigateAnalitik = { currentScreen = 1 },
                             onNavigateEnergy = { currentScreen = 9 },
-                            onNavigatePetani = { currentScreen = 16 }
+                            onNavigatePetani = { currentScreen = 15 }
                         )
                         9 -> EnergyOverviewScreen(
                             onBackClick = { currentScreen = 8 },
                             onNavigateHome = { currentScreen = 0 },
                             onNavigateAnalitik = { currentScreen = 1 },
-                            onNavigatePetani = { currentScreen = 16 }
+                            onNavigatePetani = { currentScreen = 15 }
                         )
                         15 -> FarmerFeatureScreen(
                             onNavigateToHome = { currentScreen = 0 },
