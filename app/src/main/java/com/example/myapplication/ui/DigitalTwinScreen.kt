@@ -79,13 +79,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
-// Digital Twin Theme Colors
-val AgriDarkSystemHealth = Color(0xFF0D1C13)
-val AgriToggleActiveTrack = Color(0xFF34D399)
+// Digital Twin Theme Colors (theme-aware: follow AgriTheme light/dark)
+val AgriDarkSystemHealth: Color
+    @Composable get() = AgriTheme.colors.greenDeep
+val AgriToggleActiveTrack: Color
+    @Composable get() = AgriTheme.colors.accent
 val AgriToggleActiveThumb = Color.White
-val AgriToggleInactiveTrack = Color(0xFFE2E8F0)
+val AgriToggleInactiveTrack: Color
+    @Composable get() = AgriTheme.colors.grayBorder
 
 @Composable
 fun DigitalTwinScreen(
@@ -186,7 +190,7 @@ fun DigitalTwinTopHeader(onBackClick: () -> Unit) {
             modifier = Modifier
                 .size(42.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFF3E5F5)),
+                .background(AgriTheme.colors.purpleInfoBg),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -601,7 +605,7 @@ fun ControlCardItem(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
@@ -616,13 +620,13 @@ fun ControlCardItem(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(if (isChecked) iconBgActive else Color(0xFFF1F5F9)),
+                        .background(if (isChecked) iconBgActive else AgriTheme.colors.grayBgAlt),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = title,
-                        tint = if (isChecked) AgriGreenDark else Color.Gray,
+                        tint = if (isChecked) AgriGreenDark else AgriTheme.colors.grayIcon,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -676,7 +680,7 @@ fun ControlCardItem(
                         .height(4.dp)
                         .clip(RoundedCornerShape(2.dp)),
                     color = AgriGreenPrimary,
-                    trackColor = Color(0xFFE2E8F0)
+                    trackColor = AgriTheme.colors.grayBorder
                 )
             } else if (progressType == 2) {
                 Spacer(modifier = Modifier.height(10.dp))
@@ -703,7 +707,7 @@ fun ControlCardItem(
                             .weight(1f)
                             .height(4.dp)
                             .clip(RoundedCornerShape(2.dp))
-                            .background(Color(0xFFE2E8F0))
+                            .background(AgriTheme.colors.grayBorder)
                     )
                 }
             }
@@ -789,7 +793,7 @@ fun DigitalTwinBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 12.dp
         ) {
             Row(

@@ -22,7 +22,22 @@ data class AgriCustomColors(
     val textMuted: Color,
     val border: Color,
     val inputBorder: Color,
-    val iconBgLight: Color
+    val iconBgLight: Color,
+    // Extended semantic tokens
+    val greenAction: Color,
+    val greenEmphasis: Color,
+    val greenDeep: Color,
+    val mintBg: Color,
+    val greenTintBg: Color,
+    val redAlertBg: Color,
+    val yellowWarnBg: Color,
+    val blueInfoBg: Color,
+    val purpleInfoBg: Color,
+    val blueAccent: Color,
+    val orangeAccent: Color,
+    val grayIcon: Color,
+    val grayBgAlt: Color,
+    val grayBorder: Color
 )
 
 private val LightCustomColors = AgriCustomColors(
@@ -36,7 +51,21 @@ private val LightCustomColors = AgriCustomColors(
     textMuted = AgriLightTextMuted,
     border = AgriLightBorder,
     inputBorder = AgriLightInputBorder,
-    iconBgLight = Color(0xFFF9FAFB)
+    iconBgLight = Color(0xFFF9FAFB),
+    greenAction = AgriGreenAction,
+    greenEmphasis = AgriGreenEmphasis,
+    greenDeep = AgriGreenDeep,
+    mintBg = AgriMintBg,
+    greenTintBg = AgriGreenTintBg,
+    redAlertBg = AgriRedAlertBg,
+    yellowWarnBg = AgriYellowWarnBg,
+    blueInfoBg = AgriBlueInfoBg,
+    purpleInfoBg = AgriPurpleInfoBg,
+    blueAccent = AgriBlueAccent,
+    orangeAccent = AgriOrangeAccent,
+    grayIcon = AgriGrayIcon,
+    grayBgAlt = AgriGrayBgAlt,
+    grayBorder = AgriGrayBorder
 )
 
 private val DarkCustomColors = AgriCustomColors(
@@ -50,7 +79,21 @@ private val DarkCustomColors = AgriCustomColors(
     textMuted = AgriDarkTextMuted,
     border = AgriDarkBorder,
     inputBorder = AgriDarkInputBorder,
-    iconBgLight = Color(0xFF233226)
+    iconBgLight = Color(0xFF233226),
+    greenAction = AgriGreenActionDark,
+    greenEmphasis = AgriGreenEmphasisDark,
+    greenDeep = AgriGreenDeepDark,
+    mintBg = AgriGreenMintBgDark,
+    greenTintBg = AgriGreenTintBgDark,
+    redAlertBg = AgriRedAlertBgDark,
+    yellowWarnBg = AgriYellowWarnBgDark,
+    blueInfoBg = AgriBlueInfoBgDark,
+    purpleInfoBg = AgriPurpleInfoBgDark,
+    blueAccent = AgriBlueAccentDark,
+    orangeAccent = AgriOrangeAccentDark,
+    grayIcon = AgriGrayIconDark,
+    grayBgAlt = AgriGrayBgAltDark,
+    grayBorder = AgriGrayBorderDark
 )
 
 private val LocalAgriColors = staticCompositionLocalOf { LightCustomColors }
@@ -105,6 +148,20 @@ fun MyApplicationTheme(
     val animatedBorder = animateColorAsState(targetColors.border, tween(animDuration), label = "border")
     val animatedInputBorder = animateColorAsState(targetColors.inputBorder, tween(animDuration), label = "inputBorder")
     val animatedIconBgLight = animateColorAsState(targetColors.iconBgLight, tween(animDuration), label = "iconBgLight")
+    val animatedGreenAction = animateColorAsState(targetColors.greenAction, tween(animDuration), label = "greenAction")
+    val animatedGreenEmphasis = animateColorAsState(targetColors.greenEmphasis, tween(animDuration), label = "greenEmphasis")
+    val animatedGreenDeep = animateColorAsState(targetColors.greenDeep, tween(animDuration), label = "greenDeep")
+    val animatedMintBg = animateColorAsState(targetColors.mintBg, tween(animDuration), label = "mintBg")
+    val animatedGreenTintBg = animateColorAsState(targetColors.greenTintBg, tween(animDuration), label = "greenTintBg")
+    val animatedRedAlertBg = animateColorAsState(targetColors.redAlertBg, tween(animDuration), label = "redAlertBg")
+    val animatedYellowWarnBg = animateColorAsState(targetColors.yellowWarnBg, tween(animDuration), label = "yellowWarnBg")
+    val animatedBlueInfoBg = animateColorAsState(targetColors.blueInfoBg, tween(animDuration), label = "blueInfoBg")
+    val animatedPurpleInfoBg = animateColorAsState(targetColors.purpleInfoBg, tween(animDuration), label = "purpleInfoBg")
+    val animatedBlueAccent = animateColorAsState(targetColors.blueAccent, tween(animDuration), label = "blueAccent")
+    val animatedOrangeAccent = animateColorAsState(targetColors.orangeAccent, tween(animDuration), label = "orangeAccent")
+    val animatedGrayIcon = animateColorAsState(targetColors.grayIcon, tween(animDuration), label = "grayIcon")
+    val animatedGrayBgAlt = animateColorAsState(targetColors.grayBgAlt, tween(animDuration), label = "grayBgAlt")
+    val animatedGrayBorder = animateColorAsState(targetColors.grayBorder, tween(animDuration), label = "grayBorder")
 
     val animatedCustomColors = AgriCustomColors(
         background = animatedBackground.value,
@@ -117,7 +174,21 @@ fun MyApplicationTheme(
         textMuted = animatedTextMuted.value,
         border = animatedBorder.value,
         inputBorder = animatedInputBorder.value,
-        iconBgLight = animatedIconBgLight.value
+        iconBgLight = animatedIconBgLight.value,
+        greenAction = animatedGreenAction.value,
+        greenEmphasis = animatedGreenEmphasis.value,
+        greenDeep = animatedGreenDeep.value,
+        mintBg = animatedMintBg.value,
+        greenTintBg = animatedGreenTintBg.value,
+        redAlertBg = animatedRedAlertBg.value,
+        yellowWarnBg = animatedYellowWarnBg.value,
+        blueInfoBg = animatedBlueInfoBg.value,
+        purpleInfoBg = animatedPurpleInfoBg.value,
+        blueAccent = animatedBlueAccent.value,
+        orangeAccent = animatedOrangeAccent.value,
+        grayIcon = animatedGrayIcon.value,
+        grayBgAlt = animatedGrayBgAlt.value,
+        grayBorder = animatedGrayBorder.value
     )
 
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme

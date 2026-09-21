@@ -61,6 +61,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 // Data class to represent each Plant Recommendation
@@ -188,8 +189,8 @@ fun AiRecommendationHeader(onBackClick: () -> Unit) {
                 modifier = Modifier
                     .size(44.dp)
                     .clip(CircleShape)
-                    .background(Color.White)
-                    .border(1.dp, Color(0xFFF3F4F6), CircleShape)
+                    .background(AgriTheme.colors.surface)
+                    .border(1.dp, AgriTheme.colors.border, CircleShape)
                     .clickable { onBackClick() },
                 contentAlignment = Alignment.Center
             ) {
@@ -207,7 +208,7 @@ fun AiRecommendationHeader(onBackClick: () -> Unit) {
                 text = "Rekomendasi AI",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF111827)
+                color = AgriTheme.colors.textPrimary
             )
         }
 
@@ -216,7 +217,7 @@ fun AiRecommendationHeader(onBackClick: () -> Unit) {
             text = "Berdasarkan kondisi farm kamu saat ini, kami merekomendasikan:",
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
-            color = Color(0xFF5E8760),
+            color = AgriTheme.colors.textSecondary,
             lineHeight = 22.sp
         )
     }
@@ -233,7 +234,7 @@ fun RecommendationPlantCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(32.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.9f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -361,7 +362,7 @@ fun RecommendationPlantCard(
                         text = "KECOCOKAN",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF9CA3AF),
+                        color = AgriTheme.colors.textMuted,
                         letterSpacing = 0.6.sp
                     )
                     Text(
@@ -380,14 +381,14 @@ fun RecommendationPlantCard(
                         .fillMaxWidth()
                         .height(10.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFF3F4F6))
+                        .background(AgriTheme.colors.grayBgAlt)
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth(plant.matchPercentage / 100f)
                             .height(10.dp)
                             .clip(CircleShape)
-                            .background(Color(0xFF4ADE80))
+                            .background(AgriTheme.colors.accent)
                     )
                 }
             }
@@ -407,8 +408,8 @@ fun RecommendationPlantCard(
                     label = "EST. PANEN",
                     value = plant.estPanen,
                     icon = Icons.Default.DateRange,
-                    iconBgColor = Color(0xFFE8F5E9),
-                    iconTint = Color(0xFF2E7D32)
+                    iconBgColor = AgriTheme.colors.mintBg,
+                    iconTint = AgriTheme.colors.primary
                 )
 
                 // Metric 2: IDEAL PH
@@ -417,7 +418,7 @@ fun RecommendationPlantCard(
                     label = "IDEAL PH",
                     value = plant.idealPh,
                     icon = Icons.Default.WaterDrop,
-                    iconBgColor = Color(0xFFEFF6FF),
+                    iconBgColor = AgriTheme.colors.blueInfoBg,
                     iconTint = Color(0xFF2563EB)
                 )
             }
@@ -473,8 +474,8 @@ fun PlantMetricBox(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
-        color = Color(0xFFFAFAFA),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6))
+        color = AgriTheme.colors.iconBgLight,
+        border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border)
     ) {
         Column(
             modifier = Modifier.padding(14.dp),
@@ -484,7 +485,7 @@ fun PlantMetricBox(
                 text = label,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF9CA3AF),
+                color = AgriTheme.colors.textMuted,
                 letterSpacing = 0.25.sp
             )
 
@@ -512,7 +513,7 @@ fun PlantMetricBox(
                     text = value,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1F2937)
+                    color = AgriTheme.colors.textPrimary
                 )
             }
         }
@@ -534,7 +535,7 @@ fun AiRecommendationBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 12.dp
         ) {
             Row(

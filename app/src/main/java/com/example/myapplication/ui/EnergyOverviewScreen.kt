@@ -84,34 +84,51 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 // ---------------------------------------------------------------------------
 // ENERGY OVERVIEW PALETTE (from Figma "Laporan Energi")
+// Theme-aware tokens resolve via AgriTheme.colors; saturated accents stay static.
 // ---------------------------------------------------------------------------
-private val EnergyGreen = Color(0xFF4ADE80)
-private val EnergyGreenText = Color(0xFF16A34A)
+private val EnergyGreen: Color
+    @Composable get() = AgriTheme.colors.accent
+private val EnergyGreenText: Color
+    @Composable get() = AgriTheme.colors.greenEmphasis
 private val EnergyAmber = Color(0xFFF59E0B)
 private val EnergyAmberText = Color(0xFFB45309)
 private val EnergyOrange = Color(0xFFF97316)
-private val EnergyTextDark = Color(0xFF111827)
-private val EnergyTextMid = Color(0xFF1F2937)
-private val EnergyTextSecondary = Color(0xFF4B5563)
-private val EnergyTextMuted = Color(0xFF6B7280)
-private val EnergyTextFaint = Color(0xFF9CA3AF)
-private val EnergyBorder = Color(0xFFF3F4F6)
-private val EnergyGridLine = Color(0xFFE5E7EB)
-private val EnergyGridBase = Color(0xFFD1D5DB)
-private val EnergyBg = Color(0xFFF9FAFB)
-private val EnergyTrack = Color(0xFFF3F4F6)
+private val EnergyTextDark: Color
+    @Composable get() = AgriTheme.colors.textPrimary
+private val EnergyTextMid: Color
+    @Composable get() = AgriTheme.colors.textPrimary
+private val EnergyTextSecondary: Color
+    @Composable get() = AgriTheme.colors.textSecondary
+private val EnergyTextMuted: Color
+    @Composable get() = AgriTheme.colors.grayIcon
+private val EnergyTextFaint: Color
+    @Composable get() = AgriTheme.colors.textMuted
+private val EnergyBorder: Color
+    @Composable get() = AgriTheme.colors.border
+private val EnergyGridLine: Color
+    @Composable get() = AgriTheme.colors.grayBorder
+private val EnergyGridBase: Color
+    @Composable get() = AgriTheme.colors.inputBorder
+private val EnergyBg: Color
+    @Composable get() = AgriTheme.colors.background
+private val EnergyTrack: Color
+    @Composable get() = AgriTheme.colors.grayBgAlt
 private val EnergyBlue = Color(0xFF3B82F6)
-private val EnergyBlueBg = Color(0xFFEFF6FF)
+private val EnergyBlueBg: Color
+    @Composable get() = AgriTheme.colors.blueInfoBg
 private val EnergyPurple = Color(0xFF8B5CF6)
-private val EnergyPurpleBg = Color(0xFFFAF5FF)
+private val EnergyPurpleBg: Color
+    @Composable get() = AgriTheme.colors.purpleInfoBg
 private val EnergySlate = Color(0xFF64748B)
-private val EnergySlateBg = Color(0xFFF1F5F9)
+private val EnergySlateBg: Color
+    @Composable get() = AgriTheme.colors.iconBgLight
 
 // ---------------------------------------------------------------------------
 // CHART DATA (24h, kWh)
@@ -139,7 +156,8 @@ private data class EnergyBreakdownItem(
     val pulse: Boolean = false
 )
 
-private val energyBreakdownItems = listOf(
+@Composable
+private fun energyBreakdownItems(): List<EnergyBreakdownItem> = listOf(
     EnergyBreakdownItem(
         icon = Icons.Default.WaterDrop,
         iconBg = EnergyBlueBg,
@@ -295,7 +313,7 @@ private fun CircleIconButton(
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
-            .background(Color.White)
+            .background(AgriTheme.colors.surface)
             .border(1.dp, EnergyGridLine, CircleShape)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
@@ -343,7 +361,7 @@ private fun EnergyDatePickerDialog(
                 .fillMaxWidth(0.92f)
                 .padding(16.dp),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Column(
@@ -743,7 +761,7 @@ private fun EnergyChartCard(modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, EnergyBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -872,7 +890,8 @@ private fun TooltipPill() {
         modifier = Modifier
             .shadow(6.dp, RoundedCornerShape(8.dp), clip = false)
             .clip(RoundedCornerShape(8.dp))
-            .background(EnergyTextDark)
+            // Tooltip stays dark in both themes so the white label remains legible.
+            .background(Color(0xFF111827))
             .padding(horizontal = 10.dp, vertical = 5.dp)
     ) {
         Text(
@@ -885,6 +904,11 @@ private fun TooltipPill() {
 
 @Composable
 private fun EnergyChart(progress: Float, modifier: Modifier = Modifier) {
+    // Resolve theme colors in composition — the Canvas draw lambda is non-composable.
+    val gridLineColor = AgriTheme.colors.grayBorder
+    val gridBaseColor = AgriTheme.colors.inputBorder
+    val consumptionColor = AgriTheme.colors.accent
+
     Canvas(modifier = modifier) {
         val w = size.width
         val h = size.height
@@ -910,7 +934,7 @@ private fun EnergyChart(progress: Float, modifier: Modifier = Modifier) {
             val y = topPad + chartH * i / 4f
             val isBase = i == 4
             drawLine(
-                color = if (isBase) EnergyGridBase else EnergyGridLine,
+                color = if (isBase) gridBaseColor else gridLineColor,
                 start = Offset(0f, y),
                 end = Offset(w, y),
                 strokeWidth = 1.dp.toPx(),
@@ -919,7 +943,7 @@ private fun EnergyChart(progress: Float, modifier: Modifier = Modifier) {
         }
 
         listOf(
-            ConsumptionProfile to EnergyGreen,
+            ConsumptionProfile to consumptionColor,
             SolarProfile to EnergyAmber
         ).forEach { (values, color) ->
             val linePath = Path().apply {
@@ -1039,7 +1063,7 @@ private fun EnergyMetricCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, EnergyBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -1102,6 +1126,8 @@ private fun MiniRadialProgress(
         delay(delayMillis.toLong())
         sweep.animateTo(progress, tween(1400, easing = FastOutSlowInEasing))
     }
+    val trackColor = AgriTheme.colors.grayBgAlt
+
     Canvas(modifier = modifier.size(44.dp)) {
         val stroke = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
         // Inset by half the stroke width so the round caps stay inside bounds
@@ -1109,7 +1135,7 @@ private fun MiniRadialProgress(
         val arcSize = Size(size.width - strokePad * 2f, size.height - strokePad * 2f)
         val arcTopLeft = Offset(strokePad, strokePad)
         drawArc(
-            color = EnergyTrack,
+            color = trackColor,
             startAngle = -90f,
             sweepAngle = 360f,
             useCenter = false,
@@ -1158,7 +1184,7 @@ private fun BreakdownSection(modifier: Modifier = Modifier) {
             )
         }
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            energyBreakdownItems.forEachIndexed { index, item ->
+            energyBreakdownItems().forEachIndexed { index, item ->
                 EnergyBreakdownCard(
                     item = item,
                     modifier = Modifier.staggeredAppear(4 + index),
@@ -1179,7 +1205,7 @@ private fun EnergyBreakdownCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, EnergyBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {

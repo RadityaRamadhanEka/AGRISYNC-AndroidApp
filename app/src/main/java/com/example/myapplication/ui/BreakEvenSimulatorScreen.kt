@@ -84,6 +84,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -110,7 +111,7 @@ fun BreakEvenSimulatorScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             AgriSyncBottomBar(
@@ -225,15 +226,15 @@ private fun BreakEvenHeader(
                     .size(40.dp)
                     .clickable { onBackClick() },
                 shape = CircleShape,
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
                 shadowElevation = 2.dp
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
-                        tint = Color(0xFF111827),
+                        tint = AgriTheme.colors.textPrimary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -245,14 +246,14 @@ private fun BreakEvenHeader(
                     text = "Simulator Titik",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827),
+                    color = AgriTheme.colors.textPrimary,
                     lineHeight = 25.sp
                 )
                 Text(
                     text = "Impas",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827),
+                    color = AgriTheme.colors.textPrimary,
                     lineHeight = 25.sp
                 )
             }
@@ -265,8 +266,8 @@ private fun BreakEvenHeader(
             // Weather Badge
             Surface(
                 shape = RoundedCornerShape(50),
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
                 shadowElevation = 2.dp
             ) {
                 Row(
@@ -277,14 +278,14 @@ private fun BreakEvenHeader(
                     Icon(
                         imageVector = Icons.Default.WbSunny,
                         contentDescription = "Weather",
-                        tint = Color(0xFFFFA000),
+                        tint = AgriTheme.colors.orangeAccent,
                         modifier = Modifier.size(18.dp)
                     )
                     Text(
                         text = "28°C",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF374151)
+                        color = AgriTheme.colors.textPrimary
                     )
                 }
             }
@@ -295,15 +296,15 @@ private fun BreakEvenHeader(
                     .size(38.dp)
                     .clickable { },
                 shape = CircleShape,
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
                 shadowElevation = 2.dp
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = "Settings",
-                        tint = Color(0xFF6B7280),
+                        tint = AgriTheme.colors.grayIcon,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -368,7 +369,7 @@ private fun BreakEvenThresholdCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -386,13 +387,13 @@ private fun BreakEvenThresholdCard(
                         text = "Analisis Ambang Batas",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color(0xFF111827)
+                        color = AgriTheme.colors.textPrimary
                     )
                     Text(
                         text = "Break-Even Point (BEP) Analysis",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFF5E8760)
+                        color = AgriTheme.colors.textSecondary
                     )
                 }
 
@@ -401,13 +402,13 @@ private fun BreakEvenThresholdCard(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFE8F5E9).copy(alpha = 0.5f)),
+                        .background(AgriTheme.colors.mintBg.copy(alpha = 0.5f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.Default.BarChart,
                         contentDescription = null,
-                        tint = Color(0xFF2E7D32),
+                        tint = AgriTheme.colors.greenEmphasis,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -449,7 +450,7 @@ private fun BreakEvenThresholdCard(
                         text = "KEUNTUNGAN (PROFIT)",
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF10B981),
+                        color = AgriTheme.colors.greenEmphasis,
                         letterSpacing = 1.sp,
                         modifier = Modifier.alpha(if (!isLossState) pulseAlpha else 1f)
                     )
@@ -457,7 +458,7 @@ private fun BreakEvenThresholdCard(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.TrendingUp,
                             contentDescription = null,
-                            tint = Color(0xFF10B981),
+                            tint = AgriTheme.colors.greenEmphasis,
                             modifier = Modifier.size(14.dp)
                         )
                     }
@@ -471,7 +472,7 @@ private fun BreakEvenThresholdCard(
                     .fillMaxWidth()
                     .height(56.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .background(Color(0xFFF3F4F6))
+                    .background(AgriTheme.colors.grayBgAlt)
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
@@ -497,7 +498,7 @@ private fun BreakEvenThresholdCard(
                         modifier = Modifier
                             .fillMaxHeight()
                             .width(28.dp)
-                            .background(Color.White),
+                            .background(AgriTheme.colors.surface),
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
@@ -505,8 +506,8 @@ private fun BreakEvenThresholdCard(
                                 .width(6.dp)
                                 .height(14.dp)
                                 .clip(CircleShape)
-                                .background(Color.White)
-                                .border(2.dp, Color(0xFF2E7D32), CircleShape)
+                                .background(AgriTheme.colors.surface)
+                                .border(2.dp, AgriTheme.colors.greenEmphasis, CircleShape)
                         )
                     }
 
@@ -534,8 +535,8 @@ private fun BreakEvenThresholdCard(
             ) {
                 Surface(
                     shape = RoundedCornerShape(50),
-                    color = Color(0xFF2E7D32).copy(alpha = 0.1f),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF2E7D32).copy(alpha = 0.2f))
+                    color = AgriTheme.colors.greenEmphasis.copy(alpha = 0.1f),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.greenEmphasis.copy(alpha = 0.2f))
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 18.dp, vertical = 7.dp),
@@ -546,13 +547,13 @@ private fun BreakEvenThresholdCard(
                             text = "TITIK IMPAS:",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF2E7D32)
+                            color = AgriTheme.colors.greenEmphasis
                         )
                         Text(
                             text = "${bepKg.toInt()} Kg",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF2E7D32)
+                            color = AgriTheme.colors.greenEmphasis
                         )
                     }
                 }
@@ -574,13 +575,13 @@ private fun BreakEvenThresholdCard(
                         text = "Simulasi Hasil Panen:",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFF4B5563)
+                        color = AgriTheme.colors.textSecondary
                     )
                     Text(
                         text = "${currentHarvestKg.toInt()} Kg",
                         fontSize = 13.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = if (isLossState) Color(0xFFEF4444) else Color(0xFF2E7D32)
+                        color = if (isLossState) Color(0xFFEF4444) else AgriTheme.colors.greenEmphasis
                     )
                 }
 
@@ -589,16 +590,16 @@ private fun BreakEvenThresholdCard(
                     onValueChange = onHarvestChanged,
                     valueRange = 50f..180f,
                     colors = SliderDefaults.colors(
-                        thumbColor = Color(0xFF2E7D32),
-                        activeTrackColor = Color(0xFF4ADE80),
-                        inactiveTrackColor = Color(0xFFE5E7EB)
+                        thumbColor = AgriTheme.colors.greenEmphasis,
+                        activeTrackColor = AgriTheme.colors.accent,
+                        inactiveTrackColor = AgriTheme.colors.grayBorder
                     ),
                     thumb = {
                         Box(
                             modifier = Modifier
                                 .size(20.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFF2E7D32))
+                                .background(AgriTheme.colors.greenEmphasis)
                                 .border(2.dp, Color.White, CircleShape)
                         )
                     }
@@ -614,7 +615,7 @@ private fun BreakEvenThresholdCard(
                         onClick = { onHarvestChanged(80f) },
                         label = { Text("80 Kg (Rugi)", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = Color(0xFFFEE2E2),
+                            selectedContainerColor = AgriTheme.colors.redAlertBg,
                             selectedLabelColor = Color(0xFFDC2626)
                         )
                     )
@@ -624,8 +625,8 @@ private fun BreakEvenThresholdCard(
                         onClick = { onHarvestChanged(112f) },
                         label = { Text("112 Kg (BEP)", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = Color(0xFF2E7D32).copy(alpha = 0.15f),
-                            selectedLabelColor = Color(0xFF2E7D32)
+                            selectedContainerColor = AgriTheme.colors.greenEmphasis.copy(alpha = 0.15f),
+                            selectedLabelColor = AgriTheme.colors.greenEmphasis
                         )
                     )
 
@@ -634,8 +635,8 @@ private fun BreakEvenThresholdCard(
                         onClick = { onHarvestChanged(150f) },
                         label = { Text("150 Kg (Untung)", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = Color(0xFFD1FAE5),
-                            selectedLabelColor = Color(0xFF059669)
+                            selectedContainerColor = AgriTheme.colors.mintBg,
+                            selectedLabelColor = AgriTheme.colors.greenEmphasis
                         )
                     )
                 }
@@ -654,7 +655,7 @@ private fun ProductionTargetCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -669,13 +670,13 @@ private fun ProductionTargetCard(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .background(Color(0xFFE8F5E9)),
+                    .background(AgriTheme.colors.mintBg),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Scale,
                     contentDescription = null,
-                    tint = Color(0xFF2E7D32),
+                    tint = AgriTheme.colors.greenEmphasis,
                     modifier = Modifier.size(25.dp)
                 )
             }
@@ -689,14 +690,14 @@ private fun ProductionTargetCard(
                     text = "TARGET PRODUKSI",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF9CA3AF),
+                    color = AgriTheme.colors.textMuted,
                     letterSpacing = 0.3.sp
                 )
                 Text(
                     text = "Panen Minimal: $targetKg Kg",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFF111827),
+                    color = AgriTheme.colors.textPrimary,
                     lineHeight = 28.sp
                 )
             }
@@ -705,7 +706,7 @@ private fun ProductionTargetCard(
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null,
-                tint = Color(0xFF9CA3AF),
+                tint = AgriTheme.colors.textMuted,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -722,7 +723,7 @@ private fun MinimumPriceCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -737,7 +738,7 @@ private fun MinimumPriceCard(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .background(Color(0xFFFFF7ED)),
+                    .background(AgriTheme.colors.yellowWarnBg),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -757,7 +758,7 @@ private fun MinimumPriceCard(
                     text = "HARGA JUAL MINIMAL",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF9CA3AF),
+                    color = AgriTheme.colors.textMuted,
                     letterSpacing = 0.3.sp
                 )
                 Row(
@@ -773,7 +774,7 @@ private fun MinimumPriceCard(
                         text = "/kg",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFF5E8760)
+                        color = AgriTheme.colors.textSecondary
                     )
                 }
             }
@@ -783,7 +784,7 @@ private fun MinimumPriceCard(
                 modifier = Modifier
                     .size(24.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFFFEDD5)),
+                    .background(AgriTheme.colors.yellowWarnBg),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -945,7 +946,7 @@ private fun BreakEvenBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
             shadowElevation = 12.dp
         ) {
             Row(
@@ -1020,7 +1021,7 @@ private fun BreakEvenNavItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val tint = if (isSelected) Color(0xFF2E7D32) else Color(0xFF9CA3AF)
+    val tint = if (isSelected) AgriTheme.colors.greenEmphasis else AgriTheme.colors.textMuted
 
     Column(
         modifier = Modifier

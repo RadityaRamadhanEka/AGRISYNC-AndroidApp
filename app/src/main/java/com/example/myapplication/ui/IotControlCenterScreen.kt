@@ -90,6 +90,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 // ---------------------------------------------------------------------------
@@ -98,17 +99,25 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 private val IotAmber = Color(0xFFF59E0B)
 private val IotAmberDark = Color(0xFFB45309)
 private val IotAmberBrown = Color(0xFF7C5615)
-private val IotAmberBg = Color(0xFFFFF8E7)
+private val IotAmberBg: Color
+    @Composable get() = AgriTheme.colors.yellowWarnBg
 private val IotAmberBorder = Color(0x33F59E0B)
-private val IotActiveGreen = Color(0xFF4ADE80)
-private val IotDotInactive = Color(0xFFD1D5DB)
-private val IotSegmentBg = Color(0xFFEAF0EA)
-private val IotCardBorder = Color(0xFFE5E7EB)
-private val IotInactiveIconBg = Color(0xFFF1F5F9)
+private val IotActiveGreen: Color
+    @Composable get() = AgriTheme.colors.accent
+private val IotDotInactive: Color
+    @Composable get() = AgriTheme.colors.inputBorder
+private val IotSegmentBg: Color
+    @Composable get() = AgriTheme.colors.grayBgAlt
+private val IotCardBorder: Color
+    @Composable get() = AgriTheme.colors.grayBorder
+private val IotInactiveIconBg: Color
+    @Composable get() = AgriTheme.colors.iconBgLight
 private val IotAlertRed = Color(0xFFEF4444)
 private val IotInfoBlue = Color(0xFF3B82F6)
-private val IotTextGray = Color(0xFF9CA3AF)
-private val IotSegmentText = Color(0xFF6B7280)
+private val IotTextGray: Color
+    @Composable get() = AgriTheme.colors.textMuted
+private val IotSegmentText: Color
+    @Composable get() = AgriTheme.colors.grayIcon
 
 // ---------------------------------------------------------------------------
 // DATA MODELS
@@ -139,7 +148,7 @@ data class IotAlert(
     val icon: ImageVector
 )
 
-private fun defaultIotDevices(): List<IotDevice> = listOf(
+private fun defaultIotDevices(waterAccent: Color): List<IotDevice> = listOf(
     IotDevice(
         name = "Grow Light",
         icon = Icons.Default.Lightbulb,
@@ -155,7 +164,7 @@ private fun defaultIotDevices(): List<IotDevice> = listOf(
         isActive = true,
         statusLabel = "Active",
         detail = "Next cycle 18:00",
-        accent = AgriBlueWater,
+        accent = waterAccent,
         softBg = Color(0xFFE0F2FE)
     ),
     IotDevice(
@@ -215,7 +224,9 @@ fun IotControlCenterScreen(
 ) {
     var isAutoMode by remember { mutableStateOf(false) }
     var filter by remember { mutableStateOf(IotFilter.ALL) }
-    var devices by remember { mutableStateOf(defaultIotDevices()) }
+    // Resolve theme-aware color in composable scope before capturing it in remember
+    val waterAccent = AgriBlueWater
+    var devices by remember { mutableStateOf(defaultIotDevices(waterAccent = waterAccent)) }
 
     val counts = mapOf(
         IotFilter.ALL to devices.size,
@@ -400,7 +411,7 @@ private fun SystemModeSection(
                         .fillMaxHeight()
                         .shadow(2.dp, RoundedCornerShape(10.dp))
                         .clip(RoundedCornerShape(10.dp))
-                        .background(Color.White)
+                        .background(AgriTheme.colors.surface)
                 )
 
                 Row(modifier = Modifier.fillMaxSize()) {
@@ -513,7 +524,7 @@ private fun IotFilterTabs(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        color = Color(0x99E5E7EB)
+        color = AgriTheme.colors.grayBorder.copy(alpha = 0.6f)
     ) {
         BoxWithConstraints(
             modifier = Modifier
@@ -534,7 +545,7 @@ private fun IotFilterTabs(
                     .height(38.dp)
                     .shadow(2.dp, RoundedCornerShape(12.dp))
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color.White)
+                    .background(AgriTheme.colors.surface)
             )
 
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -585,7 +596,7 @@ private fun FilterTabItem(
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(if (selected) AgriGreenDark.copy(alpha = 0.12f) else Color(0x1A6B7280))
+                    .background(if (selected) AgriGreenDark.copy(alpha = 0.12f) else AgriTheme.colors.grayIcon.copy(alpha = 0.1f))
                     .padding(horizontal = 6.dp, vertical = 1.dp)
             ) {
                 Text(
@@ -670,7 +681,7 @@ private fun IoTDeviceCard(
         label = "deviceCardBorder"
     )
     val container by animateColorAsState(
-        targetValue = if (device.isActive) IotActiveGreen.copy(alpha = 0.07f) else Color.White,
+        targetValue = if (device.isActive) IotActiveGreen.copy(alpha = 0.07f) else AgriTheme.colors.surface,
         animationSpec = tween(300),
         label = "deviceCardBg"
     )
@@ -877,7 +888,7 @@ private fun EnergyMonitorButton(
             .fillMaxWidth()
             .graphicsLayer { scaleX = scale; scaleY = scale }
             .clip(RoundedCornerShape(14.dp))
-            .background(Color.White)
+            .background(AgriTheme.colors.surface)
             .border(1.dp, IotAmberBorder, RoundedCornerShape(14.dp))
             .clickable(interactionSource = interaction, indication = null) { onClick() }
             .padding(horizontal = 14.dp, vertical = 12.dp)
@@ -977,7 +988,7 @@ private fun PanelBadge(
             Surface(
                 modifier = Modifier.size(if (ring) 36.dp else 44.dp),
                 shape = CircleShape,
-                color = Color.White,
+                color = AgriTheme.colors.surface,
                 shadowElevation = 2.dp
             ) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -1158,7 +1169,7 @@ private fun IotAlertCard(alert: IotAlert) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, IotCardBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
@@ -1393,7 +1404,7 @@ private fun TelemetryTile(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, IotCardBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {

@@ -88,6 +88,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import com.example.myapplication.ui.theme.AgriTheme
+
 // ---------------------------------------------------------------------------
 // DATA MODELS & ENUMS
 // ---------------------------------------------------------------------------
@@ -356,10 +358,10 @@ fun ActivityLogScreen(
                         singleLine = true,
                         shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = AgriTheme.colors.surface,
+                            unfocusedContainerColor = AgriTheme.colors.surface,
                             focusedBorderColor = AgriGreenPrimary,
-                            unfocusedBorderColor = Color(0xFFE5E7EB)
+                            unfocusedBorderColor = AgriTheme.colors.grayBorder
                         )
                     )
                 }
@@ -497,15 +499,15 @@ fun ActivityLogHeader(
                         .size(40.dp)
                         .shadow(elevation = 2.dp, shape = CircleShape)
                         .clip(CircleShape)
-                        .background(Color.White)
-                        .border(1.dp, Color(0xFFE5E7EB), CircleShape)
+                        .background(AgriTheme.colors.surface)
+                        .border(1.dp, AgriTheme.colors.grayBorder, CircleShape)
                         .clickable { onBackClick() },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Kembali",
-                        tint = Color(0xFF111827),
+                        tint = AgriTheme.colors.textPrimary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -514,7 +516,7 @@ fun ActivityLogHeader(
                     text = "Activity Log",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827)
+                    color = AgriTheme.colors.textPrimary
                 )
             }
 
@@ -535,7 +537,7 @@ fun ActivityLogHeader(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search Logs",
-                        tint = if (isSearchVisible) AgriGreenDark else Color(0xFF6B7280),
+                        tint = if (isSearchVisible) AgriGreenDark else AgriTheme.colors.grayIcon,
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -562,7 +564,7 @@ fun ActivityLogHeader(
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Refresh Logs",
-                        tint = Color(0xFF6B7280),
+                        tint = AgriTheme.colors.grayIcon,
                         modifier = Modifier
                             .size(20.dp)
                             .rotate(if (isRefreshing) rotationAngle else 0f)
@@ -594,7 +596,7 @@ fun SegmentedTabsSection(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            color = Color(0x99E5E7EB) // rgba(229, 231, 235, 0.6)
+            color = AgriTheme.colors.grayBorder.copy(alpha = 0.6f) // rgba(229, 231, 235, 0.6)
         ) {
             Row(
                 modifier = Modifier
@@ -613,7 +615,7 @@ fun SegmentedTabsSection(
                     )
 
                     val textColor by animateColorAsState(
-                        targetValue = if (isSelected) AgriGreenDark else Color(0xFF6B7280),
+                        targetValue = if (isSelected) AgriGreenDark else AgriTheme.colors.grayIcon,
                         animationSpec = tween(durationMillis = 200),
                         label = "textColor"
                     )
@@ -703,7 +705,7 @@ fun TimelineActivityItem(
                 modifier = Modifier
                     .width(2.dp)
                     .then(lineModifier)
-                    .background(Color(0xFFE5E7EB))
+                    .background(AgriTheme.colors.grayBorder)
             )
 
             // Pulsing Glow effect for CRITICAL alerts
@@ -744,7 +746,7 @@ fun TimelineActivityItem(
                     .shadow(elevation = 1.dp, shape = CircleShape)
                     .clip(CircleShape)
                     .background(log.badgeBgColor)
-                    .border(2.dp, Color.White, CircleShape)
+                    .border(2.dp, AgriBgColor, CircleShape)
                     .border(1.dp, log.badgeRingColor, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
@@ -772,7 +774,7 @@ fun TimelineActivityItem(
                     text = log.title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827),
+                    color = AgriTheme.colors.textPrimary,
                     modifier = Modifier.weight(1f)
                 )
 
@@ -782,7 +784,7 @@ fun TimelineActivityItem(
                         .clip(RoundedCornerShape(9999.dp))
                         .background(
                             if (log.severity == ActivitySeverity.CRITICAL && !isAcknowledged)
-                                Color(0xFFFEF2F2)
+                                AgriTheme.colors.redAlertBg
                             else
                                 Color.Transparent
                         )
@@ -795,7 +797,7 @@ fun TimelineActivityItem(
                         color = if (log.severity == ActivitySeverity.CRITICAL && !isAcknowledged)
                             Color(0xFFEF4444)
                         else
-                            Color(0xFF9CA3AF)
+                            AgriTheme.colors.textMuted
                     )
                 }
             }
@@ -806,7 +808,7 @@ fun TimelineActivityItem(
                 text = log.description,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
-                color = Color(0xFF6B7280),
+                color = AgriTheme.colors.grayIcon,
                 lineHeight = 22.sp
             )
 
@@ -821,8 +823,8 @@ fun TimelineActivityItem(
                         .fillMaxWidth()
                         .padding(top = 10.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White)
-                        .border(1.dp, Color(0xFFE5E7EB), RoundedCornerShape(16.dp))
+                        .background(AgriTheme.colors.surface)
+                        .border(1.dp, AgriTheme.colors.grayBorder, RoundedCornerShape(16.dp))
                         .padding(14.dp)
                 ) {
                     Row(
@@ -845,7 +847,7 @@ fun TimelineActivityItem(
 
                     if (log.recommendedAction != null) {
                         Spacer(modifier = Modifier.height(8.dp))
-                        HorizontalDivider(color = Color(0xFFF3F4F6))
+                        HorizontalDivider(color = AgriTheme.colors.border)
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Row(verticalAlignment = Alignment.Top) {
@@ -861,7 +863,7 @@ fun TimelineActivityItem(
                             Text(
                                 text = log.recommendedAction,
                                 fontSize = 12.sp,
-                                color = Color(0xFF374151),
+                                color = AgriTheme.colors.textPrimary,
                                 lineHeight = 18.sp
                             )
                         }
@@ -904,7 +906,7 @@ fun TimelineActivityItem(
             }
 
             Spacer(modifier = Modifier.height(12.dp))
-            HorizontalDivider(color = Color(0xFFF3F4F6))
+            HorizontalDivider(color = AgriTheme.colors.border)
         }
     }
 }
@@ -947,7 +949,7 @@ fun EmptyLogsView(
             text = if (searchQuery.isNotEmpty()) "Pencarian Tidak Ditemukan" else "Tidak Ada Log $tabName",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF111827)
+            color = AgriTheme.colors.textPrimary
         )
 
         Spacer(modifier = Modifier.height(6.dp))
@@ -958,7 +960,7 @@ fun EmptyLogsView(
             else
                 "Semua sistem bekerja optimal dan tidak ada riwayat $tabName saat ini.",
             fontSize = 13.sp,
-            color = Color(0xFF6B7280),
+            color = AgriTheme.colors.grayIcon,
             modifier = Modifier.padding(horizontal = 16.dp),
             lineHeight = 20.sp
         )

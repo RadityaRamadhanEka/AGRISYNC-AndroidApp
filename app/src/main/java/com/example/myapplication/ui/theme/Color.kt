@@ -23,6 +23,19 @@ val AgriLightTextMuted = Color(0xFF9CA3AF)
 val AgriLightBorder = Color(0xFFF3F4F6)
 val AgriLightInputBorder = Color(0xFFD1D5DB)
 
+// AgriSync Light Extended Semantic Tokens
+val AgriGreenAction = Color(0xFF1DAA55)
+val AgriGreenEmphasis = Color(0xFF158340)
+val AgriGreenDeep = Color(0xFF0F5A2C)
+val AgriMintBg = Color(0xFFE5F5EC)
+val AgriGreenTintBg = Color(0xFFEEF8F2)
+val AgriPurpleInfoBg = Color(0xFFFAF5FF)
+val AgriBlueAccent = Color(0xFF2196F3)
+val AgriOrangeAccent = Color(0xFFFFA000)
+val AgriGrayIcon = Color(0xFF6B7280)
+val AgriGrayBgAlt = Color(0xFFF3F4F6)
+val AgriGrayBorder = Color(0xFFE5E7EB)
+
 // AgriSync Dark Theme Palette
 val AgriDarkBg = Color(0xFF101912)
 val AgriDarkSurface = Color(0xFF1B261D)
@@ -34,6 +47,18 @@ val AgriDarkTextSecondary = Color(0xFF8BAE8D)
 val AgriDarkTextMuted = Color(0xFF6B7280)
 val AgriDarkBorder = Color(0xFF27382A)
 val AgriDarkInputBorder = Color(0xFF384D3C)
+
+// AgriSync Dark Extended Semantic Tokens
+val AgriGreenActionDark = Color(0xFF22C55E)
+val AgriGreenEmphasisDark = Color(0xFF4ADE80)
+val AgriGreenDeepDark = Color(0xFF166534)
+val AgriGreenTintBgDark = Color(0xFF17281C)
+val AgriPurpleInfoBgDark = Color(0xFF271B3D)
+val AgriBlueAccentDark = Color(0xFF3B9EFF)
+val AgriOrangeAccentDark = Color(0xFFFFB020)
+val AgriGrayIconDark = Color(0xFF9CA3AF)
+val AgriGrayBgAltDark = Color(0xFF263324)
+val AgriGrayBorderDark = Color(0xFF33422F)
 
 // Common Accent & Category Colors
 val AgriRedAlert = Color(0xFFEF4444)

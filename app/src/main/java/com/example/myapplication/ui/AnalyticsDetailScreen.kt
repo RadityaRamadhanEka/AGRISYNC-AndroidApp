@@ -93,18 +93,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-// Color Palette for Analitik - Analisis Tanaman Screen
-val PlantDarkGreen = Color(0xFF2E7D32)
-val PlantLightGreen = Color(0xFF4ADE80)
-val PlantBgLight = Color(0xFFF9FAFB)
-val PlantTextPrimary = Color(0xFF111827)
-val PlantTextSecondary = Color(0xFF6B7280)
-val PlantTextMuted = Color(0xFF9CA3AF)
-val PlantBlueAccent = Color(0xFF2563EB)
+// Color Palette for Analitik - Analisis Tanaman Screen (theme-aware for dark mode support)
+val PlantDarkGreen: Color
+    @Composable get() = AgriTheme.colors.primary
+val PlantLightGreen: Color
+    @Composable get() = AgriTheme.colors.accent
+val PlantBgLight: Color
+    @Composable get() = AgriTheme.colors.background
+val PlantTextPrimary: Color
+    @Composable get() = AgriTheme.colors.textPrimary
+val PlantTextSecondary: Color
+    @Composable get() = AgriTheme.colors.grayIcon
+val PlantTextMuted: Color
+    @Composable get() = AgriTheme.colors.textMuted
+val PlantBlueAccent: Color
+    @Composable get() = AgriTheme.colors.blueAccent
+
+// Kept static (saturated accents that work on both light and dark backgrounds)
 val PlantPurpleAccent = Color(0xFF9333EA)
 val PlantRedAccent = Color(0xFFEF4444)
 
@@ -259,7 +269,7 @@ fun AnalyticsDetailScreen(
         ModalBottomSheet(
             onDismissRequest = { showHealthBottomSheet = false },
             sheetState = sheetState,
-            containerColor = Color.White,
+            containerColor = AgriTheme.colors.surface,
             shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
         ) {
             PlantHealthDetailBottomSheetContent(
@@ -342,8 +352,8 @@ fun PlantAnalyticsHeader(
                     .size(40.dp)
                     .clickableWithScale { onBackClick() },
                 shape = CircleShape,
-                color = Color.White.copy(alpha = 0.65f),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.8f)),
+                color = AgriTheme.colors.surface.copy(alpha = 0.65f),
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.surface.copy(alpha = 0.8f)),
                 shadowElevation = 2.dp
             ) {
                 Box(
@@ -376,8 +386,8 @@ fun PlantAnalyticsHeader(
                 .size(40.dp)
                 .clickableWithScale { onRefreshClick() },
             shape = CircleShape,
-            color = Color.White.copy(alpha = 0.65f),
-            border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.8f)),
+            color = AgriTheme.colors.surface.copy(alpha = 0.65f),
+            border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.surface.copy(alpha = 0.8f)),
             shadowElevation = 2.dp
         ) {
             Box(
@@ -568,7 +578,7 @@ fun GrowthCycleCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.85f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -630,7 +640,7 @@ fun GrowthCycleCard(
                         .fillMaxWidth()
                         .height(4.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFE5E7EB))
+                        .background(AgriTheme.colors.grayBorder)
                 )
 
                 // Active Gradient Fill Line
@@ -760,7 +770,7 @@ fun TimelineCircleNode(
                     modifier = Modifier
                         .size(36.dp)
                         .clip(CircleShape)
-                        .background(Color.White)
+                        .background(AgriTheme.colors.surface)
                         .border(2.5.dp, PlantDarkGreen, CircleShape)
                         .padding(4.dp),
                     contentAlignment = Alignment.Center
@@ -780,7 +790,7 @@ fun TimelineCircleNode(
                         .size(28.dp)
                         .clip(CircleShape)
                         .background(PlantDarkGreen)
-                        .border(2.dp, Color.White, CircleShape),
+                        .border(2.dp, AgriTheme.colors.surface, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -797,8 +807,8 @@ fun TimelineCircleNode(
                     modifier = Modifier
                         .size(28.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFF3F4F6))
-                        .border(2.dp, Color.White, CircleShape),
+                        .background(AgriTheme.colors.grayBgAlt)
+                        .border(2.dp, AgriTheme.colors.surface, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -866,8 +876,8 @@ fun TimeFilterRow(
                     Surface(
                         modifier = Modifier.clickableWithScale { onFilterSelected(index) },
                         shape = RoundedCornerShape(20),
-                        color = if (isSelected) PlantDarkGreen else Color.White,
-                        border = if (!isSelected) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE5E7EB)) else null,
+                        color = if (isSelected) PlantDarkGreen else AgriTheme.colors.surface,
+                        border = if (!isSelected) androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.grayBorder) else null,
                         shadowElevation = if (isSelected) 3.dp else 0.dp
                     ) {
                         Text(
@@ -942,14 +952,17 @@ fun GrowthRateChartCard(
     modifier: Modifier = Modifier,
     timeFilterIndex: Int
 ) {
-    val config = remember(timeFilterIndex) {
+    // Resolve theme colors in composable scope; AgriTheme.colors cannot be read inside remember {}
+    val chartPrimaryColor = PlantDarkGreen
+    val chartEmphasisColor = AgriTheme.colors.greenEmphasis
+    val config = remember(timeFilterIndex, chartPrimaryColor, chartEmphasisColor) {
         when (timeFilterIndex) {
             0 -> GrowthChartConfig(
                 valueText = "1.2 cm",
                 unitText = "/ day",
                 badgeText = "+5% vs last week",
                 badgeIcon = Icons.AutoMirrored.Filled.TrendingUp,
-                badgeColor = PlantDarkGreen,
+                badgeColor = chartPrimaryColor,
                 chartPoints = listOf(0.3f, 0.45f, 0.6f, 0.75f, 0.85f, 1.0f, 1.2f)
             )
             1 -> GrowthChartConfig(
@@ -957,7 +970,7 @@ fun GrowthRateChartCard(
                 unitText = "total tumbuh",
                 badgeText = "⚡ +12% akselerasi",
                 badgeIcon = Icons.AutoMirrored.Filled.TrendingUp,
-                badgeColor = Color(0xFF16A34A),
+                badgeColor = chartEmphasisColor,
                 chartPoints = listOf(0.2f, 0.35f, 0.5f, 0.65f, 0.8f, 0.95f, 1.1f, 1.05f, 1.2f, 1.35f, 1.45f, 1.55f, 1.65f, 1.8f)
             )
             else -> GrowthChartConfig(
@@ -986,7 +999,7 @@ fun GrowthRateChartCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.85f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -1084,7 +1097,7 @@ fun GrowthRateChartCard(
                     // Draw Animated Green/Accent Line
                     drawPath(
                         path = animatedPath,
-                        brush = Brush.horizontalGradient(listOf(PlantDarkGreen, config.badgeColor)),
+                        brush = Brush.horizontalGradient(listOf(chartPrimaryColor, config.badgeColor)),
                         style = Stroke(width = 3.dp.toPx(), cap = StrokeCap.Round)
                     )
 
@@ -1136,14 +1149,17 @@ fun NutrientUptakeChartCard(
     modifier: Modifier = Modifier,
     timeFilterIndex: Int
 ) {
-    val config = remember(timeFilterIndex) {
+    // Resolve theme colors in composable scope; AgriTheme.colors cannot be read inside remember {}
+    val chartBlueAccent = PlantBlueAccent
+    val chartPrimaryColor = PlantDarkGreen
+    val config = remember(timeFilterIndex, chartBlueAccent, chartPrimaryColor) {
         when (timeFilterIndex) {
             0 -> NutrientChartConfig(
                 valueText = "High",
                 unitText = "efficiency",
                 badgeText = "✓ Optimal level",
                 badgeIcon = Icons.Default.Check,
-                badgeColor = PlantBlueAccent,
+                badgeColor = chartBlueAccent,
                 chartPoints = listOf(0.4f, 0.55f, 0.45f, 0.7f, 0.6f, 0.85f, 0.95f)
             )
             1 -> NutrientChartConfig(
@@ -1159,7 +1175,7 @@ fun NutrientUptakeChartCard(
                 unitText = "efisiensi total",
                 badgeText = "✨ Siklus Sempurna",
                 badgeIcon = Icons.Default.Check,
-                badgeColor = PlantDarkGreen,
+                badgeColor = chartPrimaryColor,
                 chartPoints = listOf(0.15f, 0.3f, 0.5f, 0.75f, 0.92f, 0.95f, 0.92f, 0.88f, 0.85f, 0.82f, 0.8f)
             )
         }
@@ -1177,7 +1193,7 @@ fun NutrientUptakeChartCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.85f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -1324,8 +1340,8 @@ fun SensorMetricsTripletRow() {
             value = "65%",
             badgeText = "~2%",
             badgeColor = PlantBlueAccent,
-            bgColor = Color(0xFFEFF6FF),
-            borderColor = Color(0xFFDBEAFE),
+            bgColor = AgriTheme.colors.blueInfoBg,
+            borderColor = AgriTheme.colors.blueInfoBg,
             icon = Icons.Default.WaterDrop,
             iconTint = PlantBlueAccent
         )
@@ -1337,8 +1353,8 @@ fun SensorMetricsTripletRow() {
             value = "6.5",
             badgeText = "~0%",
             badgeColor = PlantTextMuted,
-            bgColor = Color(0xFFFAF5FF),
-            borderColor = Color(0xFFF3E8FF),
+            bgColor = AgriTheme.colors.purpleInfoBg,
+            borderColor = AgriTheme.colors.purpleInfoBg,
             icon = Icons.Default.Science,
             iconTint = PlantPurpleAccent
         )
@@ -1350,8 +1366,8 @@ fun SensorMetricsTripletRow() {
             value = "24°C",
             badgeText = "~1°",
             badgeColor = PlantRedAccent,
-            bgColor = Color(0xFFFFF7ED),
-            borderColor = Color(0xFFFFEDD5),
+            bgColor = AgriTheme.colors.yellowWarnBg,
+            borderColor = AgriTheme.colors.yellowWarnBg,
             icon = Icons.Default.Thermostat,
             iconTint = PlantRedAccent
         )
@@ -1399,7 +1415,7 @@ fun SensorMetricBoxItem(
 
                 Surface(
                     shape = RoundedCornerShape(50),
-                    color = Color.White.copy(alpha = 0.8f)
+                    color = AgriTheme.colors.surface.copy(alpha = 0.8f)
                 ) {
                     Text(
                         text = badgeText,
@@ -1467,7 +1483,7 @@ fun PlantHealthDetailBottomSheetContent(onClose: () -> Unit) {
                     .size(32.dp)
                     .clickableWithScale { onClose() },
                 shape = CircleShape,
-                color = Color(0xFFF3F4F6)
+                color = AgriTheme.colors.grayBgAlt
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(text = "✕", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = PlantTextSecondary)
@@ -1497,7 +1513,7 @@ fun HealthStatRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFFF9FAFB), RoundedCornerShape(16.dp))
+            .background(AgriTheme.colors.iconBgLight, RoundedCornerShape(16.dp))
             .padding(14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -1536,7 +1552,7 @@ fun PlantAnalyticsBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
             shadowElevation = 12.dp
         ) {
             Row(

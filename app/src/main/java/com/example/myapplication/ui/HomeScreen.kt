@@ -63,18 +63,29 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
-// Design System Colors from Figma Design
-val AgriBgColor = Color(0xFFF9FBF9)
-val AgriTextDark = Color(0xFF141916)
-val AgriTextMuted = Color(0xFF67736C)
-val AgriGreenPrimary = Color(0xFF1DAA55)
-val AgriGreenDark = Color(0xFF158340)
-val AgriDarkGreenHeader = Color(0xFF0F5A2C)
-val AgriGreenMintCard = Color(0xFFE5F5EC)
-val AgriGreenLight = Color(0xFFEEF8F2)
-val AgriBlueWater = Color(0xFF2196F3)
-val AgriOrangeSun = Color(0xFFFFA000)
-val AgriBorderLight = Color(0xFFEAEFEA)
+// Design System Colors from Figma Design (theme-aware: follow AgriTheme light/dark)
+val AgriBgColor: Color
+    @Composable get() = AgriTheme.colors.background
+val AgriTextDark: Color
+    @Composable get() = AgriTheme.colors.textPrimary
+val AgriTextMuted: Color
+    @Composable get() = AgriTheme.colors.textSecondary
+val AgriGreenPrimary: Color
+    @Composable get() = AgriTheme.colors.greenAction
+val AgriGreenDark: Color
+    @Composable get() = AgriTheme.colors.greenEmphasis
+val AgriDarkGreenHeader: Color
+    @Composable get() = AgriTheme.colors.greenDeep
+val AgriGreenMintCard: Color
+    @Composable get() = AgriTheme.colors.mintBg
+val AgriGreenLight: Color
+    @Composable get() = AgriTheme.colors.greenTintBg
+val AgriBlueWater: Color
+    @Composable get() = AgriTheme.colors.blueAccent
+val AgriOrangeSun: Color
+    @Composable get() = AgriTheme.colors.orangeAccent
+val AgriBorderLight: Color
+    @Composable get() = AgriTheme.colors.border
 
 @Composable
 fun AgriSyncHomeScreen(
@@ -184,7 +195,7 @@ fun TopHeaderSection(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFFD9E2DC)),
+                        .background(AgriTheme.colors.iconBgLight),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -236,7 +247,7 @@ fun TopHeaderSection(
             // Weather Chip
             Surface(
                 shape = RoundedCornerShape(50),
-                color = Color.White,
+                color = AgriTheme.colors.surface,
                 shadowElevation = 2.dp,
                 modifier = Modifier.padding(vertical = 4.dp)
             ) {
@@ -399,7 +410,7 @@ fun DigitalTwinCard(onNavigateToDigitalTwin: () -> Unit = {}) {
                     modifier = Modifier
                         .size(44.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(Color.White),
+                        .background(AgriTheme.colors.surface),
                     contentAlignment = Alignment.Center
                 ) {
                     Box {
@@ -442,7 +453,7 @@ fun DigitalTwinCard(onNavigateToDigitalTwin: () -> Unit = {}) {
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
-                    .background(Color.White)
+                    .background(AgriTheme.colors.surface)
                     .clickable { onNavigateToDigitalTwin() },
                 contentAlignment = Alignment.Center
             ) {
@@ -469,7 +480,7 @@ fun ProductionManagementCard(
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -556,7 +567,7 @@ fun ThreeMetricsRow() {
             title = "KELEMBAPAN",
             value = "65%",
             icon = Icons.Default.WaterDrop,
-            iconBgColor = Color(0xFFE3F2FD),
+            iconBgColor = AgriTheme.colors.blueInfoBg,
             iconTint = AgriBlueWater
         )
         MetricBoxItem(
@@ -582,7 +593,7 @@ fun MetricBoxItem(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
@@ -635,7 +646,7 @@ fun ActivePlantCard(onNavigateToAnalytics: () -> Unit = {}) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
@@ -719,7 +730,7 @@ fun ActivePlantCard(onNavigateToAnalytics: () -> Unit = {}) {
                         text = "Panen",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal,
-                        color = Color(0xFFB0BEC5)
+                        color = AgriTheme.colors.textMuted
                     )
                 }
 
@@ -748,7 +759,7 @@ fun ActivePlantCard(onNavigateToAnalytics: () -> Unit = {}) {
                             .weight(1f)
                             .height(6.dp)
                             .clip(RoundedCornerShape(3.dp))
-                            .background(Color(0xFFE2E8F0))
+                            .background(AgriTheme.colors.grayBorder)
                     )
                 }
             }
@@ -880,7 +891,7 @@ fun AiRecommendationCard(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
-                        .background(Color.White),
+                        .background(AgriTheme.colors.surface),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -912,7 +923,7 @@ fun AiRecommendationCard(
                 onClick = onNavigateToRecommendation,
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
+                    containerColor = AgriTheme.colors.surface,
                     contentColor = AgriTextDark
                 ),
                 contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)
@@ -960,7 +971,7 @@ fun RecentActivitiesSection(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -971,7 +982,7 @@ fun RecentActivitiesSection(
                             modifier = Modifier
                                 .size(32.dp)
                                 .clip(CircleShape)
-                                .background(Color(0xFFE3F2FD)),
+                                .background(AgriTheme.colors.blueInfoBg),
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
@@ -1012,7 +1023,7 @@ fun RecentActivitiesSection(
                         modifier = Modifier
                             .size(32.dp)
                             .clip(CircleShape)
-                            .background(Color(0xFFFFF8E1)),
+                            .background(AgriTheme.colors.yellowWarnBg),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
@@ -1143,7 +1154,7 @@ fun BottomNavItem(
         Icon(
             imageVector = icon,
             contentDescription = label,
-            tint = if (isSelected) Color(0xFF2F7F33) else AgriTheme.colors.textMuted,
+            tint = if (isSelected) AgriTheme.colors.primary else AgriTheme.colors.textMuted,
             modifier = Modifier.size(22.dp)
         )
         Spacer(modifier = Modifier.height(2.dp))
@@ -1151,7 +1162,7 @@ fun BottomNavItem(
             text = label,
             fontSize = 10.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-            color = if (isSelected) Color(0xFF2F7F33) else AgriTheme.colors.textMuted
+            color = if (isSelected) AgriTheme.colors.primary else AgriTheme.colors.textMuted
         )
     }
 }
