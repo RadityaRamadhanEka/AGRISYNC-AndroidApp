@@ -93,10 +93,11 @@ fun BreakEvenSimulatorScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     onNavigateToHome: () -> Unit = {},
+    onNavigateToControl: () -> Unit = {},
     onNavigateToProductionManagement: () -> Unit = {},
-    onNavigateToAnalytics: () -> Unit = {}
+    onNavigateToAnalytics: () -> Unit = {},
+    onNavigateToPetani: () -> Unit = {}
 ) {
-    var selectedTab by remember { mutableIntStateOf(2) } // Analytics / BEP Simulator Tab
     var isVisible by remember { mutableStateOf(false) }
     var simulatedHarvestKg by remember { mutableFloatStateOf(112f) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -112,14 +113,14 @@ fun BreakEvenSimulatorScreen(
         containerColor = Color(0xFFF9FAFB),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
-            BreakEvenBottomBar(
-                selectedTab = selectedTab,
+            AgriSyncBottomBar(
+                selectedTab = 2, // "Analitik" active
                 onTabSelected = { tab ->
-                    selectedTab = tab
                     when (tab) {
                         0 -> onNavigateToHome()
-                        1 -> onNavigateToProductionManagement()
+                        1 -> onNavigateToControl()
                         2 -> onNavigateToAnalytics()
+                        3 -> onNavigateToPetani()
                     }
                 }
             )

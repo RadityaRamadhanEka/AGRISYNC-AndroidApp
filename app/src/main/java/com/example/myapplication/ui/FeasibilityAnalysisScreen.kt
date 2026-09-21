@@ -76,10 +76,11 @@ fun FeasibilityAnalysisScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     onNavigateToHome: () -> Unit = {},
+    onNavigateToControl: () -> Unit = {},
     onNavigateToProductionManagement: () -> Unit = {},
-    onNavigateToAnalytics: () -> Unit = {}
+    onNavigateToAnalytics: () -> Unit = {},
+    onNavigateToPetani: () -> Unit = {}
 ) {
-    var selectedTab by remember { mutableIntStateOf(2) } // Analytics tab
     var isVisible by remember { mutableStateOf(true) }
     var targetRoi by remember { mutableIntStateOf(0) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -103,14 +104,14 @@ fun FeasibilityAnalysisScreen(
         containerColor = Color(0xFFF9FAFB),
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
-            FeasibilityBottomBar(
-                selectedTab = selectedTab,
+            AgriSyncBottomBar(
+                selectedTab = 2, // "Analitik" active
                 onTabSelected = { tab ->
-                    selectedTab = tab
                     when (tab) {
                         0 -> onNavigateToHome()
-                        1 -> onNavigateToProductionManagement()
+                        1 -> onNavigateToControl()
                         2 -> onNavigateToAnalytics()
+                        3 -> onNavigateToPetani()
                     }
                 }
             )

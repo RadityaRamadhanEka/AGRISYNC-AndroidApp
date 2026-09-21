@@ -90,17 +90,26 @@ val AgriToggleInactiveTrack = Color(0xFFE2E8F0)
 @Composable
 fun DigitalTwinScreen(
     onBackClick: () -> Unit = {},
+    onNavigateHome: () -> Unit = onBackClick,
+    onNavigateControl: () -> Unit = {},
+    onNavigateAnalytics: () -> Unit = {},
+    onNavigatePetani: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedNavTab by remember { mutableIntStateOf(1) } // "Controls" active
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = AgriBgColor,
         bottomBar = {
-            DigitalTwinBottomBar(
-                selectedTab = selectedNavTab,
-                onTabSelected = { selectedNavTab = it }
+            AgriSyncBottomBar(
+                selectedTab = 1, // Tab "Kontrol"
+                onTabSelected = { tab ->
+                    when (tab) {
+                        0 -> onNavigateHome()
+                        1 -> onNavigateControl()
+                        2 -> onNavigateAnalytics()
+                        3 -> onNavigatePetani()
+                    }
+                }
             )
         }
     ) { innerPadding ->

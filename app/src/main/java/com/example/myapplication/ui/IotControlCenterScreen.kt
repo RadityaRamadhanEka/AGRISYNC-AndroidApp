@@ -210,6 +210,7 @@ fun IotControlCenterScreen(
     onNavigateHome: () -> Unit = {},
     onNavigateAnalitik: () -> Unit = {},
     onNavigateEnergy: () -> Unit = {},
+    onNavigatePetani: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var isAutoMode by remember { mutableStateOf(false) }
@@ -232,6 +233,7 @@ fun IotControlCenterScreen(
                     when (tab) {
                         0 -> onNavigateHome()
                         2 -> onNavigateAnalitik()
+                        3 -> onNavigatePetani()
                     }
                 }
             )

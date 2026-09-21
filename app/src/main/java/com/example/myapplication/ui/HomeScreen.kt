@@ -82,6 +82,7 @@ fun AgriSyncHomeScreen(
     onNavigateToProductionManagement: () -> Unit = {},
     onNavigateToActivityLog: () -> Unit = {},
     onNavigateToControl: () -> Unit = {},
+    onNavigateToPetani: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -97,6 +98,7 @@ fun AgriSyncHomeScreen(
                     when (tab) {
                         1 -> onNavigateToControl()
                         2 -> onNavigateToAnalytics()
+                        3 -> onNavigateToPetani()
                     }
                 }
             )

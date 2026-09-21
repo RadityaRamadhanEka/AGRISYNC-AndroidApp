@@ -72,22 +72,23 @@ fun ProductionManagementScreen(
     onNavigateToAnalytics: () -> Unit = {},
     onNavigateToDigitalTwin: () -> Unit = {},
     onNavigateToRecommendation: () -> Unit = {},
+    onNavigateToControl: () -> Unit = {},
+    onNavigateToPetani: () -> Unit = {},
     onNavigateToFeasibility: () -> Unit = {},
     onNavigateToBEPSimulator: () -> Unit = {}
 ) {
-    var selectedTab by remember { mutableIntStateOf(1) } // 1 for "Tanam"
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = Color(0xFFF9FAFB),
         bottomBar = {
-            ProductionManagementBottomBar(
-                selectedTab = selectedTab,
+            AgriSyncBottomBar(
+                selectedTab = 1, // Tab "Kontrol"
                 onTabSelected = { tab ->
-                    selectedTab = tab
                     when (tab) {
                         0 -> onNavigateToHome()
+                        1 -> onNavigateToControl()
                         2 -> onNavigateToAnalytics()
+                        3 -> onNavigateToPetani()
                     }
                 }
             )

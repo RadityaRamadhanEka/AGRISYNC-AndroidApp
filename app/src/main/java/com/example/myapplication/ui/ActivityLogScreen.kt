@@ -256,7 +256,8 @@ fun ActivityLogScreen(
     onNavigateToHome: () -> Unit = {},
     onNavigateToAnalytics: () -> Unit = {},
     onNavigateToDigitalTwin: () -> Unit = {},
-    onNavigateToControl: () -> Unit = {}
+    onNavigateToControl: () -> Unit = {},
+    onNavigateToPetani: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf(ActivityTabFilter.ALL) }
     var selectedBottomTab by remember { mutableIntStateOf(0) }
@@ -292,6 +293,7 @@ fun ActivityLogScreen(
                         0 -> onNavigateToHome()
                         1 -> onNavigateToControl()
                         2 -> onNavigateToAnalytics()
+                        3 -> onNavigateToPetani()
                     }
                 }
             )

@@ -114,6 +114,8 @@ fun AnalyticsDetailScreen(
     onBackClick: () -> Unit = {},
     onNavigateToHome: () -> Unit = onBackClick,
     onNavigateToProductionManagement: () -> Unit = {},
+    onNavigateToControl: () -> Unit = {},
+    onNavigateToPetani: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTimeFilter by remember { mutableIntStateOf(0) } // 0: 7D, 1: 14D, 2: 30D
@@ -131,14 +133,14 @@ fun AnalyticsDetailScreen(
         modifier = modifier.fillMaxSize(),
         containerColor = PlantBgLight,
         bottomBar = {
-            PlantAnalyticsBottomBar(
-                selectedTab = 2, // 2 is Active Analytics Tab
+            AgriSyncBottomBar(
+                selectedTab = 2, // 2 is Active Analytics Tab ("Analitik")
                 onTabSelected = { tab ->
                     when (tab) {
                         0 -> onNavigateToHome()
-                        1 -> onNavigateToProductionManagement()
+                        1 -> onNavigateToControl()
                         2 -> { /* Already on Analytics */ }
-                        3 -> { /* Settings */ }
+                        3 -> onNavigateToPetani()
                     }
                 }
             )

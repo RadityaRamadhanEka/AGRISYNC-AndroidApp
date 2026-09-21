@@ -38,8 +38,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.TrendingDown
 import androidx.compose.material.icons.filled.BatteryChargingFull
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.Power
@@ -74,9 +78,12 @@ import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
@@ -164,8 +171,12 @@ fun EnergyOverviewScreen(
     onBackClick: () -> Unit = {},
     onNavigateHome: () -> Unit = {},
     onNavigateAnalitik: () -> Unit = {},
+    onNavigatePetani: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var showDatePickerDialog by remember { mutableStateOf(false) }
+    var selectedDateText by remember { mutableStateOf("Today, 24 Oct") }
+
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = EnergyBg,
@@ -175,7 +186,9 @@ fun EnergyOverviewScreen(
                 onTabSelected = { tab ->
                     when (tab) {
                         0 -> onNavigateHome()
+                        1 -> { /* Already on Kontrol */ }
                         2 -> onNavigateAnalitik()
+                        3 -> onNavigatePetani()
                     }
                 }
             )
@@ -186,7 +199,11 @@ fun EnergyOverviewScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            EnergyTopBar(onBackClick = onBackClick)
+            EnergyTopBar(
+                selectedDateText = selectedDateText,
+                onBackClick = onBackClick,
+                onCalendarClick = { showDatePickerDialog = true }
+            )
 
             LazyColumn(
                 modifier = Modifier
@@ -201,6 +218,17 @@ fun EnergyOverviewScreen(
                 item { Spacer(modifier = Modifier.height(20.dp)) }
             }
         }
+
+        if (showDatePickerDialog) {
+            EnergyDatePickerDialog(
+                currentDateText = selectedDateText,
+                onDismiss = { showDatePickerDialog = false },
+                onDateSelected = { newDate ->
+                    selectedDateText = newDate
+                    showDatePickerDialog = false
+                }
+            )
+        }
     }
 }
 
@@ -208,7 +236,11 @@ fun EnergyOverviewScreen(
 // TOP APP BAR
 // ---------------------------------------------------------------------------
 @Composable
-private fun EnergyTopBar(onBackClick: () -> Unit) {
+private fun EnergyTopBar(
+    selectedDateText: String,
+    onBackClick: () -> Unit,
+    onCalendarClick: () -> Unit
+) {
     Column {
         Row(
             modifier = Modifier
@@ -232,7 +264,7 @@ private fun EnergyTopBar(onBackClick: () -> Unit) {
                 )
                 Spacer(Modifier.height(2.dp))
                 Text(
-                    text = "Today, 24 Oct",
+                    text = selectedDateText,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
                     color = EnergyTextMuted
@@ -241,7 +273,7 @@ private fun EnergyTopBar(onBackClick: () -> Unit) {
             CircleIconButton(
                 icon = Icons.Default.DateRange,
                 contentDescription = "Filter date",
-                onClick = { }
+                onClick = onCalendarClick
             )
         }
         Box(
@@ -274,6 +306,376 @@ private fun CircleIconButton(
             tint = EnergyTextDark,
             modifier = Modifier.size(20.dp)
         )
+    }
+}
+
+// ---------------------------------------------------------------------------
+// DATE PICKER DIALOG
+// ---------------------------------------------------------------------------
+@Composable
+private fun EnergyDatePickerDialog(
+    currentDateText: String,
+    onDismiss: () -> Unit,
+    onDateSelected: (String) -> Unit
+) {
+    var selectedPreset by remember {
+        mutableStateOf(
+            when {
+                currentDateText.contains("Today", ignoreCase = true) || currentDateText.contains("Hari Ini", ignoreCase = true) -> "Hari Ini"
+                currentDateText.contains("Yesterday", ignoreCase = true) || currentDateText.contains("Kemarin", ignoreCase = true) -> "Kemarin"
+                currentDateText.contains("7", ignoreCase = true) -> "7 Hari"
+                currentDateText.contains("30", ignoreCase = true) -> "30 Hari"
+                else -> "Custom"
+            }
+        )
+    }
+
+    var selectedDay by remember { androidx.compose.runtime.mutableIntStateOf(24) }
+    val displayedMonth = "Oktober 2026"
+    val presets = listOf("Hari Ini", "Kemarin", "7 Hari", "30 Hari")
+
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth(0.92f)
+                .padding(16.dp),
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Header
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(38.dp)
+                                .clip(CircleShape)
+                                .background(EnergyGreen.copy(alpha = 0.15f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = null,
+                                tint = EnergyGreenText,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                        Column {
+                            Text(
+                                text = "Filter Tanggal",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = EnergyTextDark
+                            )
+                            Text(
+                                text = "Pilih rentang laporan energi",
+                                fontSize = 12.sp,
+                                color = EnergyTextMuted
+                            )
+                        }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .background(EnergySlateBg)
+                            .clickable { onDismiss() },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Tutup",
+                            tint = EnergyTextSecondary,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(EnergyBorder)
+                )
+
+                // Presets
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    presets.forEach { preset ->
+                        val isSelected = selectedPreset == preset
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(if (isSelected) EnergyGreen.copy(alpha = 0.15f) else EnergyBg)
+                                .border(
+                                    width = 1.dp,
+                                    color = if (isSelected) EnergyGreenText else EnergyBorder,
+                                    shape = RoundedCornerShape(12.dp)
+                                )
+                                .clickable {
+                                    selectedPreset = preset
+                                    when (preset) {
+                                        "Hari Ini" -> selectedDay = 24
+                                        "Kemarin" -> selectedDay = 23
+                                        "7 Hari" -> selectedDay = 24
+                                        "30 Hari" -> selectedDay = 24
+                                    }
+                                }
+                                .padding(vertical = 8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = preset,
+                                fontSize = 12.sp,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                color = if (isSelected) EnergyGreenText else EnergyTextSecondary
+                            )
+                        }
+                    }
+                }
+
+                // Month Navigation Header
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(EnergyBg, RoundedCornerShape(14.dp))
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .clickable { },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = "Bulan Sebelumnya",
+                            tint = EnergyTextDark
+                        )
+                    }
+                    Text(
+                        text = displayedMonth,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = EnergyTextDark
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .clickable { },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = "Bulan Selanjutnya",
+                            tint = EnergyTextDark
+                        )
+                    }
+                }
+
+                // Days of week header
+                val daysOfWeek = listOf("Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    daysOfWeek.forEach { day ->
+                        Text(
+                            text = day,
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = EnergyTextMuted
+                        )
+                    }
+                }
+
+                // Calendar Grid for October 2026 (Starts on Thursday = offset 4)
+                val totalDaysInOct = 31
+                val startOffset = 4
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    for (row in 0 until 5) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            for (col in 0 until 7) {
+                                val cellIndex = row * 7 + col
+                                val dayNum = cellIndex - startOffset + 1
+                                val isValidDay = dayNum in 1..totalDaysInOct
+
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(36.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (isValidDay) {
+                                        val isDaySelected = (selectedPreset == "Custom" || selectedPreset == "Hari Ini" || selectedPreset == "Kemarin") && selectedDay == dayNum
+                                        val isToday = dayNum == 24
+
+                                        Box(
+                                            modifier = Modifier
+                                                .size(32.dp)
+                                                .clip(CircleShape)
+                                                .background(
+                                                    when {
+                                                        isDaySelected -> EnergyGreen
+                                                        isToday -> EnergyGreen.copy(alpha = 0.2f)
+                                                        else -> Color.Transparent
+                                                    }
+                                                )
+                                                .clickable {
+                                                    selectedDay = dayNum
+                                                    selectedPreset = if (dayNum == 24) "Hari Ini" else if (dayNum == 23) "Kemarin" else "Custom"
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = "$dayNum",
+                                                fontSize = 13.sp,
+                                                fontWeight = if (isDaySelected || isToday) FontWeight.Bold else FontWeight.Medium,
+                                                color = when {
+                                                    isDaySelected -> Color.White
+                                                    isToday -> EnergyGreenText
+                                                    else -> EnergyTextDark
+                                                }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Selected Info Card
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(EnergySlateBg, RoundedCornerShape(12.dp))
+                        .padding(horizontal = 12.dp, vertical = 10.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Terpilih:",
+                            fontSize = 12.sp,
+                            color = EnergyTextMuted
+                        )
+                        Text(
+                            text = when (selectedPreset) {
+                                "Hari Ini" -> "Hari Ini, 24 Oct 2026"
+                                "Kemarin" -> "Kemarin, 23 Oct 2026"
+                                "7 Hari" -> "18 - 24 Oct 2026 (7 Hari)"
+                                "30 Hari" -> "1 - 24 Oct 2026 (30 Hari)"
+                                else -> "$selectedDay Oktober 2026"
+                            },
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = EnergyTextDark
+                        )
+                    }
+                }
+
+                // Actions
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { onDismiss() },
+                        shape = RoundedCornerShape(14.dp),
+                        colors = CardDefaults.cardColors(containerColor = EnergySlateBg)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Batal",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = EnergyTextSecondary
+                            )
+                        }
+                    }
+
+                    Card(
+                        modifier = Modifier
+                            .weight(1.3f)
+                            .clickable {
+                                val resultText = when (selectedPreset) {
+                                    "Hari Ini" -> "Today, 24 Oct"
+                                    "Kemarin" -> "Yesterday, 23 Oct"
+                                    "7 Hari" -> "18 - 24 Oct"
+                                    "30 Hari" -> "1 - 24 Oct"
+                                    else -> "$selectedDay Oct 2026"
+                                }
+                                onDateSelected(resultText)
+                            },
+                        shape = RoundedCornerShape(14.dp),
+                        colors = CardDefaults.cardColors(containerColor = EnergyGreenText)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 12.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(Modifier.width(6.dp))
+                            Text(
+                                text = "Terapkan",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -642,7 +1044,9 @@ private fun EnergyMetricCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
-            modifier = Modifier.padding(17.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(17.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

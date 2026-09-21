@@ -80,10 +80,12 @@ data class PlantRecommendation(
 fun AiRecommendationScreen(
     onBackClick: () -> Unit = {},
     onSelectPlant: (PlantRecommendation) -> Unit = {},
+    onNavigateHome: () -> Unit = onBackClick,
+    onNavigateControl: () -> Unit = {},
+    onNavigateAnalytics: () -> Unit = {},
+    onNavigatePetani: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-
     val recommendationList = remember {
         listOf(
             PlantRecommendation(
@@ -126,10 +128,16 @@ fun AiRecommendationScreen(
         modifier = modifier.fillMaxSize(),
         containerColor = AgriBgColor,
         bottomBar = {
-            AiRecommendationBottomBar(
-                selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it },
-                onHomeClick = onBackClick
+            AgriSyncBottomBar(
+                selectedTab = 2, // "Analitik" active
+                onTabSelected = { tab ->
+                    when (tab) {
+                        0 -> onNavigateHome()
+                        1 -> onNavigateControl()
+                        2 -> onNavigateAnalytics()
+                        3 -> onNavigatePetani()
+                    }
+                }
             )
         }
     ) { innerPadding ->
