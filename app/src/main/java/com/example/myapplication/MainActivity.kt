@@ -33,6 +33,7 @@ import com.example.myapplication.ui.IotControlCenterScreen
 import com.example.myapplication.ui.LoginScreen
 import com.example.myapplication.ui.NotificationPreferencesScreen
 import com.example.myapplication.ui.OnboardingScreen
+import com.example.myapplication.ui.PlantScanScreen
 import com.example.myapplication.ui.ProductionManagementScreen
 import com.example.myapplication.ui.RegisterScreen
 import com.example.myapplication.ui.SettingsScreen
@@ -93,7 +94,8 @@ class MainActivity : ComponentActivity() {
                             onNavigateToActivityLog = { currentScreen = 7 },
                             onNavigateToControl = { currentScreen = 8 },
                             onNavigateToPetani = { currentScreen = 15 },
-                            onNavigateToSettings = { currentScreen = 16 }
+                            onNavigateToSettings = { currentScreen = 16 },
+                            onNavigateToScan = { currentScreen = 20 }
                         )
                         1 -> AnalyticsDetailScreen(
                             onBackClick = { currentScreen = 0 },
@@ -199,6 +201,10 @@ class MainActivity : ComponentActivity() {
                             onNavigateControl = { currentScreen = 8 },
                             onNavigateAnalytics = { currentScreen = 1 },
                             onNavigatePetani = { currentScreen = 15 }
+                        )
+                        20 -> PlantScanScreen(
+                            onBackClick = { currentScreen = 0 },
+                            onNavigateToRecommendation = { currentScreen = 3 }
                         )
                     }
                 }

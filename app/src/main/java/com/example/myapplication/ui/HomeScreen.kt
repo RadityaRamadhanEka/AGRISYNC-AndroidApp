@@ -97,6 +97,7 @@ fun AgriSyncHomeScreen(
     onNavigateToControl: () -> Unit = {},
     onNavigateToPetani: () -> Unit = {},
     onNavigateToSettings: () -> Unit = {},
+    onNavigateToScan: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -114,7 +115,8 @@ fun AgriSyncHomeScreen(
                         2 -> onNavigateToAnalytics()
                         3 -> onNavigateToPetani()
                     }
-                }
+                },
+                onScanClick = onNavigateToScan
             )
         }
     ) { innerPadding ->
@@ -1061,7 +1063,8 @@ fun RecentActivitiesSection(
 @Composable
 fun AgriSyncBottomBar(
     selectedTab: Int,
-    onTabSelected: (Int) -> Unit
+    onTabSelected: (Int) -> Unit,
+    onScanClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -1119,7 +1122,7 @@ fun AgriSyncBottomBar(
 
         // Center Floating Elevated Green Scan Button
         FloatingActionButton(
-            onClick = { },
+            onClick = { onScanClick() },
             modifier = Modifier
                 .offset(y = (-20).dp)
                 .size(56.dp),
