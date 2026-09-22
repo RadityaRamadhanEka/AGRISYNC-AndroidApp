@@ -62,6 +62,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 data class FarmerGroupItem(
@@ -162,7 +163,7 @@ fun FarmerCommunityScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 3,
@@ -218,7 +219,7 @@ fun FarmerCommunityScreen(
                                     }
                                 }
 
-                                Text("Kelompok Tani", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                                Text("Kelompok Tani", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             }
 
                             Surface(
@@ -300,7 +301,7 @@ fun FarmerCommunityScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Kelompok Saya", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                        Text("Kelompok Saya", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                         Text("Lihat Semua", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32), modifier = Modifier.clickable { })
                     }
 
@@ -316,7 +317,7 @@ fun FarmerCommunityScreen(
                     modifier = Modifier.padding(horizontal = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
-                    Text("Forum Diskusi Terpopuler", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text("Forum Diskusi Terpopuler", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
 
                     for (post in discussions) {
                         DiscussionPostCard(item = post)
@@ -332,7 +333,7 @@ fun GroupCardItem(item: FarmerGroupItem) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -364,7 +365,7 @@ fun GroupCardItem(item: FarmerGroupItem) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                        Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                         Surface(
                             shape = CircleShape,
                             color = Color(0xFFDCFCE7),
@@ -443,7 +444,7 @@ fun DiscussionPostCard(item: PopularDiscussionItem) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
@@ -464,7 +465,7 @@ fun DiscussionPostCard(item: PopularDiscussionItem) {
                 Text("• ${item.timeAgo}", fontSize = 10.sp, color = Color(0xFF9CA3AF))
             }
 
-            Text(item.title, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+            Text(item.title, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
             Text(item.body, fontSize = 12.sp, color = Color(0xFF6B7280), maxLines = 2, overflow = TextOverflow.Ellipsis)
 
             Row(

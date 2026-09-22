@@ -768,7 +768,7 @@ private fun MinimumPriceCard(
                         text = "$pricePerKg ",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color(0xFF111827)
+                        color = AgriTheme.colors.textPrimary
                     )
                     Text(
                         text = "/kg",

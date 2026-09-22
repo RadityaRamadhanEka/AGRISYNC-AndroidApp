@@ -113,6 +113,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 // ---------------------------------------------------------------------------
@@ -276,7 +277,7 @@ fun FarmerFeatureMainContent(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF8FAF7),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 3, // "Petani" tab is active
@@ -340,7 +341,7 @@ fun FarmerFeatureMainContent(
                                 text = "Layanan Utama",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF111827)
+                                color = AgriTheme.colors.textPrimary
                             )
 
                             if (searchQuery.isNotEmpty()) {
@@ -367,7 +368,7 @@ fun FarmerFeatureMainContent(
                                     .fillMaxWidth()
                                     .padding(vertical = 12.dp),
                                 shape = RoundedCornerShape(20.dp),
-                                colors = CardDefaults.cardColors(containerColor = Color.White),
+                                colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                             ) {
                                 Column(
@@ -387,7 +388,7 @@ fun FarmerFeatureMainContent(
                                         text = "Fitur atau layanan tidak ditemukan",
                                         fontSize = 14.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = Color(0xFF111827)
+                                        color = AgriTheme.colors.textPrimary
                                     )
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
@@ -490,7 +491,7 @@ fun FarmerHeaderSection(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color(0xFFE8F5E9).copy(alpha = 0.85f),
+        color = AgriTheme.colors.mintBg.copy(alpha = 0.85f),
         shadowElevation = 0.dp
     ) {
         Column(
@@ -510,12 +511,12 @@ fun FarmerHeaderSection(
                         text = "Fitur Petani",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827)
+                        color = AgriTheme.colors.textPrimary
                     )
                     Text(
                         text = "Pusat Layanan & Komunitas Tani AgriSync",
                         fontSize = 12.sp,
-                        color = Color(0xFF5E8760)
+                        color = AgriTheme.colors.textSecondary
                     )
                 }
 
@@ -524,7 +525,7 @@ fun FarmerHeaderSection(
                     modifier = Modifier
                         .size(44.dp)
                         .clip(CircleShape)
-                        .background(Color.White)
+                        .background(AgriTheme.colors.surface)
                         .border(2.dp, Color(0xFF2E7D32).copy(alpha = 0.25f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
@@ -553,7 +554,7 @@ fun FarmerHeaderSection(
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = AgriTheme.colors.surface,
                 shadowElevation = 2.dp
             ) {
                 Row(
@@ -565,7 +566,7 @@ fun FarmerHeaderSection(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Search Icon",
-                        tint = Color(0xFF9CA3AF),
+                        tint = AgriTheme.colors.textMuted,
                         modifier = Modifier.size(20.dp)
                     )
 
@@ -578,11 +579,13 @@ fun FarmerHeaderSection(
                             Text(
                                 text = "Cari fitur atau layanan...",
                                 fontSize = 14.sp,
-                                color = Color(0xFF9CA3AF)
+                                color = AgriTheme.colors.textMuted
                             )
                         },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = AgriTheme.colors.textPrimary,
+                            unfocusedTextColor = AgriTheme.colors.textPrimary,
                             focusedBorderColor = Color.Transparent,
                             unfocusedBorderColor = Color.Transparent,
                             disabledBorderColor = Color.Transparent,
@@ -601,7 +604,7 @@ fun FarmerHeaderSection(
                             Icon(
                                 imageVector = Icons.Default.Clear,
                                 contentDescription = "Clear search",
-                                tint = Color(0xFF6B7280),
+                                tint = AgriTheme.colors.grayIcon,
                                 modifier = Modifier.size(18.dp)
                             )
                         }
@@ -793,8 +796,8 @@ fun ServiceCardItem(
                 onClick = onClick
             ),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
+        border = BorderStroke(1.dp, AgriTheme.colors.grayBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
@@ -822,13 +825,13 @@ fun ServiceCardItem(
                     text = service.title,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827)
+                    color = AgriTheme.colors.textPrimary
                 )
                 Text(
                     text = service.subtitle,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color(0xFF5E8760),
+                    color = AgriTheme.colors.textSecondary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -928,8 +931,8 @@ fun NotifikasiTaniBanner(
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
+        border = BorderStroke(1.dp, AgriTheme.colors.border),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -975,7 +978,7 @@ fun NotifikasiTaniBanner(
                         text = "Notifikasi Tani",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827)
+                        color = AgriTheme.colors.textPrimary
                     )
                     Text(
                         text = "3 pesan baru dari penyuluh",
@@ -1034,7 +1037,7 @@ fun DailyTipsDetailModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -1050,7 +1053,7 @@ fun DailyTipsDetailModal(onDismiss: () -> Unit) {
                 ) {
                     Surface(
                         shape = CircleShape,
-                        color = Color(0xFFE8F5E9)
+                        color = AgriTheme.colors.mintBg
                     ) {
                         Text(
                             text = "PUPUK & NUTRISI • 3 MIN BACA",
@@ -1086,7 +1089,7 @@ fun DailyTipsDetailModal(onDismiss: () -> Unit) {
                             text = "Teknik Pemupukan Organik Terbaru untuk Hasil Panen Maksimal",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
 
@@ -1094,7 +1097,7 @@ fun DailyTipsDetailModal(onDismiss: () -> Unit) {
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.mintBg)
                         ) {
                             Row(
                                 modifier = Modifier.padding(16.dp),
@@ -1129,7 +1132,7 @@ fun DailyTipsDetailModal(onDismiss: () -> Unit) {
                             text = "Langkah-Langkah Aplikasi:",
                             fontSize = 15.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
 
@@ -1190,7 +1193,7 @@ fun TipStepItem(stepNumber: String, title: String, description: String) {
             Text(text = stepNumber, color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
         }
         Column {
-            Text(text = title, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+            Text(text = title, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
             Text(text = description, fontSize = 12.sp, color = Color(0xFF4B5563))
         }
     }
@@ -1212,7 +1215,7 @@ fun PanenModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -1244,7 +1247,7 @@ fun PanenModal(onDismiss: () -> Unit) {
                             )
                         }
                         Column {
-                            Text("Manajemen Panen", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Manajemen Panen", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Catat hasil panen & jadwal mendatang", fontSize = 11.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -1278,7 +1281,7 @@ fun PanenModal(onDismiss: () -> Unit) {
                             Card(
                                 modifier = Modifier.weight(1f),
                                 shape = RoundedCornerShape(16.dp),
-                                colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                                colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.mintBg)
                             ) {
                                 Column(modifier = Modifier.padding(14.dp)) {
                                     Text("PANEN BERIKUTNYA", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = Color(0xFF1B5E20))
@@ -1293,14 +1296,14 @@ fun PanenModal(onDismiss: () -> Unit) {
                         Card(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(20.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+                            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
                             border = BorderStroke(1.dp, Color(0xFFE5E7EB))
                         ) {
                             Column(
                                 modifier = Modifier.padding(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                Text("Catat Hasil Panen Baru", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                                Text("Catat Hasil Panen Baru", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
 
                                 OutlinedTextField(
                                     value = selectedCrop,
@@ -1359,7 +1362,7 @@ fun PanenModal(onDismiss: () -> Unit) {
 
                     // Harvest Timeline Schedule
                     item {
-                        Text("Jadwal & Riwayat Panen", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                        Text("Jadwal & Riwayat Panen", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                     }
 
                     item {
@@ -1399,7 +1402,7 @@ fun HarvestHistoryRow(title: String, detail: String, date: String, isDone: Boole
                 modifier = Modifier.size(20.dp)
             )
             Column {
-                Text(title, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(title, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 Text(detail, fontSize = 11.sp, color = Color(0xFF6B7280))
             }
         }
@@ -1432,7 +1435,7 @@ fun HargaPasarModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -1464,7 +1467,7 @@ fun HargaPasarModal(onDismiss: () -> Unit) {
                             )
                         }
                         Column {
-                            Text("Harga Pasar Komoditas", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Harga Pasar Komoditas", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Update Real-Time Pasar Induk", fontSize = 11.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -1521,7 +1524,7 @@ fun HargaPasarModal(onDismiss: () -> Unit) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9))
+                    colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.mintBg)
                 ) {
                     Row(
                         modifier = Modifier
@@ -1551,7 +1554,7 @@ fun MarketPriceCardItem(name: String, price: String, change: String, isUp: Boole
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB))
     ) {
         Row(
@@ -1562,11 +1565,11 @@ fun MarketPriceCardItem(name: String, price: String, change: String, isUp: Boole
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 Text("Terakhir diperbarui: 10 menit lalu", fontSize = 10.sp, color = Color(0xFF9CA3AF))
             }
             Column(horizontalAlignment = Alignment.End) {
-                Text(price, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(price, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 Surface(
                     shape = CircleShape,
                     color = if (isUp) Color(0xFFD1FAE5) else Color(0xFFFEE2E2)
@@ -1596,7 +1599,7 @@ fun PengepulModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -1628,7 +1631,7 @@ fun PengepulModal(onDismiss: () -> Unit) {
                             )
                         }
                         Column {
-                            Text("Mitra Pengepul & Pembeli", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Mitra Pengepul & Pembeli", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Jual hasil panen langsung ke pembeli", fontSize = 11.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -1687,7 +1690,7 @@ fun PengepulItemCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB))
     ) {
         Column(
@@ -1700,7 +1703,7 @@ fun PengepulItemCard(
                 verticalAlignment = Alignment.Top
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -1764,7 +1767,7 @@ fun PenyuluhModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -1796,7 +1799,7 @@ fun PenyuluhModal(onDismiss: () -> Unit) {
                             )
                         }
                         Column {
-                            Text("Penyuluh Pertanian", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Penyuluh Pertanian", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Konsultasi Ahli Tani Terverifikasi", fontSize = 11.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -1849,7 +1852,7 @@ fun PenyuluhItemCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB))
     ) {
         Row(
@@ -1870,7 +1873,7 @@ fun PenyuluhItemCard(
             }
 
             Column(modifier = Modifier.weight(1f)) {
-                Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 Text(specialty, fontSize = 11.sp, color = Color(0xFF6B7280))
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
@@ -1913,7 +1916,7 @@ fun KelompokTaniModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -1944,7 +1947,7 @@ fun KelompokTaniModal(onDismiss: () -> Unit) {
                             )
                         }
                         Column {
-                            Text("Forum Kelompok Tani", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Forum Kelompok Tani", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Poktan Suka Maju (48 Anggota)", fontSize = 11.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -2007,7 +2010,7 @@ fun CommunityPostCard(author: String, time: String, content: String, repliesCoun
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB))
     ) {
         Column(
@@ -2019,7 +2022,7 @@ fun CommunityPostCard(author: String, time: String, content: String, repliesCoun
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(author, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(author, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 Text(time, fontSize = 10.sp, color = Color(0xFF9CA3AF))
             }
             Text(content, fontSize = 12.sp, color = Color(0xFF374151))
@@ -2040,7 +2043,7 @@ fun ProfilTanamanModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -2071,7 +2074,7 @@ fun ProfilTanamanModal(onDismiss: () -> Unit) {
                             )
                         }
                         Column {
-                            Text("Database Botani Tanaman", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Database Botani Tanaman", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Katalog & Panduan Budidaya", fontSize = 11.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -2122,14 +2125,14 @@ fun PlantProfileCard(name: String, ph: String, temp: String, harvestTime: String
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB))
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+            Text(name, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -2164,7 +2167,7 @@ fun NotifikasiTaniDetailModal(onDismiss: () -> Unit) {
                 .fillMaxWidth(0.92f)
                 .fillMaxHeight(0.85f),
             shape = RoundedCornerShape(28.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp
         ) {
             Column(
@@ -2178,7 +2181,7 @@ fun NotifikasiTaniDetailModal(onDismiss: () -> Unit) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Pesan & Notifikasi Tani", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text("Pesan & Notifikasi Tani", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                     IconButton(onClick = onDismiss) {
                         Icon(imageVector = Icons.Default.Close, contentDescription = "Close")
                     }
@@ -2229,7 +2232,7 @@ fun NotificationDetailItem(sender: String, time: String, message: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF9FAFB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.background),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB))
     ) {
         Column(
@@ -2241,7 +2244,7 @@ fun NotificationDetailItem(sender: String, time: String, message: String) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(sender, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(sender, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 Text(time, fontSize = 10.sp, color = Color(0xFF9CA3AF))
             }
             Text(message, fontSize = 12.sp, color = Color(0xFF4B5563))

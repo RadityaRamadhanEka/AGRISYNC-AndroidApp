@@ -63,6 +63,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
@@ -79,7 +80,7 @@ fun ProductionManagementScreen(
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 1, // Tab "Kontrol"
@@ -146,14 +147,14 @@ private fun ProductionHeaderSection() {
                 text = "Manajemen",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF111827),
+                color = AgriTheme.colors.textPrimary,
                 lineHeight = 30.sp
             )
             Text(
                 text = "Produksi",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF111827),
+                color = AgriTheme.colors.textPrimary,
                 lineHeight = 30.sp
             )
             Spacer(modifier = Modifier.height(2.dp))
@@ -161,7 +162,7 @@ private fun ProductionHeaderSection() {
                 text = "Optimalisasi Hasil & Bisnis",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFF5E8760)
+                color = AgriTheme.colors.textSecondary
             )
         }
 
@@ -172,8 +173,8 @@ private fun ProductionHeaderSection() {
             // Weather Badge
             Surface(
                 shape = RoundedCornerShape(50),
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
                 shadowElevation = 2.dp
             ) {
                 Row(
@@ -184,14 +185,14 @@ private fun ProductionHeaderSection() {
                     Icon(
                         imageVector = Icons.Default.WbSunny,
                         contentDescription = "Weather",
-                        tint = Color(0xFFFFA000),
+                        tint = AgriTheme.colors.orangeAccent,
                         modifier = Modifier.size(18.dp)
                     )
                     Text(
                         text = "28°C",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF374151)
+                        color = AgriTheme.colors.textPrimary
                     )
                 }
             }
@@ -202,15 +203,15 @@ private fun ProductionHeaderSection() {
                     .size(40.dp)
                     .clickable { },
                 shape = CircleShape,
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
                 shadowElevation = 2.dp
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.Default.Settings,
                         contentDescription = "Settings",
-                        tint = Color(0xFF6B7280),
+                        tint = AgriTheme.colors.grayIcon,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -242,27 +243,27 @@ private fun ActivePlantMonitorSection(
                 Icon(
                     imageVector = Icons.Outlined.Eco,
                     contentDescription = null,
-                    tint = Color(0xFF2E7D32),
+                    tint = AgriTheme.colors.primary,
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
                     text = "Monitor Tanam Aktif",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827)
+                    color = AgriTheme.colors.textPrimary
                 )
             }
 
             // Tag "1 TANAMAN"
             Surface(
                 shape = RoundedCornerShape(50),
-                color = Color(0xFF2E7D32).copy(alpha = 0.1f)
+                color = AgriTheme.colors.primary.copy(alpha = 0.1f)
             ) {
                 Text(
                     text = "1 TANAMAN",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2E7D32),
+                    color = AgriTheme.colors.primary,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
                 )
             }
@@ -275,7 +276,7 @@ private fun ActivePlantMonitorSection(
                 .clickable { onPlantClick() },
             shape = RoundedCornerShape(24.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color.White.copy(alpha = 0.95f)
+                containerColor = AgriTheme.colors.surface.copy(alpha = 0.95f)
             ),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
         ) {
@@ -574,14 +575,14 @@ private fun BusinessPlanningSection(
             Icon(
                 imageVector = Icons.Default.BarChart,
                 contentDescription = null,
-                tint = Color(0xFF111827),
+                tint = AgriTheme.colors.textPrimary,
                 modifier = Modifier.size(20.dp)
             )
             Text(
                 text = "Perencanaan Bisnis",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF111827)
+                color = AgriTheme.colors.textPrimary
             )
         }
 
@@ -589,7 +590,7 @@ private fun BusinessPlanningSection(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(
@@ -621,13 +622,13 @@ private fun BusinessPlanningSection(
                             text = "Cek Kelayakan Usaha",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                         Text(
                             text = "Validasi rencana bisnis indoor farming Anda",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
-                            color = Color(0xFF5E8760)
+                            color = AgriTheme.colors.textSecondary
                         )
                     }
                 }
@@ -714,7 +715,7 @@ private fun BusinessPlanningSection(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(
@@ -746,13 +747,13 @@ private fun BusinessPlanningSection(
                             text = "Simulator BEP",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                         Text(
                             text = "Ketahui titik impas modal operasional",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
-                            color = Color(0xFF5E8760)
+                            color = AgriTheme.colors.textSecondary
                         )
                     }
                 }
@@ -760,8 +761,8 @@ private fun BusinessPlanningSection(
                 // Inner Gray Stat Card
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = Color(0xFFF9FAFB),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6))
+                    color = AgriTheme.colors.background,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border)
                 ) {
                     Column(
                         modifier = Modifier
@@ -778,14 +779,14 @@ private fun BusinessPlanningSection(
                                 text = "ESTIMASI PANEN",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF9CA3AF),
+                                color = AgriTheme.colors.textMuted,
                                 letterSpacing = 0.5.sp
                             )
                             Text(
                                 text = "120 kg/cycle",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF111827)
+                                color = AgriTheme.colors.textPrimary
                             )
                         }
 
@@ -798,14 +799,14 @@ private fun BusinessPlanningSection(
                                 text = "HARGA JUAL RERATA",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF9CA3AF),
+                                color = AgriTheme.colors.textMuted,
                                 letterSpacing = 0.5.sp
                             )
                             Text(
                                 text = "Rp 45.000 /kg",
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF111827)
+                                color = AgriTheme.colors.textPrimary
                             )
                         }
                     }
@@ -818,8 +819,8 @@ private fun BusinessPlanningSection(
                         .fillMaxWidth()
                         .height(50.dp),
                     shape = RoundedCornerShape(16.dp),
-                    border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFF2E7D32)),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF2E7D32))
+                    border = androidx.compose.foundation.BorderStroke(2.dp, AgriTheme.colors.primary),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = AgriTheme.colors.primary)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.Center,
@@ -828,7 +829,7 @@ private fun BusinessPlanningSection(
                         Icon(
                             imageVector = Icons.Default.Adjust,
                             contentDescription = null,
-                            tint = Color(0xFF2E7D32),
+                            tint = AgriTheme.colors.primary,
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -836,7 +837,7 @@ private fun BusinessPlanningSection(
                             text = "Hitung Target Minimal",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF2E7D32)
+                            color = AgriTheme.colors.primary
                         )
                     }
                 }
@@ -859,7 +860,7 @@ private fun ProductionManagementBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
             shadowElevation = 12.dp
         ) {
             Row(
@@ -914,7 +915,7 @@ private fun ProductionManagementBottomBar(
                 .offset(y = (-20).dp)
                 .size(56.dp),
             shape = CircleShape,
-            containerColor = Color(0xFF2E7D32),
+            containerColor = AgriTheme.colors.primary,
             contentColor = Color.White,
             elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
         ) {
@@ -934,7 +935,7 @@ private fun ProductionNavItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val tint = if (isSelected) Color(0xFF2E7D32) else Color(0xFF9CA3AF)
+    val tint = if (isSelected) AgriTheme.colors.primary else AgriTheme.colors.textMuted
 
     Column(
         modifier = Modifier

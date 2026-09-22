@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
@@ -53,7 +54,7 @@ fun WelcomeScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFF6F8F6))
+            .background(AgriTheme.colors.background)
     ) {
         // --- HERO SECTION (TOP ~60%) ---
         Box(
@@ -155,7 +156,7 @@ fun WelcomeScreen(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
             shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.95f)),
+            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.95f)),
             elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
         ) {
             Box(

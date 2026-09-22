@@ -59,6 +59,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
@@ -70,7 +71,7 @@ fun FarmerDailyTipArticleScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         topBar = {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
@@ -87,7 +88,7 @@ fun FarmerDailyTipArticleScreen(
                         Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color(0xFF111827))
                     }
 
-                    Text("Tips Harian", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text("Tips Harian", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
 
                     IconButton(onClick = { }) {
                         Icon(imageVector = Icons.Default.Share, contentDescription = "Share", tint = Color(0xFF111827))
@@ -201,7 +202,7 @@ fun FarmerDailyTipArticleScreen(
                         text = "Tingkatkan Hasil Panen dengan Teknik Pemupukan Organik Terbaru",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827),
+                        color = AgriTheme.colors.textPrimary,
                         lineHeight = 30.sp
                     )
 
@@ -225,7 +226,7 @@ fun FarmerDailyTipArticleScreen(
                             }
 
                             Column {
-                                Text("Dr. Green", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                                Text("Dr. Green", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                                 Text("Ahli Agronomi", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF2E7D32))
                             }
                         }
@@ -313,7 +314,7 @@ fun ArticleStepCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
@@ -335,7 +336,7 @@ fun ArticleStepCard(
                     Icon(imageVector = icon, contentDescription = null, tint = Color(iconTintHex), modifier = Modifier.size(20.dp))
                 }
 
-                Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
             }
 
             Text(desc, fontSize = 13.sp, color = Color(0xFF4B5563), lineHeight = 20.sp)

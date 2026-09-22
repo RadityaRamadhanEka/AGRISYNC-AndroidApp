@@ -59,6 +59,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 data class MarketCommodityItem(
@@ -143,7 +144,7 @@ fun FarmerMarketPricesScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 3,
@@ -169,7 +170,7 @@ fun FarmerMarketPricesScreen(
             item {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
-                    color = Color(0xFFE8F5E9).copy(alpha = 0.8f)
+                    color = AgriTheme.colors.mintBg.copy(alpha = 0.8f)
                 ) {
                     Row(
                         modifier = Modifier
@@ -180,8 +181,8 @@ fun FarmerMarketPricesScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = Color.White,
-                            border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+                            color = AgriTheme.colors.surface,
+                            border = BorderStroke(1.dp, AgriTheme.colors.grayBorder),
                             shadowElevation = 1.dp,
                             modifier = Modifier.clickable { onBackClick() }
                         ) {
@@ -192,7 +193,7 @@ fun FarmerMarketPricesScreen(
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "Kembali",
-                                    tint = Color(0xFF111827),
+                                    tint = AgriTheme.colors.textPrimary,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -202,7 +203,7 @@ fun FarmerMarketPricesScreen(
                             text = "Harga Pasar",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -277,15 +278,15 @@ fun MarketLevelTabPill(
     Surface(
         modifier = Modifier.clickable { onClick() },
         shape = CircleShape,
-        color = if (isSelected) Color(0xFF2E7D32) else Color.White,
-        border = if (isSelected) null else BorderStroke(1.dp, Color(0xFFE5E7EB)),
+        color = if (isSelected) AgriTheme.colors.primary else AgriTheme.colors.surface,
+        border = if (isSelected) null else BorderStroke(1.dp, AgriTheme.colors.grayBorder),
         shadowElevation = if (isSelected) 3.dp else 1.dp
     ) {
         Text(
             text = label,
             fontSize = 14.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-            color = if (isSelected) Color.White else Color(0xFF4B5563),
+            color = if (isSelected) Color.White else AgriTheme.colors.textSecondary,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 11.dp)
         )
     }
@@ -303,8 +304,8 @@ fun CommoditySparklineCard(
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
+        border = BorderStroke(1.dp, AgriTheme.colors.grayBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -339,29 +340,29 @@ fun CommoditySparklineCard(
                     }
 
                     Column {
-                        Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
-                        Text(item.unit, fontSize = 12.sp, color = Color(0xFF5E8760))
+                        Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
+                        Text(item.unit, fontSize = 12.sp, color = AgriTheme.colors.textSecondary)
                     }
                 }
 
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(displayPrice, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text(displayPrice, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                     Surface(
                         shape = CircleShape,
-                        color = if (isUp) Color(0xFF2E7D32).copy(alpha = 0.1f) else Color(0xFFFEE2E2)
+                        color = if (isUp) AgriTheme.colors.mintBg else AgriTheme.colors.redAlertBg
                     ) {
                         Text(
                             text = displayTrend,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
-                            color = if (isUp) Color(0xFF2E7D32) else Color(0xFFDC2626),
+                            color = if (isUp) AgriTheme.colors.primary else Color(0xFFDC2626),
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                         )
                     }
                 }
             }
 
-            Divider(color = Color(0xFFF3F4F6))
+            Divider(color = AgriTheme.colors.border)
 
             // 7-Day Trend Chart Sparkline Curve
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -369,7 +370,7 @@ fun CommoditySparklineCard(
                     text = "TREN 7 HARI",
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF9CA3AF),
+                    color = AgriTheme.colors.textMuted,
                     letterSpacing = 0.5.sp
                 )
 

@@ -67,6 +67,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -101,7 +102,7 @@ fun FeasibilityAnalysisScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             AgriSyncBottomBar(
@@ -269,15 +270,15 @@ private fun FeasibilityHeader(
                     .size(40.dp)
                     .clickable { onBackClick() },
                 shape = CircleShape,
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
                 shadowElevation = 2.dp
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
-                        tint = Color(0xFF111827),
+                        tint = AgriTheme.colors.textPrimary,
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -289,13 +290,13 @@ private fun FeasibilityHeader(
                     text = "Analisis Kelayakan",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827)
+                    color = AgriTheme.colors.textPrimary
                 )
                 Text(
                     text = "BUSINESS INSIGHTS",
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2E7D32),
+                    color = AgriTheme.colors.primary,
                     letterSpacing = 1.sp
                 )
             }
@@ -307,15 +308,15 @@ private fun FeasibilityHeader(
                 .size(40.dp)
                 .clickable { },
             shape = CircleShape,
-            color = Color.White,
-            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6)),
+            color = AgriTheme.colors.surface,
+            border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
             shadowElevation = 2.dp
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = "Settings",
-                    tint = Color(0xFF6B7280),
+                    tint = AgriTheme.colors.grayIcon,
                     modifier = Modifier.size(18.dp)
                 )
             }
@@ -333,7 +334,7 @@ private fun MainRoiHighlightCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Box(
@@ -418,8 +419,8 @@ private fun MainRoiHighlightCard(
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
-                    color = Color(0xFFF9FAFB),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6))
+                    color = AgriTheme.colors.background,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border)
                 ) {
                     Row(
                         modifier = Modifier
@@ -431,14 +432,14 @@ private fun MainRoiHighlightCard(
                         Surface(
                             modifier = Modifier.size(48.dp),
                             shape = RoundedCornerShape(16.dp),
-                            color = Color.White,
+                            color = AgriTheme.colors.surface,
                             shadowElevation = 2.dp
                         ) {
                             Box(contentAlignment = Alignment.Center) {
                                 Icon(
                                     imageVector = Icons.Default.CalendarToday,
                                     contentDescription = null,
-                                    tint = Color(0xFF2E7D32),
+                                    tint = AgriTheme.colors.primary,
                                     modifier = Modifier.size(22.dp)
                                 )
                             }
@@ -451,14 +452,14 @@ private fun MainRoiHighlightCard(
                                 text = "PAYBACK PERIOD",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF5E8760),
+                                color = AgriTheme.colors.textSecondary,
                                 letterSpacing = 0.5.sp
                             )
                             Text(
                                 text = "8,4 Bulan",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.ExtraBold,
-                                color = Color(0xFF111827)
+                                color = AgriTheme.colors.textPrimary
                             )
                         }
                     }
@@ -473,8 +474,8 @@ private fun MainRoiHighlightCard(
                     Surface(
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(20.dp),
-                        color = Color(0xFFF9FAFB),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6))
+                        color = AgriTheme.colors.background,
+                        border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border)
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp),
@@ -484,14 +485,14 @@ private fun MainRoiHighlightCard(
                                 text = "BEP UNIT",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF5E8760),
+                                color = AgriTheme.colors.textSecondary,
                                 letterSpacing = 0.5.sp
                             )
                             Text(
                                 text = "1,250 kg",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF111827)
+                                color = AgriTheme.colors.textPrimary
                             )
                         }
                     }
@@ -500,8 +501,8 @@ private fun MainRoiHighlightCard(
                     Surface(
                         modifier = Modifier.weight(1f),
                         shape = RoundedCornerShape(20.dp),
-                        color = Color(0xFFF9FAFB),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF3F4F6))
+                        color = AgriTheme.colors.background,
+                        border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border)
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp),
@@ -511,14 +512,14 @@ private fun MainRoiHighlightCard(
                                 text = "NET MARGIN",
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF5E8760),
+                                color = AgriTheme.colors.textSecondary,
                                 letterSpacing = 0.5.sp
                             )
                             Text(
                                 text = "32.4%",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF111827)
+                                color = AgriTheme.colors.textPrimary
                             )
                         }
                     }
@@ -554,7 +555,7 @@ private fun BehindTheScenesSection() {
             Icon(
                 imageVector = Icons.Outlined.Info,
                 contentDescription = "Info",
-                tint = Color(0xFF9CA3AF),
+                tint = AgriTheme.colors.textMuted,
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -562,37 +563,37 @@ private fun BehindTheScenesSection() {
         // Detail 1: Biaya Energi
         BehindTheScenesCard(
             icon = Icons.Default.ElectricBolt,
-            iconBgColor = Color(0xFFFFFBEB),
+            iconBgColor = AgriTheme.colors.yellowWarnBg,
             iconTint = Color(0xFFD97706),
             title = "Biaya Energi",
             subtitle = "Estimasi per bulan",
             value = "Rp 1.2M",
             subValue = "-2.4% Efficient",
-            subValueColor = Color(0xFF2E7D32)
+            subValueColor = AgriTheme.colors.primary
         )
 
         // Detail 2: Nutrisi & Air
         BehindTheScenesCard(
             icon = Icons.Default.Science,
-            iconBgColor = Color(0xFFEFF6FF),
+            iconBgColor = AgriTheme.colors.blueInfoBg,
             iconTint = Color(0xFF2563EB),
             title = "Nutrisi & Air",
             subtitle = "Kebutuhan sirkulasi",
             value = "Rp 450k",
             subValue = "Optimized",
-            subValueColor = Color(0xFF5E8760)
+            subValueColor = AgriTheme.colors.textSecondary
         )
 
         // Detail 3: Yield per m²
         BehindTheScenesCard(
             icon = Icons.Outlined.LocalFlorist,
-            iconBgColor = Color(0xFFECFDF5),
+            iconBgColor = AgriTheme.colors.mintBg,
             iconTint = Color(0xFF059669),
             title = "Yield per m²",
             subtitle = "Produktivitas lahan",
             value = "4.2 kg",
             subValue = "High Density",
-            subValueColor = Color(0xFF2E7D32)
+            subValueColor = AgriTheme.colors.primary
         )
     }
 }
@@ -611,7 +612,7 @@ private fun BehindTheScenesCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
@@ -645,13 +646,13 @@ private fun BehindTheScenesCard(
                         text = title,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827)
+                        color = AgriTheme.colors.textPrimary
                     )
                     Text(
                         text = subtitle,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFF5E8760)
+                        color = AgriTheme.colors.textSecondary
                     )
                 }
             }
@@ -663,7 +664,7 @@ private fun BehindTheScenesCard(
                     text = value,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF111827)
+                    color = AgriTheme.colors.textPrimary
                 )
                 Text(
                     text = subValue,
@@ -690,7 +691,7 @@ private fun FeasibilityBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = Color.White.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
             shadowElevation = 12.dp
         ) {
             Row(
@@ -745,7 +746,7 @@ private fun FeasibilityBottomBar(
                 .offset(y = (-20).dp)
                 .size(56.dp),
             shape = CircleShape,
-            containerColor = Color(0xFF2E7D32),
+            containerColor = AgriTheme.colors.primary,
             contentColor = Color.White,
             elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
         ) {
@@ -765,7 +766,7 @@ private fun FeasibilityNavItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    val tint = if (isSelected) Color(0xFF2E7D32) else Color(0xFF9CA3AF)
+    val tint = if (isSelected) AgriTheme.colors.primary else AgriTheme.colors.textMuted
 
     Column(
         modifier = Modifier

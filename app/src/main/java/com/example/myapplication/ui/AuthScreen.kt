@@ -101,6 +101,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -265,7 +266,7 @@ fun AuthScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFF6F8F6))
+            .background(AgriTheme.colors.background)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -889,10 +890,10 @@ fun AgriInputField(
             keyboardActions = keyboardActions,
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White.copy(alpha = 0.65f),
-                disabledContainerColor = Color.White.copy(alpha = 0.4f),
-                errorContainerColor = Color(0xFFFEF2F2),
+                focusedContainerColor = AgriTheme.colors.surface,
+                unfocusedContainerColor = AgriTheme.colors.surface.copy(alpha = 0.85f),
+                disabledContainerColor = AgriTheme.colors.surface.copy(alpha = 0.4f),
+                errorContainerColor = AgriTheme.colors.redAlertBg,
                 focusedBorderColor = activeBorderColor,
                 unfocusedBorderColor = activeBorderColor,
                 errorBorderColor = Color(0xFFEF4444),
@@ -1053,7 +1054,7 @@ fun ForgotPasswordDialog(
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = RoundedCornerShape(20.dp),
-            color = Color.White,
+            color = AgriTheme.colors.surface,
             shadowElevation = 16.dp,
             modifier = Modifier
                 .fillMaxWidth()

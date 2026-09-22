@@ -52,6 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 enum class NotificationCategoryFilter { ALL, ADVISOR, SYSTEM }
@@ -129,7 +130,7 @@ fun FarmerNotificationScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 3,
@@ -155,7 +156,7 @@ fun FarmerNotificationScreen(
             item {
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
-                    color = Color(0xFFF9FAFB),
+                    color = AgriTheme.colors.background,
                     shadowElevation = 1.dp
                 ) {
                     Row(
@@ -167,8 +168,8 @@ fun FarmerNotificationScreen(
                     ) {
                         Surface(
                             shape = CircleShape,
-                            color = Color.White,
-                            border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+                            color = AgriTheme.colors.surface,
+                            border = BorderStroke(1.dp, AgriTheme.colors.grayBorder),
                             shadowElevation = 1.dp,
                             modifier = Modifier.clickable { onBackClick() }
                         ) {
@@ -179,7 +180,7 @@ fun FarmerNotificationScreen(
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "Kembali",
-                                    tint = Color(0xFF111827),
+                                    tint = AgriTheme.colors.textPrimary,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -189,7 +190,7 @@ fun FarmerNotificationScreen(
                             text = "Notifikasi Tani",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -281,8 +282,8 @@ fun NotificationTabPill(
     Surface(
         modifier = modifier.clickable { onClick() },
         shape = RoundedCornerShape(12.dp),
-        color = if (isSelected) Color.White else Color(0xFFF3F4F6),
-        border = if (isSelected) BorderStroke(1.dp, Color(0xFFE5E7EB)) else null,
+        color = if (isSelected) AgriTheme.colors.surface else AgriTheme.colors.grayBgAlt,
+        border = if (isSelected) BorderStroke(1.dp, AgriTheme.colors.grayBorder) else null,
         shadowElevation = if (isSelected) 1.dp else 0.dp
     ) {
         Box(
@@ -293,7 +294,7 @@ fun NotificationTabPill(
                 text = label,
                 fontSize = 12.sp,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                color = if (isSelected) Color(0xFF2E7D32) else Color(0xFF6B7280)
+                color = if (isSelected) AgriTheme.colors.primary else AgriTheme.colors.grayIcon
             )
         }
     }
@@ -304,8 +305,8 @@ fun AdvisorMessageCard(item: AdvisorMessageItem) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
+        border = BorderStroke(1.dp, AgriTheme.colors.grayBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -344,19 +345,19 @@ fun AdvisorMessageCard(item: AdvisorMessageItem) {
                         text = item.sender,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827)
+                        color = AgriTheme.colors.textPrimary
                     )
 
                     Surface(
                         shape = CircleShape,
-                        color = Color(0xFFDCFCE7),
-                        border = BorderStroke(1.dp, Color(0xFFBBF7D0))
+                        color = AgriTheme.colors.mintBg,
+                        border = BorderStroke(1.dp, AgriTheme.colors.primary.copy(alpha = 0.3f))
                     ) {
                         Text(
                             text = "NEW",
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF15803D),
+                            color = AgriTheme.colors.primary,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                         )
                     }
@@ -365,7 +366,7 @@ fun AdvisorMessageCard(item: AdvisorMessageItem) {
                 Text(
                     text = item.text,
                     fontSize = 13.sp,
-                    color = Color(0xFF4B5563),
+                    color = AgriTheme.colors.textSecondary,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -377,13 +378,13 @@ fun AdvisorMessageCard(item: AdvisorMessageItem) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
                         contentDescription = null,
-                        tint = Color(0xFF15803D),
+                        tint = AgriTheme.colors.primary,
                         modifier = Modifier.size(12.dp)
                     )
                     Text(
                         text = item.time,
                         fontSize = 10.sp,
-                        color = Color(0xFF9CA3AF)
+                        color = AgriTheme.colors.textMuted
                     )
                 }
             }
@@ -407,8 +408,8 @@ fun SystemActivityCard(item: SystemActivityItem) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
+        border = BorderStroke(1.dp, AgriTheme.colors.border),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -442,19 +443,19 @@ fun SystemActivityCard(item: SystemActivityItem) {
                     text = item.title,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1F2937)
+                    color = AgriTheme.colors.textPrimary
                 )
                 Text(
                     text = item.desc,
                     fontSize = 11.sp,
-                    color = Color(0xFF6B7280)
+                    color = AgriTheme.colors.textSecondary
                 )
             }
 
             Text(
                 text = item.time,
                 fontSize = 10.sp,
-                color = Color(0xFF9CA3AF)
+                color = AgriTheme.colors.textMuted
             )
         }
     }

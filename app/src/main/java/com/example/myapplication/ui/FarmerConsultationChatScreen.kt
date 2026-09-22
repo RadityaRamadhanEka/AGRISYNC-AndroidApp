@@ -58,6 +58,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 data class ChatMessage(
@@ -88,7 +89,7 @@ fun FarmerConsultationChatScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         topBar = {
             // Header: Advisor Profile Bar
             Surface(
@@ -132,7 +133,7 @@ fun FarmerConsultationChatScreen(
                         }
 
                         Column {
-                            Text("Bpk. Slamet H.", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Bpk. Slamet H.", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("ONLINE", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4ADE80), letterSpacing = 0.5.sp)
                         }
                     }
@@ -177,8 +178,8 @@ fun FarmerConsultationChatScreen(
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = Color(0xFF2E7D32),
                             unfocusedBorderColor = Color(0xFFE5E7EB),
-                            unfocusedContainerColor = Color(0xFFF9FAFB),
-                            focusedContainerColor = Color.White
+                            unfocusedContainerColor = AgriTheme.colors.background,
+                            focusedContainerColor = AgriTheme.colors.surface
                         ),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                         keyboardActions = KeyboardActions(
@@ -258,7 +259,7 @@ fun ChatBubbleRow(msg: ChatMessage) {
             Card(
                 modifier = Modifier.fillMaxWidth(0.85f),
                 shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp, bottomEnd = 24.dp, bottomStart = 4.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
                 border = BorderStroke(1.dp, Color(0xFF4ADE80)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {

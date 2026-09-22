@@ -84,6 +84,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 data class CropProfileItem(
@@ -164,7 +165,7 @@ fun FarmerCropProfilesScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 3,
@@ -266,7 +267,7 @@ fun CropProfileListView(
                                 }
                             }
 
-                            Text("Profil Tanaman Saya", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Profil Tanaman Saya", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                         }
 
                         Surface(
@@ -310,7 +311,7 @@ fun CropProfileCard(item: CropProfileItem, onDetailClick: () -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -338,7 +339,7 @@ fun CropProfileCard(item: CropProfileItem, onDetailClick: () -> Unit) {
                     }
 
                     Column {
-                        Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                        Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                         Text(item.variety, fontSize = 12.sp, color = Color(0xFF5E8760))
                     }
                 }
@@ -464,7 +465,7 @@ fun AddCropProfileFormView(
                         }
                     }
 
-                    Text("Tambah Profil Tanaman", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text("Tambah Profil Tanaman", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 }
             }
         }
@@ -475,7 +476,7 @@ fun AddCropProfileFormView(
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
                 shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
                 border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
@@ -583,7 +584,7 @@ fun AddCropProfileFormView(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            Text("Gunakan Standar IoT", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Gunakan Standar IoT", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Icon(imageVector = Icons.Default.ElectricBolt, contentDescription = null, tint = Color(0xFF10B981), modifier = Modifier.size(16.dp))
                         }
                         Text("Aktifkan monitoring otomatis untuk suhu, kelembaban, dan nutrisi via sensor.", fontSize = 11.sp, color = Color(0xFF5E8760))
@@ -659,7 +660,7 @@ fun CropDetailOverviewView(
                         }
                     }
 
-                    Text("Detail Cabai Merah", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                    Text("Detail Cabai Merah", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                 }
             }
         }
@@ -737,7 +738,7 @@ fun CropDetailOverviewView(
 
                                 Column {
                                     Text("KESEHATAN", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6B7280), letterSpacing = 0.5.sp)
-                                    Text("Sangat Baik", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                                    Text("Sangat Baik", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                                 }
                             }
                         }
@@ -753,7 +754,7 @@ fun CropDetailOverviewView(
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
                 border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
             ) {
@@ -768,7 +769,7 @@ fun CropDetailOverviewView(
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             Icon(imageVector = Icons.Default.Spa, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(18.dp))
-                            Text("Progress Tanam", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Progress Tanam", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                         }
 
                         Surface(
@@ -902,7 +903,7 @@ fun MetricDetailSquare(title: String, value: String, icon: androidx.compose.ui.g
     Card(
         modifier = modifier.height(100.dp),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, Color(0xFFE5E7EB)),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
@@ -916,7 +917,7 @@ fun MetricDetailSquare(title: String, value: String, icon: androidx.compose.ui.g
                 Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF6B7280), modifier = Modifier.size(16.dp))
                 Text(title, fontSize = 12.sp, color = Color(0xFF6B7280))
             }
-            Text(value, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+            Text(value, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
         }
     }
 }

@@ -69,6 +69,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 @Composable
@@ -81,7 +82,7 @@ fun OnboardingScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF6F8F6)
+        containerColor = AgriTheme.colors.background
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -420,7 +421,7 @@ fun OnboardingPage1Content() {
                     .align(Alignment.TopEnd)
                     .offset(x = 10.dp, y = (20 + floatY1).dp),
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White.copy(alpha = 0.95f),
+                color = AgriTheme.colors.surface.copy(alpha = 0.95f),
                 shadowElevation = 8.dp
             ) {
                 Row(
@@ -462,7 +463,7 @@ fun OnboardingPage1Content() {
                             text = "24.5°C",
                             fontSize = 13.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -474,7 +475,7 @@ fun OnboardingPage1Content() {
                     .align(Alignment.BottomStart)
                     .offset(x = (-10).dp, y = (-15 + floatY2).dp),
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White.copy(alpha = 0.95f),
+                color = AgriTheme.colors.surface.copy(alpha = 0.95f),
                 shadowElevation = 8.dp
             ) {
                 Row(
@@ -516,7 +517,7 @@ fun OnboardingPage1Content() {
                             text = "6.5 pH",
                             fontSize = 13.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -528,7 +529,7 @@ fun OnboardingPage1Content() {
                     .align(Alignment.BottomEnd)
                     .offset(x = 20.dp, y = (40 + floatY3).dp),
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White.copy(alpha = 0.95f),
+                color = AgriTheme.colors.surface.copy(alpha = 0.95f),
                 shadowElevation = 8.dp
             ) {
                 Row(
@@ -561,7 +562,7 @@ fun OnboardingPage1Content() {
                             text = "88% Optimal",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -579,7 +580,7 @@ fun OnboardingPage1Content() {
                 text = "Pantau Tanaman",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF111827),
+                color = AgriTheme.colors.textPrimary,
                 textAlign = TextAlign.Center
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -587,7 +588,7 @@ fun OnboardingPage1Content() {
                     text = "Secara ",
                     fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFF111827)
+                    color = AgriTheme.colors.textPrimary
                 )
                 Text(
                     text = "Real-Time",
@@ -897,7 +898,7 @@ fun OnboardingPage2Content() {
                 text = "Pindai & Deteksi Asset",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF111827),
+                color = AgriTheme.colors.textPrimary,
                 textAlign = TextAlign.Center
             )
             Text(
@@ -1109,7 +1110,7 @@ fun OnboardingPage3Content() {
                             text = "Jual Panen Direct",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -1154,7 +1155,7 @@ fun OnboardingPage3Content() {
                             text = "Dokter Tanaman",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -1199,7 +1200,7 @@ fun OnboardingPage3Content() {
                             text = "Update Harian",
                             fontSize = 11.sp,
                             fontWeight = FontWeight.ExtraBold,
-                            color = Color(0xFF111827)
+                            color = AgriTheme.colors.textPrimary
                         )
                     }
                 }
@@ -1217,7 +1218,7 @@ fun OnboardingPage3Content() {
                 text = "Terhubung ke",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF111827),
+                color = AgriTheme.colors.textPrimary,
                 textAlign = TextAlign.Center
             )
             Text(

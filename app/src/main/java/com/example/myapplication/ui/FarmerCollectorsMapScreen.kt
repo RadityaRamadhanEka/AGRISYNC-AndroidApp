@@ -70,6 +70,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.AgriTheme
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 data class CollectorBuyerItem(
@@ -197,7 +198,7 @@ fun FarmerCollectorsMapScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = Color(0xFFF9FAFB),
+        containerColor = AgriTheme.colors.background,
         bottomBar = {
             AgriSyncBottomBar(
                 selectedTab = 3,
@@ -249,7 +250,7 @@ fun FarmerCollectorsMapScreen(
                                 }
                             }
 
-                            Text("Pengepul Sekitar", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Pengepul Sekitar", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                         }
 
                         // Search Input
@@ -271,8 +272,8 @@ fun FarmerCollectorsMapScreen(
                             shape = RoundedCornerShape(16.dp),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = Color(0xFF2E7D32),
-                                unfocusedBorderColor = Color(0xFFE5E7EB),
-                                unfocusedContainerColor = Color.White
+                                unfocusedBorderColor = AgriTheme.colors.grayBorder,
+                    unfocusedContainerColor = AgriTheme.colors.surface
                             ),
                             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                             modifier = Modifier.fillMaxWidth()
@@ -381,7 +382,7 @@ fun FarmerCollectorsMapScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 12.dp),
                         shape = RoundedCornerShape(20.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
                         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
                     ) {
                         Column(
@@ -392,7 +393,7 @@ fun FarmerCollectorsMapScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(imageVector = Icons.Default.Search, contentDescription = null, tint = Color(0xFF9CA3AF), modifier = Modifier.size(36.dp))
-                            Text("Tidak ada pengepul ditemukan", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text("Tidak ada pengepul ditemukan", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             Text("Coba atur ulang kata kunci atau filter di atas", fontSize = 12.sp, color = Color(0xFF6B7280))
                         }
                     }
@@ -440,7 +441,7 @@ fun CollectorBuyerCard(item: CollectorBuyerItem) {
             .fillMaxWidth()
             .padding(horizontal = 20.dp),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -474,7 +475,7 @@ fun CollectorBuyerCard(item: CollectorBuyerItem) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+                            Text(item.name, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
                             if (item.isVerified) {
                                 Icon(imageVector = Icons.Default.Verified, contentDescription = null, tint = Color(0xFF2563EB), modifier = Modifier.size(16.dp))
                             }
