@@ -206,7 +206,7 @@ fun DeviceConnectivityScreen(
                             .clickable { showAddDeviceModal = true },
                         shape = RoundedCornerShape(24.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = AgriTheme.colors.surface.copy(alpha = 0.7f)
+                            containerColor = AgriTheme.colors.surface
                         ),
                         border = androidx.compose.foundation.BorderStroke(
                             width = 2.dp,

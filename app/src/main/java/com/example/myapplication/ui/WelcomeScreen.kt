@@ -156,7 +156,7 @@ fun WelcomeScreen(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
             shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.95f)),
+            colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
         ) {
             Box(

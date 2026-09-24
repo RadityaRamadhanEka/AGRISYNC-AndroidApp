@@ -126,7 +126,7 @@ fun SettingsScreen(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = "Alex - Farm Manager",
+                            text = "Raditya - Farm Manager",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                             color = AgriTheme.colors.textSecondary

@@ -234,7 +234,7 @@ fun RecommendationPlantCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(32.dp),
-        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.9f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(

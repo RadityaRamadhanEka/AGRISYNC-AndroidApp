@@ -81,7 +81,7 @@ fun FarmerHarvestRecordScreen(
     onNavigateAnalytics: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var farmerName by remember { mutableStateOf("Alex") }
+    var farmerName by remember { mutableStateOf("Raditya") }
     var location by remember { mutableStateOf("Greenhouse A - Hidroponik") }
     var commodity by remember { mutableStateOf("Selada Romaine") }
     var weightKg by remember { mutableStateOf("150") }

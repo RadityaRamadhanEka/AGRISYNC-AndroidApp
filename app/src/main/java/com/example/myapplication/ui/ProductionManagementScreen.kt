@@ -276,7 +276,7 @@ private fun ActivePlantMonitorSection(
                 .clickable { onPlantClick() },
             shape = RoundedCornerShape(24.dp),
             colors = CardDefaults.cardColors(
-                containerColor = AgriTheme.colors.surface.copy(alpha = 0.95f)
+                containerColor = AgriTheme.colors.surface
             ),
             elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
         ) {
@@ -860,7 +860,7 @@ private fun ProductionManagementBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface,
             shadowElevation = 12.dp
         ) {
             Row(

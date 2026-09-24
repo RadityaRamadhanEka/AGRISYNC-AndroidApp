@@ -691,7 +691,7 @@ private fun FeasibilityBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface,
             shadowElevation = 12.dp
         ) {
             Row(

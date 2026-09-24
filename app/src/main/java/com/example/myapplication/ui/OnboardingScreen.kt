@@ -421,7 +421,7 @@ fun OnboardingPage1Content() {
                     .align(Alignment.TopEnd)
                     .offset(x = 10.dp, y = (20 + floatY1).dp),
                 shape = RoundedCornerShape(16.dp),
-                color = AgriTheme.colors.surface.copy(alpha = 0.95f),
+                color = AgriTheme.colors.surface,
                 shadowElevation = 8.dp
             ) {
                 Row(
@@ -475,7 +475,7 @@ fun OnboardingPage1Content() {
                     .align(Alignment.BottomStart)
                     .offset(x = (-10).dp, y = (-15 + floatY2).dp),
                 shape = RoundedCornerShape(16.dp),
-                color = AgriTheme.colors.surface.copy(alpha = 0.95f),
+                color = AgriTheme.colors.surface,
                 shadowElevation = 8.dp
             ) {
                 Row(
@@ -529,7 +529,7 @@ fun OnboardingPage1Content() {
                     .align(Alignment.BottomEnd)
                     .offset(x = 20.dp, y = (40 + floatY3).dp),
                 shape = RoundedCornerShape(16.dp),
-                color = AgriTheme.colors.surface.copy(alpha = 0.95f),
+                color = AgriTheme.colors.surface,
                 shadowElevation = 8.dp
             ) {
                 Row(

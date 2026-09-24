@@ -22,7 +22,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -72,7 +71,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusDirection
@@ -301,31 +299,8 @@ fun AuthScreen(
                     .align(Alignment.BottomEnd)
                     .offset(x = 90.dp, y = 110.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFF2E7D32).copy(alpha = 0.30f))
+                    .background(Color(0xFF2E7D32).copy(alpha = 0.20f))
                     .blur(70.dp)
-            )
-
-            // Decorative Translucent Glass Shape (Rotated 45 degrees, bottom left)
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .offset(x = (-60).dp, y = (-100).dp)
-                    .size(180.dp)
-                    .rotate(45f)
-                    .clip(RoundedCornerShape(36.dp))
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFF4ADE80).copy(alpha = 0.12f),
-                                Color(0xFF2E7D32).copy(alpha = 0.08f)
-                            )
-                        )
-                    )
-                    .border(
-                        1.dp,
-                        Color.White.copy(alpha = 0.3f),
-                        RoundedCornerShape(36.dp)
-                    )
             )
         }
 
@@ -891,8 +866,8 @@ fun AgriInputField(
             shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = AgriTheme.colors.surface,
-                unfocusedContainerColor = AgriTheme.colors.surface.copy(alpha = 0.85f),
-                disabledContainerColor = AgriTheme.colors.surface.copy(alpha = 0.4f),
+                unfocusedContainerColor = AgriTheme.colors.surface,
+                disabledContainerColor = AgriTheme.colors.surface,
                 errorContainerColor = AgriTheme.colors.redAlertBg,
                 focusedBorderColor = activeBorderColor,
                 unfocusedBorderColor = activeBorderColor,
@@ -1007,10 +982,10 @@ fun SocialLoginButton(
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
-        color = Color.White.copy(alpha = 0.75f),
+        color = AgriTheme.colors.surface,
         border = androidx.compose.foundation.BorderStroke(
             1.dp,
-            Color.White.copy(alpha = 0.6f)
+            AgriTheme.colors.grayBorder
         ),
         shadowElevation = 2.dp,
         interactionSource = interactionSource,

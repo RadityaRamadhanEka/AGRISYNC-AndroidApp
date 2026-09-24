@@ -80,8 +80,8 @@ fun EditProfileScreen(
     onNavigateAnalytics: () -> Unit = {},
     onNavigatePetani: () -> Unit = {}
 ) {
-    var fullName by remember { mutableStateOf("Alex") }
-    var email by remember { mutableStateOf("alex@agrisync.com") }
+    var fullName by remember { mutableStateOf("Raditya") }
+    var email by remember { mutableStateOf("raditya@agrisync.com") }
     var farmRole by remember { mutableStateOf("Farm Manager") }
 
     var isSaving by remember { mutableStateOf(false) }

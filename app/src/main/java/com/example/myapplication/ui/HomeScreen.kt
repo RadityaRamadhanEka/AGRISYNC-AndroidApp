@@ -1,5 +1,13 @@
 package com.example.myapplication.ui
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -53,6 +61,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -182,22 +192,70 @@ fun AgriSyncHomeScreen(
 fun TopHeaderSection(
     onNavigateToSettings: () -> Unit = {}
 ) {
+    // Infinite animation transition for continuous micro-interactions
+    val infiniteTransition = rememberInfiniteTransition(label = "HeaderAnimations")
+
+    // 1. Weather Sun continuous rotation animation
+    val sunRotation by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(15000, easing = LinearEasing)
+        ),
+        label = "SunRotation"
+    )
+
+    // 2. Online Dot gentle pulse animation
+    val dotScale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.35f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "DotPulse"
+    )
+
+    val dotAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.5f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "DotAlpha"
+    )
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // User Avatar & Name
+        // Left Side: User Avatar & Name
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.clickable { onNavigateToSettings() }
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .clickable { onNavigateToSettings() }
+                .padding(vertical = 4.dp, horizontal = 2.dp)
         ) {
-            Box {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                // Main Avatar Box
                 Box(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(AgriTheme.colors.iconBgLight),
+                        .background(
+                            brush = Brush.radialGradient(
+                                colors = listOf(
+                                    AgriTheme.colors.iconBgLight,
+                                    AgriGreenPrimary.copy(alpha = 0.15f)
+                                )
+                            )
+                        )
+                        .border(1.5.dp, AgriGreenPrimary.copy(alpha = 0.3f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -207,7 +265,18 @@ fun TopHeaderSection(
                         modifier = Modifier.size(28.dp)
                     )
                 }
-                // Online Dot
+
+                // Pulsing outer aura ring for online status
+                Box(
+                    modifier = Modifier
+                        .size(14.dp)
+                        .align(Alignment.BottomEnd)
+                        .scale(dotScale)
+                        .clip(CircleShape)
+                        .background(AgriGreenPrimary.copy(alpha = dotAlpha))
+                )
+
+                // Solid Online Dot
                 Box(
                     modifier = Modifier
                         .size(12.dp)
@@ -220,75 +289,108 @@ fun TopHeaderSection(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Column {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
                 Text(
                     text = "Selamat Pagi,",
-                    fontSize = 14.sp,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = AgriTextMuted
+                )
+                Text(
+                    text = "Raditya",
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = AgriTextDark
                 )
-                Text(
-                    text = "Alex",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = AgriTextDark
-                )
-                Text(
-                    text = "Smart Farm Manager",
-                    fontSize = 12.sp,
-                    color = AgriTextMuted
-                )
+                // Sleek role badge
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = AgriGreenPrimary.copy(alpha = 0.12f),
+                    modifier = Modifier.padding(top = 2.dp)
+                ) {
+                    Text(
+                        text = "Smart Farm Manager",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = AgriGreenDark,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                    )
+                }
             }
         }
 
-        // Right side: Weather Chip & Settings Icon
+        // Right side: Weather Chip & Settings Icon Button
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Weather Chip
+            // Slim, sleek & animated Weather Chip
             Surface(
-                shape = RoundedCornerShape(50),
+                shape = RoundedCornerShape(20.dp),
                 color = AgriTheme.colors.surface,
-                shadowElevation = 2.dp,
-                modifier = Modifier.padding(vertical = 4.dp)
+                border = BorderStroke(1.dp, AgriGreenPrimary.copy(alpha = 0.15f)),
+                shadowElevation = 0.dp,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable { /* Weather detail */ }
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.WbSunny,
                         contentDescription = "Weather",
                         tint = AgriOrangeSun,
-                        modifier = Modifier.size(18.dp)
+                        modifier = Modifier
+                            .size(18.dp)
+                            .rotate(sunRotation)
                     )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Column {
+                    
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
                         Text(
                             text = "28°C",
-                            fontSize = 12.sp,
+                            fontSize = 13.sp,
                             fontWeight = FontWeight.Bold,
                             color = AgriTextDark
                         )
                         Text(
+                            text = "•",
+                            fontSize = 11.sp,
+                            color = AgriTextMuted.copy(alpha = 0.6f)
+                        )
+                        Text(
                             text = "Cerah",
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Medium,
                             color = AgriTextMuted
                         )
                     }
                 }
             }
 
-            // Settings Gear Icon
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Settings",
-                tint = AgriTextMuted,
+            // Settings Circular Icon Button
+            Box(
                 modifier = Modifier
-                    .size(22.dp)
-                    .clickable { onNavigateToSettings() }
-            )
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(AgriTheme.colors.iconBgLight)
+                    .clickable { onNavigateToSettings() },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = AgriTextDark,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }

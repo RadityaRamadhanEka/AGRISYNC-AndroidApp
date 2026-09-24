@@ -288,36 +288,19 @@ fun AnalyticsDetailScreen(
 // ---------------------------------------------------------------------------
 @Composable
 fun AmbientGlowBackground() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        // Top-left Green Glow
-        Box(
-            modifier = Modifier
-                .offset(x = (-80).dp, y = (-60).dp)
-                .size(320.dp)
-                .blur(70.dp)
-                .background(PlantLightGreen.copy(alpha = 0.22f), CircleShape)
-        )
-
-        // Middle-right Dark Green Ambient Glow
-        Box(
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .offset(x = 100.dp, y = (-50).dp)
-                .size(360.dp)
-                .blur(80.dp)
-                .background(PlantDarkGreen.copy(alpha = 0.18f), CircleShape)
-        )
-
-        // Bottom-left Light Mint Glow
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .offset(x = (-60).dp, y = 80.dp)
-                .size(280.dp)
-                .blur(60.dp)
-                .background(PlantLightGreen.copy(alpha = 0.15f), CircleShape)
-        )
-    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        PlantBgLight,
+                        PlantLightGreen.copy(alpha = 0.15f),
+                        PlantBgLight
+                    )
+                )
+            )
+    )
 }
 
 // ---------------------------------------------------------------------------
@@ -352,8 +335,8 @@ fun PlantAnalyticsHeader(
                     .size(40.dp)
                     .clickableWithScale { onBackClick() },
                 shape = CircleShape,
-                color = AgriTheme.colors.surface.copy(alpha = 0.65f),
-                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.surface.copy(alpha = 0.8f)),
+                color = AgriTheme.colors.surface,
+                border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.grayBorder),
                 shadowElevation = 2.dp
             ) {
                 Box(
@@ -386,8 +369,8 @@ fun PlantAnalyticsHeader(
                 .size(40.dp)
                 .clickableWithScale { onRefreshClick() },
             shape = CircleShape,
-            color = AgriTheme.colors.surface.copy(alpha = 0.65f),
-            border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.surface.copy(alpha = 0.8f)),
+            color = AgriTheme.colors.surface,
+            border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.grayBorder),
             shadowElevation = 2.dp
         ) {
             Box(
@@ -578,7 +561,7 @@ fun GrowthCycleCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -999,7 +982,7 @@ fun GrowthRateChartCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -1193,7 +1176,7 @@ fun NutrientUptakeChartCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface.copy(alpha = 0.85f)),
+        colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
@@ -1415,7 +1398,7 @@ fun SensorMetricBoxItem(
 
                 Surface(
                     shape = RoundedCornerShape(50),
-                    color = AgriTheme.colors.surface.copy(alpha = 0.8f)
+                    color = AgriTheme.colors.surface
                 ) {
                     Text(
                         text = badgeText,
@@ -1552,7 +1535,7 @@ fun PlantAnalyticsBottomBar(
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
-            color = AgriTheme.colors.surface.copy(alpha = 0.95f),
+            color = AgriTheme.colors.surface,
             shadowElevation = 12.dp
         ) {
             Row(
