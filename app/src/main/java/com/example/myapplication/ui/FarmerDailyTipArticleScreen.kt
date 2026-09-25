@@ -76,7 +76,7 @@ fun FarmerDailyTipArticleScreen(
         topBar = {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = Color(0xFFE8F5E9).copy(alpha = 0.8f)
+                color = AgriTheme.colors.surface
             ) {
                 Row(
                     modifier = Modifier
@@ -86,13 +86,13 @@ fun FarmerDailyTipArticleScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = onBackClick) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color(0xFF111827))
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = AgriTheme.colors.textPrimary)
                     }
 
                     Text("Tips Harian", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
 
                     IconButton(onClick = onShareClick) {
-                        Icon(imageVector = Icons.Default.Share, contentDescription = "Share", tint = Color(0xFF111827))
+                        Icon(imageVector = Icons.Default.Share, contentDescription = "Share", tint = AgriTheme.colors.textPrimary)
                     }
                 }
             }
@@ -100,7 +100,7 @@ fun FarmerDailyTipArticleScreen(
         bottomBar = {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = Color.White,
+                color = AgriTheme.colors.surface,
                 shadowElevation = 8.dp
             ) {
                 Box(
@@ -137,8 +137,8 @@ fun FarmerDailyTipArticleScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onShareClick,
-                containerColor = Color.White,
-                contentColor = Color(0xFF2E7D32),
+                containerColor = AgriTheme.colors.surface,
+                contentColor = AgriTheme.colors.primary,
                 shape = CircleShape,
                 elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
             ) {
@@ -233,13 +233,13 @@ fun FarmerDailyTipArticleScreen(
                         }
 
                         Column(horizontalAlignment = Alignment.End) {
-                            Text("WAKTU BACA", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = Color(0xFF9CA3AF), letterSpacing = 0.5.sp)
+                            Text("WAKTU BACA", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textMuted, letterSpacing = 0.5.sp)
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                Icon(imageVector = Icons.Default.Schedule, contentDescription = null, tint = Color(0xFF4B5563), modifier = Modifier.size(14.dp))
-                                Text("5 Menit", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF4B5563))
+                                Icon(imageVector = Icons.Default.Schedule, contentDescription = null, tint = AgriTheme.colors.textSecondary, modifier = Modifier.size(14.dp))
+                                Text("5 Menit", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = AgriTheme.colors.textSecondary)
                             }
                         }
                     }
@@ -251,7 +251,7 @@ fun FarmerDailyTipArticleScreen(
                 Text(
                     text = "Dalam pertanian modern, efisiensi nutrisi adalah kunci keberhasilan panen yang melimpah. Metode hidroponik yang kita gunakan di AGRISYNC memungkinkan kontrol penuh, namun seringkali detail kecil terlewatkan. Berikut adalah langkah teknis untuk mengoptimalkan sistem Anda secara organik.",
                     fontSize = 14.sp,
-                    color = Color(0xFF4B5563),
+                    color = AgriTheme.colors.textSecondary,
                     lineHeight = 24.sp
                 )
             }
@@ -266,8 +266,8 @@ fun FarmerDailyTipArticleScreen(
                         "Lakukan pengecekan setiap pagi sebelum matahari terik."
                     ),
                     icon = Icons.Default.WaterDrop,
-                    iconBgHex = 0xFFEFF6FF,
-                    iconTintHex = 0xFF2563EB
+                    iconBgColor = AgriTheme.colors.blueInfoBg,
+                    iconTint = AgriTheme.colors.blueAccent
                 )
             }
 
@@ -281,8 +281,8 @@ fun FarmerDailyTipArticleScreen(
                         "Tambahkan larutan kalsium nitrat untuk memperkuat dinding sel daun."
                     ),
                     icon = Icons.Default.Lightbulb,
-                    iconBgHex = 0xFFFFFBEB,
-                    iconTintHex = 0xFFD97706
+                    iconBgColor = AgriTheme.colors.yellowWarnBg,
+                    iconTint = AgriTheme.colors.orangeAccent
                 )
             }
 
@@ -295,8 +295,8 @@ fun FarmerDailyTipArticleScreen(
                         "Berikan 14-16 jam cahaya untuk sayuran daun hijau."
                     ),
                     icon = Icons.Default.WbSunny,
-                    iconBgHex = 0xFFFAF5FF,
-                    iconTintHex = 0xFF9333EA
+                    iconBgColor = AgriTheme.colors.purpleInfoBg,
+                    iconTint = Color(0xFFC084FC)
                 )
             }
         }
@@ -309,14 +309,14 @@ fun ArticleStepCard(
     desc: String,
     items: List<String>,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
-    iconBgHex: Long,
-    iconTintHex: Long
+    iconBgColor: Color,
+    iconTint: Color
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
-        border = BorderStroke(1.dp, Color(0xFFF3F4F6)),
+        border = BorderStroke(1.dp, AgriTheme.colors.grayBorder),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
@@ -331,23 +331,23 @@ fun ArticleStepCard(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(Color(iconBgHex)),
+                        .background(iconBgColor),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(imageVector = icon, contentDescription = null, tint = Color(iconTintHex), modifier = Modifier.size(20.dp))
+                    Icon(imageVector = icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(20.dp))
                 }
 
                 Text(title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
             }
 
-            Text(desc, fontSize = 13.sp, color = Color(0xFF4B5563), lineHeight = 20.sp)
+            Text(desc, fontSize = 13.sp, color = AgriTheme.colors.textSecondary, lineHeight = 20.sp)
 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 for (itemText in items) {
                     Surface(
                         shape = RoundedCornerShape(12.dp),
-                        color = Color(0xFFF9FAFB),
-                        border = BorderStroke(1.dp, Color(0xFFF3F4F6))
+                        color = AgriTheme.colors.grayBgAlt,
+                        border = BorderStroke(1.dp, AgriTheme.colors.grayBorder)
                     ) {
                         Row(
                             modifier = Modifier
@@ -357,7 +357,7 @@ fun ArticleStepCard(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(imageVector = Icons.Default.CheckCircle, contentDescription = null, tint = Color(0xFF10B981), modifier = Modifier.size(16.dp))
-                            Text(itemText, fontSize = 12.sp, color = Color(0xFF374151), fontWeight = FontWeight.Medium)
+                            Text(itemText, fontSize = 12.sp, color = AgriTheme.colors.textPrimary, fontWeight = FontWeight.Medium)
                         }
                     }
                 }
@@ -370,6 +370,14 @@ fun ArticleStepCard(
 @Composable
 fun FarmerDailyTipArticleScreenPreview() {
     MyApplicationTheme {
+        FarmerDailyTipArticleScreen()
+    }
+}
+
+@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun FarmerDailyTipArticleScreenDarkPreview() {
+    MyApplicationTheme(darkTheme = true) {
         FarmerDailyTipArticleScreen()
     }
 }
