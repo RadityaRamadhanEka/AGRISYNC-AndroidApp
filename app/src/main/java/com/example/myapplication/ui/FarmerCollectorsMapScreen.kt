@@ -400,7 +400,11 @@ fun FarmerCollectorsMapScreen(
                 }
             } else {
                 items(filteredBuyers) { buyer ->
-                    CollectorBuyerCard(item = buyer)
+                    CollectorBuyerCard(
+                        item = buyer,
+                        onDirectionsClick = { /* Open maps for directions */ },
+                        onCallClick = { /* Open phone dialer */ }
+                    )
                 }
             }
         }
@@ -433,7 +437,11 @@ fun FilterChipPill(
 }
 
 @Composable
-fun CollectorBuyerCard(item: CollectorBuyerItem) {
+fun CollectorBuyerCard(
+    item: CollectorBuyerItem,
+    onDirectionsClick: () -> Unit = {},
+    onCallClick: () -> Unit = {}
+) {
     var isBookmarked by remember { mutableStateOf(false) }
 
     Card(
@@ -553,7 +561,7 @@ fun CollectorBuyerCard(item: CollectorBuyerItem) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 OutlinedButton(
-                    onClick = { },
+                    onClick = onDirectionsClick,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     border = BorderStroke(1.dp, Color(0xFF2E7D32))
@@ -564,7 +572,7 @@ fun CollectorBuyerCard(item: CollectorBuyerItem) {
                 }
 
                 Button(
-                    onClick = { },
+                    onClick = onCallClick,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))

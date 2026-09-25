@@ -65,6 +65,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 @Composable
 fun FarmerDailyTipArticleScreen(
     onBackClick: () -> Unit = {},
+    onShareClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var isBookmarked by remember { mutableStateOf(false) }
@@ -90,7 +91,7 @@ fun FarmerDailyTipArticleScreen(
 
                     Text("Tips Harian", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
 
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = onShareClick) {
                         Icon(imageVector = Icons.Default.Share, contentDescription = "Share", tint = Color(0xFF111827))
                     }
                 }
@@ -135,7 +136,7 @@ fun FarmerDailyTipArticleScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { },
+                onClick = onShareClick,
                 containerColor = Color.White,
                 contentColor = Color(0xFF2E7D32),
                 shape = CircleShape,

@@ -49,6 +49,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 fun WelcomeScreen(
     onGetStarted: () -> Unit = {},
     onLogin: () -> Unit = {},
+    onHelpClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -137,7 +138,7 @@ fun WelcomeScreen(
                         .size(36.dp)
                         .clip(CircleShape)
                         .background(Color.White.copy(alpha = 0.2f))
-                        .clickable { },
+                        .clickable { onHelpClick() },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(

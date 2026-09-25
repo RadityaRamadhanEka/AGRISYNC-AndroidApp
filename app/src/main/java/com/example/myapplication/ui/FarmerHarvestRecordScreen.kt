@@ -535,6 +535,11 @@ fun HarvestDatePickerModal(
     onDateSelected: (String) -> Unit
 ) {
     var selectedDay by remember { mutableStateOf(8) }
+    var currentMonth by remember { mutableStateOf(9) } // 0-based: 9 = October
+    var currentYear by remember { mutableStateOf(2023) }
+
+    val monthNames = listOf("Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember")
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -557,9 +562,23 @@ fun HarvestDatePickerModal(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = {}) { Icon(Icons.Default.ChevronLeft, contentDescription = null) }
-                    Text("Oktober 2023", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
-                    IconButton(onClick = {}) { Icon(Icons.Default.ChevronRight, contentDescription = null) }
+                    IconButton(onClick = {
+                        if (currentMonth == 0) {
+                            currentMonth = 11
+                            currentYear--
+                        } else {
+                            currentMonth--
+                        }
+                    }) { Icon(Icons.Default.ChevronLeft, contentDescription = "Bulan sebelumnya") }
+                    Text("${monthNames[currentMonth]} $currentYear", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
+                    IconButton(onClick = {
+                        if (currentMonth == 11) {
+                            currentMonth = 0
+                            currentYear++
+                        } else {
+                            currentMonth++
+                        }
+                    }) { Icon(Icons.Default.ChevronRight, contentDescription = "Bulan berikutnya") }
                 }
 
                 // Days of week header

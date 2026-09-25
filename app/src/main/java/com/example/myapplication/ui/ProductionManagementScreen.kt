@@ -75,8 +75,10 @@ fun ProductionManagementScreen(
     onNavigateToRecommendation: () -> Unit = {},
     onNavigateToControl: () -> Unit = {},
     onNavigateToPetani: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
     onNavigateToFeasibility: () -> Unit = {},
-    onNavigateToBEPSimulator: () -> Unit = {}
+    onNavigateToBEPSimulator: () -> Unit = {},
+    onScanClick: () -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -93,6 +95,24 @@ fun ProductionManagementScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onScanClick,
+                modifier = Modifier
+                    .offset(y = (-20).dp)
+                    .size(56.dp),
+                shape = CircleShape,
+                containerColor = AgriTheme.colors.primary,
+                contentColor = Color.White,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.QrCodeScanner,
+                    contentDescription = "Scan QR",
+                    modifier = Modifier.size(26.dp)
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -104,7 +124,10 @@ fun ProductionManagementScreen(
         ) {
             // Top Header: Manajemen Produksi + Weather/Settings
             item {
-                ProductionHeaderSection()
+                ProductionHeaderSection(
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToAnalytics = onNavigateToAnalytics
+                )
             }
 
             // Section 1: Monitor Tanam Aktif
@@ -134,7 +157,10 @@ fun ProductionManagementScreen(
 // 1. TOP HEADER SECTION
 // ---------------------------------------------------------------------------
 @Composable
-private fun ProductionHeaderSection() {
+private fun ProductionHeaderSection(
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToAnalytics: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -175,7 +201,8 @@ private fun ProductionHeaderSection() {
                 shape = RoundedCornerShape(50),
                 color = AgriTheme.colors.surface,
                 border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
-                shadowElevation = 2.dp
+                shadowElevation = 2.dp,
+                modifier = Modifier.clickable { onNavigateToAnalytics() }
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
@@ -201,7 +228,8 @@ private fun ProductionHeaderSection() {
             Surface(
                 modifier = Modifier
                     .size(40.dp)
-                    .clickable { },
+                    .clip(CircleShape)
+                    .clickable { onNavigateToSettings() },
                 shape = CircleShape,
                 color = AgriTheme.colors.surface,
                 border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
@@ -905,31 +933,14 @@ private fun ProductionManagementBottomBar(
                     isSelected = selectedTab == 3,
                     onClick = { onTabSelected(3) }
                 )
-            }
-        }
+}
 
-        // Center Elevated Scan FAB
-        FloatingActionButton(
-            onClick = { },
-            modifier = Modifier
-                .offset(y = (-20).dp)
-                .size(56.dp),
-            shape = CircleShape,
-            containerColor = AgriTheme.colors.primary,
-            contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "Scan QR",
-                modifier = Modifier.size(26.dp)
-            )
         }
     }
 }
 
 @Composable
-private fun ProductionNavItem(
+fun ProductionNavItem(
     label: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     isSelected: Boolean,

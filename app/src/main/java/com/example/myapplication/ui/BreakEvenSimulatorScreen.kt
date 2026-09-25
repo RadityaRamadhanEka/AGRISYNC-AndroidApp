@@ -97,7 +97,9 @@ fun BreakEvenSimulatorScreen(
     onNavigateToControl: () -> Unit = {},
     onNavigateToProductionManagement: () -> Unit = {},
     onNavigateToAnalytics: () -> Unit = {},
-    onNavigateToPetani: () -> Unit = {}
+    onNavigateToPetani: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
+    onScanClick: () -> Unit = {}
 ) {
     var isVisible by remember { mutableStateOf(false) }
     var simulatedHarvestKg by remember { mutableFloatStateOf(112f) }
@@ -125,6 +127,24 @@ fun BreakEvenSimulatorScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onScanClick,
+                modifier = Modifier
+                    .offset(y = (-20).dp)
+                    .size(56.dp),
+                shape = CircleShape,
+                containerColor = Color(0xFF2E7D32),
+                contentColor = Color.White,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.QrCodeScanner,
+                    contentDescription = "Scan QR",
+                    modifier = Modifier.size(26.dp)
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -137,7 +157,9 @@ fun BreakEvenSimulatorScreen(
             // Header: Simulator Titik Impas + Weather & Settings
             item {
                 BreakEvenHeader(
-                    onBackClick = onBackClick
+                    onBackClick = onBackClick,
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToAnalytics = onNavigateToAnalytics
                 )
             }
 
@@ -207,7 +229,9 @@ fun BreakEvenSimulatorScreen(
 // ---------------------------------------------------------------------------
 @Composable
 private fun BreakEvenHeader(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToAnalytics: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -224,6 +248,7 @@ private fun BreakEvenHeader(
             Surface(
                 modifier = Modifier
                     .size(40.dp)
+                    .clip(CircleShape)
                     .clickable { onBackClick() },
                 shape = CircleShape,
                 color = AgriTheme.colors.surface,
@@ -268,7 +293,8 @@ private fun BreakEvenHeader(
                 shape = RoundedCornerShape(50),
                 color = AgriTheme.colors.surface,
                 border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
-                shadowElevation = 2.dp
+                shadowElevation = 2.dp,
+                modifier = Modifier.clickable { onNavigateToAnalytics() }
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 13.dp, vertical = 7.dp),
@@ -294,7 +320,8 @@ private fun BreakEvenHeader(
             Surface(
                 modifier = Modifier
                     .size(38.dp)
-                    .clickable { },
+                    .clip(CircleShape)
+                    .clickable { onNavigateToSettings() },
                 shape = CircleShape,
                 color = AgriTheme.colors.surface,
                 border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
@@ -991,31 +1018,13 @@ private fun BreakEvenBottomBar(
                     isSelected = selectedTab == 3,
                     onClick = { onTabSelected(3) }
                 )
-            }
-        }
-
-        // Center Elevated Scan FAB
-        FloatingActionButton(
-            onClick = { },
-            modifier = Modifier
-                .offset(y = (-20).dp)
-                .size(56.dp),
-            shape = CircleShape,
-            containerColor = Color(0xFF2E7D32),
-            contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "Scan QR",
-                modifier = Modifier.size(26.dp)
-            )
-        }
+}
     }
+}
 }
 
 @Composable
-private fun BreakEvenNavItem(
+fun BreakEvenNavItem(
     label: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     isSelected: Boolean,

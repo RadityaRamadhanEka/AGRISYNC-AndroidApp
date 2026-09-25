@@ -97,6 +97,9 @@ fun FarmerCommunityScreen(
     modifier: Modifier = Modifier
 ) {
     var searchQuery by remember { mutableStateOf("") }
+    var showNewDiscussionModal by remember { mutableStateOf(false) }
+    var showFindGroupModal by remember { mutableStateOf(false) }
+    var selectedGroupForum by remember { mutableStateOf<FarmerGroupItem?>(null) }
 
     val myGroups = remember {
         listOf(
@@ -256,7 +259,7 @@ fun FarmerCommunityScreen(
                                 shape = RoundedCornerShape(16.dp),
                                 color = Color(0xFF2E7D32),
                                 shadowElevation = 3.dp,
-                                modifier = Modifier.clickable { }
+                                modifier = Modifier.clickable { showNewDiscussionModal = true }
                             ) {
                                 Box(modifier = Modifier.padding(12.dp)) {
                                     Icon(imageVector = Icons.Default.Add, contentDescription = "New Discussion", tint = Color.White, modifier = Modifier.size(20.dp))
@@ -268,7 +271,7 @@ fun FarmerCommunityScreen(
                         Surface(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { },
+                                .clickable { showFindGroupModal = true },
                             shape = RoundedCornerShape(16.dp),
                             color = Color.White.copy(alpha = 0.9f),
                             border = BorderStroke(1.dp, Color(0xFF2E7D32).copy(alpha = 0.3f)),
@@ -302,11 +305,14 @@ fun FarmerCommunityScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text("Kelompok Saya", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
-                        Text("Lihat Semua", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32), modifier = Modifier.clickable { })
+                        Text("Lihat Semua", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32), modifier = Modifier.clickable { showFindGroupModal = true })
                     }
 
                     for (group in myGroups) {
-                        GroupCardItem(item = group)
+                        GroupCardItem(
+                            item = group,
+                            onClick = { selectedGroupForum = group }
+                        )
                     }
                 }
             }
@@ -326,10 +332,118 @@ fun FarmerCommunityScreen(
             }
         }
     }
+
+    if (showNewDiscussionModal) {
+        var postTitle by remember { mutableStateOf("") }
+        var postBody by remember { mutableStateOf("") }
+        androidx.compose.ui.window.Dialog(onDismissRequest = { showNewDiscussionModal = false }) {
+            Surface(
+                shape = RoundedCornerShape(24.dp),
+                color = AgriTheme.colors.surface,
+                shadowElevation = 16.dp,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    Text("Buat Diskusi Baru", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
+                    OutlinedTextField(
+                        value = postTitle,
+                        onValueChange = { postTitle = it },
+                        label = { Text("Judul Diskusi") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    OutlinedTextField(
+                        value = postBody,
+                        onValueChange = { postBody = it },
+                        label = { Text("Isi Pertanyaan / Topik") },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Button(
+                            onClick = { showNewDiscussionModal = false },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))
+                        ) {
+                            Text("Kirim Topik", color = Color.White)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (showFindGroupModal) {
+        androidx.compose.ui.window.Dialog(onDismissRequest = { showFindGroupModal = false }) {
+            Surface(
+                shape = RoundedCornerShape(24.dp),
+                color = AgriTheme.colors.surface,
+                shadowElevation = 16.dp,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    Text("Cari Kelompok Tani Baru", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
+                    Text("Kelompok Tani recommended di wilayah Anda:", fontSize = 12.sp, color = Color(0xFF6B7280))
+                    Surface(shape = RoundedCornerShape(12.dp), color = Color(0xFFF3F4F6), modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                        Column(modifier = Modifier.padding(10.dp)) {
+                            Text("Kelompok Tani Subur Makmur", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                            Text("Kramat Jati • 150 Anggota", fontSize = 11.sp, color = Color(0xFF6B7280))
+                        }
+                    }
+                    Button(
+                        onClick = { showFindGroupModal = false },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))
+                    ) {
+                        Text("Minta Bergabung", color = Color.White)
+                    }
+                }
+            }
+        }
+    }
+
+    selectedGroupForum?.let { group ->
+        androidx.compose.ui.window.Dialog(onDismissRequest = { selectedGroupForum = null }) {
+            Surface(
+                shape = RoundedCornerShape(24.dp),
+                color = AgriTheme.colors.surface,
+                shadowElevation = 16.dp,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(14.dp)
+                ) {
+                    Text(group.name, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = AgriTheme.colors.textPrimary)
+                    Text("${group.memberCount} • ${group.location}", fontSize = 12.sp, color = Color(0xFF6B7280))
+                    Text("Peran Anda: ${group.role}", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2E7D32))
+                    Button(
+                        onClick = { selectedGroupForum = null },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))
+                    ) {
+                        Text("Masuk Ruang Diskusi", color = Color.White)
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
-fun GroupCardItem(item: FarmerGroupItem) {
+fun GroupCardItem(
+    item: FarmerGroupItem,
+    onClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
@@ -426,7 +540,7 @@ fun GroupCardItem(item: FarmerGroupItem) {
                 }
 
                 Button(
-                    onClick = { },
+                    onClick = onClick,
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))
                 ) {

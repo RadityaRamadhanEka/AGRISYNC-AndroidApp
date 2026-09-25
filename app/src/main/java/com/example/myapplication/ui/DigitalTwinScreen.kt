@@ -98,6 +98,7 @@ fun DigitalTwinScreen(
     onNavigateControl: () -> Unit = {},
     onNavigateAnalytics: () -> Unit = {},
     onNavigatePetani: () -> Unit = {},
+    onScanClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -115,6 +116,24 @@ fun DigitalTwinScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onScanClick,
+                modifier = Modifier
+                    .offset(y = (-20).dp)
+                    .size(56.dp),
+                shape = CircleShape,
+                containerColor = AgriGreenDark,
+                contentColor = Color.White,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.QrCodeScanner,
+                    contentDescription = "Scan QR",
+                    modifier = Modifier.size(26.dp)
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -829,25 +848,8 @@ fun DigitalTwinBottomBar(
                     isSelected = selectedTab == 3,
                     onClick = { onTabSelected(3) }
                 )
-            }
-        }
+}
 
-        // Center Floating Scan Button
-        FloatingActionButton(
-            onClick = { },
-            modifier = Modifier
-                .offset(y = (-20).dp)
-                .size(56.dp),
-            shape = CircleShape,
-            containerColor = AgriGreenDark,
-            contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "Scan QR",
-                modifier = Modifier.size(26.dp)
-            )
         }
     }
 }

@@ -73,6 +73,7 @@ data class ChatMessage(
 @Composable
 fun FarmerConsultationChatScreen(
     onBackClick: () -> Unit = {},
+    onMoreClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var inputText by remember { mutableStateOf("") }
@@ -138,7 +139,7 @@ fun FarmerConsultationChatScreen(
                         }
                     }
 
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = onMoreClick) {
                         Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More", tint = Color(0xFF6B7280))
                     }
                 }

@@ -1234,16 +1234,17 @@ private fun IotAlertCard(alert: IotAlert) {
                 )
 
                 Spacer(Modifier.height(12.dp))
+                var isAcknowledged by remember { mutableStateOf(false) }
                 Surface(
                     shape = RoundedCornerShape(8.dp),
-                    color = accent.copy(alpha = 0.12f),
-                    modifier = Modifier.clickable { }
+                    color = if (isAcknowledged) AgriTheme.colors.mintBg else accent.copy(alpha = 0.12f),
+                    modifier = Modifier.clickable { isAcknowledged = !isAcknowledged }
                 ) {
                     Text(
-                        text = "Acknowledge",
+                        text = if (isAcknowledged) "✓ Selesai" else "Acknowledge",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = accent,
+                        color = if (isAcknowledged) AgriGreenDark else accent,
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                     )
                 }

@@ -110,6 +110,8 @@ fun FarmerCropProfilesScreen(
     onNavigateHome: () -> Unit = {},
     onNavigateControl: () -> Unit = {},
     onNavigateAnalytics: () -> Unit = {},
+    onControlManualClick: () -> Unit = {},
+    onNutrientScheduleClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var currentView by remember { mutableStateOf(CropProfileScreenView.LIST) }
@@ -209,7 +211,9 @@ fun FarmerCropProfilesScreen(
                     CropDetailOverviewView(
                         cropId = selectedCropId,
                         onBackClick = { currentView = CropProfileScreenView.LIST },
-                        onNavigateAnalytics = onNavigateAnalytics
+                        onNavigateAnalytics = onNavigateAnalytics,
+                        onControlManualClick = onControlManualClick,
+                        onNutrientScheduleClick = onNutrientScheduleClick
                     )
                 }
             }
@@ -628,7 +632,9 @@ fun AddCropProfileFormView(
 fun CropDetailOverviewView(
     cropId: String,
     onBackClick: () -> Unit,
-    onNavigateAnalytics: () -> Unit
+    onNavigateAnalytics: () -> Unit,
+    onControlManualClick: () -> Unit = {},
+    onNutrientScheduleClick: () -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -873,7 +879,7 @@ fun CropDetailOverviewView(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 OutlinedButton(
-                    onClick = { },
+                    onClick = onControlManualClick,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     border = BorderStroke(1.dp, Color(0xFFE5E7EB))
@@ -884,7 +890,7 @@ fun CropDetailOverviewView(
                 }
 
                 Button(
-                    onClick = { },
+                    onClick = onNutrientScheduleClick,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32))

@@ -139,12 +139,15 @@ fun AgriSyncHomeScreen(
         ) {
             // 1. Top Header Profile & Weather
             item {
-                TopHeaderSection(onNavigateToSettings = onNavigateToSettings)
+                TopHeaderSection(
+                    onNavigateToSettings = onNavigateToSettings,
+                    onNavigateToAnalytics = onNavigateToAnalytics
+                )
             }
 
             // 2. Dampak ECO Banner Card (Green Gradient)
             item {
-                EcoImpactBannerCard()
+                EcoImpactBannerCard(onDetailClick = onNavigateToAnalytics)
             }
 
             // 3. Digital Twin Feature Card
@@ -159,7 +162,7 @@ fun AgriSyncHomeScreen(
 
             // 5. 3 Metrics Grid Row (Suhu Udara, Kelembapan, pH Tanah)
             item {
-                ThreeMetricsRow()
+                ThreeMetricsRow(onMetricClick = onNavigateToAnalytics)
             }
 
             // 6. Active Plant Card (Selada Rom)
@@ -190,7 +193,8 @@ fun AgriSyncHomeScreen(
 // ---------------------------------------------------------------------------
 @Composable
 fun TopHeaderSection(
-    onNavigateToSettings: () -> Unit = {}
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToAnalytics: () -> Unit = {}
 ) {
     // Infinite animation transition for continuous micro-interactions
     val infiniteTransition = rememberInfiniteTransition(label = "HeaderAnimations")
@@ -334,7 +338,7 @@ fun TopHeaderSection(
                 shadowElevation = 0.dp,
                 modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))
-                    .clickable { /* Weather detail */ }
+                    .clickable { onNavigateToAnalytics() }
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
@@ -399,7 +403,9 @@ fun TopHeaderSection(
 // 2. DAMPAK ECO BANNER CARD
 // ---------------------------------------------------------------------------
 @Composable
-fun EcoImpactBannerCard() {
+fun EcoImpactBannerCard(
+    onDetailClick: () -> Unit = {}
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
@@ -466,7 +472,7 @@ fun EcoImpactBannerCard() {
                 // Lihat Detail Link
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickable { }
+                    modifier = Modifier.clickable { onDetailClick() }
                 ) {
                     Text(
                         text = "Lihat Detail",
@@ -653,7 +659,9 @@ fun ProductionManagementCard(
 // 5. THREE METRICS ROW (Suhu Udara, Kelembapan, pH Tanah)
 // ---------------------------------------------------------------------------
 @Composable
-fun ThreeMetricsRow() {
+fun ThreeMetricsRow(
+    onMetricClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -664,7 +672,8 @@ fun ThreeMetricsRow() {
             value = "24°C",
             icon = Icons.Default.Thermostat,
             iconBgColor = AgriGreenLight,
-            iconTint = AgriGreenPrimary
+            iconTint = AgriGreenPrimary,
+            onClick = onMetricClick
         )
         MetricBoxItem(
             modifier = Modifier.weight(1f),
@@ -672,7 +681,8 @@ fun ThreeMetricsRow() {
             value = "65%",
             icon = Icons.Default.WaterDrop,
             iconBgColor = AgriTheme.colors.blueInfoBg,
-            iconTint = AgriBlueWater
+            iconTint = AgriBlueWater,
+            onClick = onMetricClick
         )
         MetricBoxItem(
             modifier = Modifier.weight(1f),
@@ -680,7 +690,8 @@ fun ThreeMetricsRow() {
             value = "6.5",
             icon = Icons.Outlined.LocalFlorist,
             iconBgColor = AgriGreenLight,
-            iconTint = AgriGreenPrimary
+            iconTint = AgriGreenPrimary,
+            onClick = onMetricClick
         )
     }
 }
@@ -692,10 +703,11 @@ fun MetricBoxItem(
     value: String,
     icon: ImageVector,
     iconBgColor: Color,
-    iconTint: Color
+    iconTint: Color,
+    onClick: () -> Unit = {}
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { onClick() },
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
@@ -1073,7 +1085,9 @@ fun RecentActivitiesSection(
         Spacer(modifier = Modifier.height(10.dp))
 
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onSeeAllClick() },
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = AgriTheme.colors.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)

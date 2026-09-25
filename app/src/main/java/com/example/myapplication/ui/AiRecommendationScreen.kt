@@ -85,6 +85,7 @@ fun AiRecommendationScreen(
     onNavigateControl: () -> Unit = {},
     onNavigateAnalytics: () -> Unit = {},
     onNavigatePetani: () -> Unit = {},
+    onScanClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val recommendationList = remember {
@@ -140,6 +141,24 @@ fun AiRecommendationScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onScanClick,
+                modifier = Modifier
+                    .offset(y = (-20).dp)
+                    .size(56.dp),
+                shape = CircleShape,
+                containerColor = AgriGreenDark,
+                contentColor = Color.White,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.QrCodeScanner,
+                    contentDescription = "Scan QR",
+                    modifier = Modifier.size(26.dp)
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -321,11 +340,10 @@ fun RecommendationPlantCard(
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF2E7D32)
-                            )
+)
                         }
                     }
                 }
-
                 // Bottom Left: Plant Name & Latin Name
                 Column(
                     modifier = Modifier
@@ -583,29 +601,11 @@ fun AiRecommendationBottomBar(
                     isSelected = selectedTab == 3,
                     onClick = { onTabSelected(3) }
                 )
-            }
-        }
-
-        // Center Floating Elevated Green Scan Button
-        FloatingActionButton(
-            onClick = { },
-            modifier = Modifier
-                .offset(y = (-20).dp)
-                .size(56.dp),
-            shape = CircleShape,
-            containerColor = AgriGreenDark,
-            contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "Scan QR",
-                modifier = Modifier.size(26.dp)
-            )
-        }
-    }
 }
 
+    }
+    }
+}
 @Composable
 fun RecommendationNavItem(
     label: String,

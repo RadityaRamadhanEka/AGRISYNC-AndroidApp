@@ -126,6 +126,7 @@ fun AnalyticsDetailScreen(
     onNavigateToProductionManagement: () -> Unit = {},
     onNavigateToControl: () -> Unit = {},
     onNavigateToPetani: () -> Unit = {},
+    onScanClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var selectedTimeFilter by remember { mutableIntStateOf(0) } // 0: 7D, 1: 14D, 2: 30D
@@ -154,6 +155,36 @@ fun AnalyticsDetailScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onScanClick,
+                modifier = Modifier
+                    .offset(y = (-22).dp)
+                    .size(58.dp)
+                    .clickableWithScale { },
+                shape = CircleShape,
+                containerColor = PlantDarkGreen,
+                contentColor = Color.White,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(PlantDarkGreen, PlantLightGreen)
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.QrCodeScanner,
+                        contentDescription = "Scan QR",
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+            }
         }
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize()) {
@@ -253,7 +284,7 @@ fun AnalyticsDetailScreen(
                             animationSpec = tween(500, delayMillis = 400)
                         )
                     ) {
-                        SensorMetricsTripletRow()
+                        SensorMetricsTripletRow(onMetricClick = { showHealthBottomSheet = true })
                     }
                 }
 
@@ -1311,7 +1342,9 @@ fun NutrientUptakeChartCard(
 // 5. SENSOR METRICS TRIPLET ROW (HUMIDITY, PH LEVEL, TEMP)
 // ---------------------------------------------------------------------------
 @Composable
-fun SensorMetricsTripletRow() {
+fun SensorMetricsTripletRow(
+    onMetricClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -1326,7 +1359,8 @@ fun SensorMetricsTripletRow() {
             bgColor = AgriTheme.colors.blueInfoBg,
             borderColor = AgriTheme.colors.blueInfoBg,
             icon = Icons.Default.WaterDrop,
-            iconTint = PlantBlueAccent
+            iconTint = PlantBlueAccent,
+            onClick = onMetricClick
         )
 
         // Card 2: pH Level
@@ -1339,7 +1373,8 @@ fun SensorMetricsTripletRow() {
             bgColor = AgriTheme.colors.purpleInfoBg,
             borderColor = AgriTheme.colors.purpleInfoBg,
             icon = Icons.Default.Science,
-            iconTint = PlantPurpleAccent
+            iconTint = PlantPurpleAccent,
+            onClick = onMetricClick
         )
 
         // Card 3: Temperature
@@ -1352,7 +1387,8 @@ fun SensorMetricsTripletRow() {
             bgColor = AgriTheme.colors.yellowWarnBg,
             borderColor = AgriTheme.colors.yellowWarnBg,
             icon = Icons.Default.Thermostat,
-            iconTint = PlantRedAccent
+            iconTint = PlantRedAccent,
+            onClick = onMetricClick
         )
     }
 }
@@ -1367,12 +1403,13 @@ fun SensorMetricBoxItem(
     bgColor: Color,
     borderColor: Color,
     icon: ImageVector,
-    iconTint: Color
+    iconTint: Color,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
             .height(116.dp)
-            .clickableWithScale { },
+            .clickableWithScale { onClick() },
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = bgColor),
         border = androidx.compose.foundation.BorderStroke(1.dp, borderColor)
@@ -1580,38 +1617,8 @@ fun PlantAnalyticsBottomBar(
                     isSelected = selectedTab == 3,
                     onClick = { onTabSelected(3) }
                 )
-            }
-        }
+}
 
-        // Elevated Center Green Gradient QR Scan Floating Button
-        FloatingActionButton(
-            onClick = { },
-            modifier = Modifier
-                .offset(y = (-22).dp)
-                .size(58.dp)
-                .clickableWithScale { },
-            shape = CircleShape,
-            containerColor = PlantDarkGreen,
-            contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(PlantDarkGreen, PlantLightGreen)
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.QrCodeScanner,
-                    contentDescription = "Quick Scan QR",
-                    tint = Color.White,
-                    modifier = Modifier.size(26.dp)
-                )
-            }
         }
     }
 }

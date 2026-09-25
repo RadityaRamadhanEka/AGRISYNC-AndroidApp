@@ -80,7 +80,9 @@ fun FeasibilityAnalysisScreen(
     onNavigateToControl: () -> Unit = {},
     onNavigateToProductionManagement: () -> Unit = {},
     onNavigateToAnalytics: () -> Unit = {},
-    onNavigateToPetani: () -> Unit = {}
+    onNavigateToPetani: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
+    onScanClick: () -> Unit = {}
 ) {
     var isVisible by remember { mutableStateOf(true) }
     var targetRoi by remember { mutableIntStateOf(0) }
@@ -116,6 +118,24 @@ fun FeasibilityAnalysisScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onScanClick,
+                modifier = Modifier
+                    .offset(y = (-20).dp)
+                    .size(56.dp),
+                shape = CircleShape,
+                containerColor = AgriTheme.colors.primary,
+                contentColor = Color.White,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.QrCodeScanner,
+                    contentDescription = "Scan QR",
+                    modifier = Modifier.size(26.dp)
+                )
+            }
         }
     ) { innerPadding ->
         LazyColumn(
@@ -128,7 +148,8 @@ fun FeasibilityAnalysisScreen(
             // Header with Back Button & Title
             item {
                 FeasibilityHeader(
-                    onBackClick = onBackClick
+                    onBackClick = onBackClick,
+                    onNavigateToSettings = onNavigateToSettings
                 )
             }
 
@@ -251,7 +272,8 @@ fun FeasibilityAnalysisScreen(
 // ---------------------------------------------------------------------------
 @Composable
 private fun FeasibilityHeader(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onNavigateToSettings: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -268,6 +290,7 @@ private fun FeasibilityHeader(
             Surface(
                 modifier = Modifier
                     .size(40.dp)
+                    .clip(CircleShape)
                     .clickable { onBackClick() },
                 shape = CircleShape,
                 color = AgriTheme.colors.surface,
@@ -306,7 +329,8 @@ private fun FeasibilityHeader(
         Surface(
             modifier = Modifier
                 .size(40.dp)
-                .clickable { },
+                .clip(CircleShape)
+                .clickable { onNavigateToSettings() },
             shape = CircleShape,
             color = AgriTheme.colors.surface,
             border = androidx.compose.foundation.BorderStroke(1.dp, AgriTheme.colors.border),
@@ -736,31 +760,14 @@ private fun FeasibilityBottomBar(
                     isSelected = selectedTab == 3,
                     onClick = { onTabSelected(3) }
                 )
-            }
-        }
+}
 
-        // Center Elevated Scan FAB
-        FloatingActionButton(
-            onClick = { },
-            modifier = Modifier
-                .offset(y = (-20).dp)
-                .size(56.dp),
-            shape = CircleShape,
-            containerColor = AgriTheme.colors.primary,
-            contentColor = Color.White,
-            elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "Scan QR",
-                modifier = Modifier.size(26.dp)
-            )
         }
     }
 }
 
 @Composable
-private fun FeasibilityNavItem(
+fun FeasibilityNavItem(
     label: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     isSelected: Boolean,

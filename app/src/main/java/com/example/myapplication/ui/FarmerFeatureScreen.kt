@@ -228,6 +228,8 @@ fun FarmerFeatureScreen(
                 onNavigateHome = onNavigateToHome,
                 onNavigateControl = onNavigateToControl,
                 onNavigateAnalytics = onNavigateToAnalytics,
+                onControlManualClick = onNavigateToControl,
+                onNutrientScheduleClick = onNavigateToControl,
                 modifier = modifier
             )
         }
@@ -1589,7 +1591,10 @@ fun MarketPriceCardItem(name: String, price: String, change: String, isUp: Boole
 
 // 4. Pengepul Modal (Jual Hasil Panen)
 @Composable
-fun PengepulModal(onDismiss: () -> Unit) {
+fun PengepulModal(
+    onDismiss: () -> Unit,
+    onContactClick: () -> Unit = {}
+) {
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false)
